@@ -1,33 +1,41 @@
 <template>
 	<v-app>
-		<h1> I am login  </h1>
+		<v-container class="">
+			<v-row>
+				<v-col cols="8" xl="4">
+					
+					<v-text-field
+					
+					label="Email"
+					type="text"
+					
+					></v-text-field>
+
+					<v-text-field
+					
+					type="password"
+					label="password"
+					
+					></v-text-field>
+
+					<v-btn
+					
+					color="success"
+					class="mr-4"
+					
+					>
+					Login
+				</v-btn>
+			
 
 
-		<h1 @click="submit()" > I am name {{ name }}</h1>
-
-		<div>
-			<v-alert type="success">
-				I'm a success alert.
-			</v-alert>
-
-			<v-alert type="info">
-				I'm an info alert.
-			</v-alert>
-
-			<v-alert type="warning">
-				I'm a warning alert.
-			</v-alert>
-
-			<v-alert type="error">
-				I'm an error alert.
-			</v-alert>
-		</div>
 
 
 
-
-
-	</v-app>
+</v-col>
+</v-row>
+</v-container>	
+</v-app>
 
 </template>
 
@@ -41,6 +49,19 @@ export default {
 
 	data: ()=>({
 		name: 'riyad',
+		valid: true,
+		name: '',
+		nameRules: [
+		v => !!v || 'Name is required',
+		v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+		],
+		email: '',
+		emailRules: [
+		v => !!v || 'E-mail is required',
+		v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+		],
+		select: null,
+		checkbox: false,
 
 
 	}), 
@@ -49,33 +70,37 @@ export default {
 		submit(){
 			this.$axios.post( 'http://jsonplaceholder.typicode.com/posts' , {
 				title: 'Notebook',
-                body: '',
-                userId: 1
+				body: '',
+				userId: 1
 				
 			})
 			.then( function(response){
 				
 				console.log(response);
-					
 
-				}.bind(this))
+			}.bind(this))
 			.catch(function (error) {
 
+			}.bind(this)); 
 
-            }.bind(this)); 
-
-
-
+		},
 
 
 
-
-
-
-
-		}
-	}
-
-
+		validate () {
+			if (this.$refs.form.validate()) {
+				this.snackbar = true
+			}
+		},
+		reset () {
+			this.$refs.form.reset()
+		},
+		resetValidation () {
+			this.$refs.form.resetValidation()
+		},
+	},
 }
+
+
+
 </script>

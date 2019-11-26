@@ -6,13 +6,9 @@ import Login from '../views/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  
   {
     path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/login',
     name: 'Login',
     component: Login
   },
@@ -29,7 +25,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  // mode: 'history'
 })
 
 export default router
