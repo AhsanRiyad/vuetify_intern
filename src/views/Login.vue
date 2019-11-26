@@ -1,18 +1,19 @@
 <template>
-	<v-app>
-		<v-container class="">
-			<v-row>
-				<v-col cols="8" xl="4">
+	<v-app class="grey" > 
+		<v-container class="white" >
+			<v-row justify="center" align="center"> 
+				<v-col cols="8" xl="4" >
 					
+					<p v-bind:class="{ 'red--text': redText, 'green--text': greenText }">{{ email_validity }}</p>
 					<v-text-field
-					
+					v-model="email"
 					label="Email"
 					type="text"
-					
+					@keyup="onChangeValidity('email')"
 					></v-text-field>
 
 					<v-text-field
-					
+					v-model="password"
 					type="password"
 					label="password"
 					
@@ -22,19 +23,15 @@
 					
 					color="success"
 					class="mr-4"
-					
+					@click="submit"
 					>
 					Login
 				</v-btn>
-			
 
 
-
-
-
-</v-col>
-</v-row>
-</v-container>	
+			</v-col>
+		</v-row>
+	</v-container>	
 </v-app>
 
 </template>
@@ -48,26 +45,48 @@ export default {
 
 
 	data: ()=>({
-		name: 'riyad',
-		valid: true,
-		name: '',
-		nameRules: [
-		v => !!v || 'Name is required',
-		v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-		],
+		loading: false,
+		dialog: false,
+		status_text: '',
 		email: '',
-		emailRules: [
-		v => !!v || 'E-mail is required',
-		v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-		],
-		select: null,
-		checkbox: false,
-
-
+		password: '',
+		email_validity: '',
+		password_validity: '',
+		login_status: '',
+		greenText: false,
+		redText: false,
+		
 	}), 
 
 	methods: {
+		onChangeValidity(inputName){
+			if(inputName == 'email'){
+
+				var patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+				var result = patt.test(this.email);
+
+				result == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+
+				if(result== false){
+					this.redText = true;
+					this.greenText = false;
+				}else{
+					this.greenText = true;
+					this.redText = false;
+				}
+
+			}else if(inputName == 'password'){
+
+				var patt= /[\S]{6,}/g;
+				var result = patt.test(this.password);
+
+				result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
+
+			}
+		},
 		submit(){
+			console.log(this.email);
+			console.log(this.password);
 			this.$axios.post( 'http://jsonplaceholder.typicode.com/posts' , {
 				title: 'Notebook',
 				body: '',
@@ -83,20 +102,6 @@ export default {
 
 			}.bind(this)); 
 
-		},
-
-
-
-		validate () {
-			if (this.$refs.form.validate()) {
-				this.snackbar = true
-			}
-		},
-		reset () {
-			this.$refs.form.reset()
-		},
-		resetValidation () {
-			this.$refs.form.resetValidation()
 		},
 	},
 }
