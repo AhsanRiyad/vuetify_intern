@@ -3,7 +3,7 @@
 	<h1> I am login  </h1>
 
 
-
+	<h1 @click="submit()" > I am name {{ name }}</h1>
 
 	<div>
     <v-alert type="success">
@@ -37,6 +37,20 @@
 
 export default {
   name: 'Login',
+
+
+  data: ()=>({
+  	name: 'riyad',
+
+
+  }), 
+
+  methods: {
+  	submit(){
+  		alert('riyad');
+  	}
+  }
+
  
 }
 </script>
