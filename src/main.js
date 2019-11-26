@@ -3,11 +3,10 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import VueResouce from 'vue-resource'
+import axios from 'axios'
 
 
-const axios = require('axios');
-
-
+Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false
 
