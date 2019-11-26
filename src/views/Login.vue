@@ -85,17 +85,17 @@ export default {
 			}
 		},
 		submit(){
-			console.log(this.email);
-			console.log(this.password);
+			// console.log(this.email);
+			// console.log(this.password);
 			this.$axios.post( 'http://jsonplaceholder.typicode.com/posts' , {
 				title: 'Notebook',
 				body: '',
 				userId: 1
 				
 			})
-			.then( function(response){
+			.then( function(){
 				
-				console.log(response);
+				// console.log(response);
 
 			}.bind(this))
 			.catch(function () {
