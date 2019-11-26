@@ -62,12 +62,12 @@ export default {
 		onChangeValidity(inputName){
 			if(inputName == 'email'){
 
-				var patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-				var result = patt.test(this.email);
+				var patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+				var result_email = patt_email.test(this.email);
 
-				result == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+				result_email == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
 
-				if(result== false){
+				if(result_email== false){
 					this.redText = true;
 					this.greenText = false;
 				}else{
@@ -98,7 +98,7 @@ export default {
 				console.log(response);
 
 			}.bind(this))
-			.catch(function (error) {
+			.catch(function () {
 
 			}.bind(this)); 
 
