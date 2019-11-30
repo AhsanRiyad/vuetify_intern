@@ -57,21 +57,21 @@
 				
 				<br>
 
-				<a v-bind:href="this.address.loginPage" >
-					<v-btn
+				
+					<v-btn router :to="address.loginPage"
 					
 					color="success"
 					class="mr-4"
 					>
 					Login
 				</v-btn>
-			</a>
-			<a v-bind:href="this.address.profile_forgot_passwordPage"><v-btn
+			
+			<v-btn router :to="address.profile_forgot_passwordPage"
 				color="success"
 				class="mr-4"
 				>
 				Forgot Password
-			</v-btn></a>
+			</v-btn>
 
 
 		</v-col>

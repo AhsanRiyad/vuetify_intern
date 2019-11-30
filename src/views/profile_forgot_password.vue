@@ -3,8 +3,6 @@
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
-					
-					
 					<v-text-field
 					v-model="email"
 					label="Email"
@@ -21,21 +19,20 @@
 					Recover
 				</v-btn>
 
-				<a v-bind:href="this.address.loginPage"><v-btn
+				<v-btn router :to="address.loginPage"
 					color="success"
 					class="mr-4"
 					>
 					Login
-				</v-btn></a>
-				<a v-bind:href="this.address.registrationPage" >
-					<v-btn
-					
+				</v-btn>
+				
+				<v-btn router :to="address.registrationPage"
 					color="success"
 					class="mr-4"
 					>
 					Registration
 				</v-btn>
-			</a>
+			
 
 
 		</v-col>
@@ -49,14 +46,11 @@
 	>
 	<v-card>
 		<v-card-title class="headline">Status</v-card-title>
-
 		<v-card-text>
 			{{ login_status }}
 		</v-card-text>
-
 		<v-card-actions>
 			<v-spacer></v-spacer>
-
 			<v-btn
 			color="green darken-1"
 			text
@@ -64,7 +58,6 @@
 			>
 			Disagree
 		</v-btn>
-
 		<v-btn
 		color="green darken-1"
 		text

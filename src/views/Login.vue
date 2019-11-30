@@ -29,65 +29,63 @@
 					>
 					Login
 				</v-btn>
-					<a v-bind:href="this.address.registrationPage" >
-					<v-btn
-					
-					color="success"
-					class="mr-4"
-					>
-					Registration
-				</v-btn>
-				</a>
 
-				<a v-bind:href="this.address.profile_forgot_passwordPage"><v-btn
-						color="success"
-						class="mr-4"
-						>
-						Forgot Password
-					</v-btn></a>
+				<v-btn
+				router :to="address.registrationPage"
+				color="success"
+				class="mr-4"
+				>
+				Registration
+			</v-btn>
+
+			<router-link :to='address.profile_forgot_passwordPage'>
+				<v-btn 
+				color="success"
+				class="mr-4"
+				>
+				Forgot Password
+			</v-btn>
+		</router-link>
 
 
-			</v-col>
-		</v-row>
-	</v-container>
+	</v-col>
+</v-row>
+</v-container>
 
- <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">Status</v-card-title>
+<v-row justify="center">
+	<v-dialog
+	v-model="dialog"
+	max-width="290"
+	>
+	<v-card>
+		<v-card-title class="headline">Status</v-card-title>
 
-        <v-card-text>
+		<v-card-text>
 			{{ login_status }}
-        </v-card-text>
+		</v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
+		<v-card-actions>
+			<v-spacer></v-spacer>
 
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Disagree
-          </v-btn>
+			<v-btn
+			color="green darken-1"
+			text
+			@click="dialog = false"
+			>
+			Disagree
+		</v-btn>
 
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Agree
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-
-
-
+		<v-btn
+		color="green darken-1"
+		text
+		@click="dialog = false"
+		>
+		Agree
+	</v-btn>
+</v-card-actions>
+</v-card>
+</v-dialog>
+</v-row>
 
 
 </v-app>
@@ -95,7 +93,7 @@
 
 <script>
 // @ is an alias to /src
-
+// import { bus } from '@/main'
 
 export default {
 	name: 'login',
@@ -118,51 +116,66 @@ export default {
 	methods: {
 		onChangeValidity(inputName){
 			if(inputName == 'email'){ var patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-				var result_email = patt_email.test(this.email);
-				result_email == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
-				if(result_email== false){
-					this.redText = true;
-					this.greenText = false;
-				}else{
-					this.greenText = true;
-					this.redText = false;
-				}
-			}else if(inputName == 'password'){
-				var patt= /[\S]{6,}/g;
-				var result = patt.test(this.password);
-				result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
+			var result_email = patt_email.test(this.email);
+			result_email == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+			if(result_email== false){
+				this.redText = true;
+				this.greenText = false;
+			}else{
+				this.greenText = true;
+				this.redText = false;
 			}
-		},
-		submit(){
+		}else if(inputName == 'password'){
+			var patt= /[\S]{6,}/g;
+			var result = patt.test(this.password);
+			result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
+		}
+	},
+	submit(){
 			// console.log(this.email);
 			// console.log(this.password); 
 			this.loading = true;
 			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
 			// alert('submitted');
-					this.$axios.post( this.model.modelLogin , {
-						email: this.email,  
-						password: this.password
-					})
-					.then( function(response){
-						this.loading = false;
+			this.$axios.post( this.model.modelLogin , {
+				email: this.email,  
+				password: this.password
+			})
+			.then( function(response){
+				this.loading = false;
 					//window.location.href = 'http://google.com';
-					console.log(response);
-				response.data == 'YES_USER' || response.data == 'YES_ADMIN' ? window.location.href = this.address.registrationPage : this.login_status = 'email/password doesnt match';  
 
-this.dialog= true;
+					// console.log(response);
+
+					if(response.data == 'YES_USER' || response.data == 'YES_ADMIN'){
+
+						// bus.$emit('login_status' , true);
+						this.$store.commit('loginTrue');
+						this.$router.push(this.address.registrationPage) ;
+					}else{
+						this.login_status = 'email/password doesnt match';  
+					}
+
+
+
+
+					this.dialog= true;
 				}.bind(this))
-					.catch(function () {
-						
-						this.loading = false;
+			.catch(function () {
+				this.loading = false;
                 //return 'hi';
             }.bind(this)); 
 
 		}else{
 			this.login_status = 'invalid field detected';
-this.dialog = true;
-this.loading = false;			
+			this.dialog = true;
+			this.loading = false;			
 		}
 	},
+},
+created(){
+		this.$store.commit('loginFalse');
+
 }
 
 }
