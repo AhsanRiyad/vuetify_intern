@@ -15,10 +15,12 @@ Vue.mixin({
     model: {
       modelLogin: 'http://www.localhost/vue/model/login.php',
       modelRegistration: 'http://www.localhost/vue/model/registration.php',
+      modelProfile_forgot_password: 'http://www.localhost/vue/model/profile_forgot_password.php',
     },
     address: {
       registrationPage: 'http://localhost:8080/#/registration',
       loginPage: 'http://localhost:8080/#/login',
+      profile_forgot_passwordPage: 'http://localhost:8080/#/profile_forgot_password',
     },
 
 

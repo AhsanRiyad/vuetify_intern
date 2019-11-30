@@ -39,12 +39,12 @@
 				</v-btn>
 				</a>
 
-				<v-btn
-					color="success"
-					class="mr-4"
-					>
-					Forgot Password
-				</v-btn>
+				<a v-bind:href="this.address.profile_forgot_passwordPage"><v-btn
+						color="success"
+						class="mr-4"
+						>
+						Forgot Password
+					</v-btn></a>
 
 
 			</v-col>
@@ -98,7 +98,7 @@
 
 
 export default {
-	name: 'Login',
+	name: 'login',
 
 
 	data: ()=>({

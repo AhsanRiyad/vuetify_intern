@@ -54,7 +54,7 @@
 					>
 					Registration
 				</v-btn>
-					
+				
 				<br>
 
 				<a v-bind:href="this.address.loginPage" >
@@ -66,16 +66,16 @@
 					Login
 				</v-btn>
 			</a>
-			<v-btn
-			color="success"
-			class="mr-4"
-			>
-			Forgot Password
-		</v-btn>
+			<a v-bind:href="this.address.profile_forgot_passwordPage"><v-btn
+				color="success"
+				class="mr-4"
+				>
+				Forgot Password
+			</v-btn></a>
 
 
-	</v-col>
-</v-row>
+		</v-col>
+	</v-row>
 </v-container>
 
 <v-row justify="center">
@@ -125,7 +125,7 @@
 
 
 export default {
-	name: 'Registration',
+	name: 'registration',
 
 
 	data: ()=>({
@@ -211,12 +211,12 @@ export default {
 
 				
 
-				}.bind(this))
+			}.bind(this))
 				.catch(function () {
 					// console.log(error);
 					this.loading = false;
-				this.status_text = 'failed';
-				this.dialog = true;
+					this.status_text = 'failed';
+					this.dialog = true;
 
 				//return 'hi';
 			}.bind(this));
@@ -230,17 +230,8 @@ export default {
 
 
 
-			
-
-
-
-
-
-
-
-
 		},
-}
+	}
 
 }
 

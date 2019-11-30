@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Registration from '../views/Registration.vue'
+import login from '../views/Login.vue'
+import registration from '../views/Registration.vue'
+import profile_forgot_password from '../views/profile_forgot_password.vue'
 import test from '../views/test.vue'
 
 Vue.use(VueRouter)
@@ -9,19 +10,19 @@ Vue.use(VueRouter)
 const routes = [
   
   {
-    path: '/',
-    name: 'Login',
-    component: Login
-  },
-  {
     path: '/login',
-    name: 'Login',
-    component: Login
+    name: 'login',
+    component: login
   },
   {
     path: '/registration',
-    name: 'Registration',
-    component: Registration
+    name: 'registration',
+    component: registration
+  },
+  {
+    path: '/profile_forgot_password',
+    name: 'profile_forgot_password',
+    component: profile_forgot_password
   },
   {
     path: '/test',
