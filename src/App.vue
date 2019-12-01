@@ -1,8 +1,8 @@
 <template>
-  <v-app>
-  <toolbar v-if="isLogin"></toolbar>
-    <router-view></router-view>
-  </v-app>
+<v-app>
+<toolbar v-if="isLogin.isLogin"></toolbar>
+<router-view></router-view>
+</v-app>
 </template>
 
 <script>
@@ -11,29 +11,28 @@
 import toolbar from '@/views/toolbar.vue'
 
 export default {
-  name: 'App',
+name: 'App',
 
-   components: {
-    toolbar,
-  },
+components: {
+toolbar,
+},
 
-  data: () => ({
-    login: false,
-  }),
-  computed: {
-    isLogin(){
+data: () => ({
+login: false,
+}),
+computed: {
+isLogin(){
+  return this.$store.getters.auth;
 
-        return this.$store.state.isLogin;
+}
+}/*
+created(){
+bus.$on('login_status' , (data)=>{
 
-    }
-  }/*
-  created(){
-    bus.$on('login_status' , (data)=>{
-
-      this.login = data;
+this.login = data;
 
 
-    })
-  }*/
+})
+}*/
 };
 </script>

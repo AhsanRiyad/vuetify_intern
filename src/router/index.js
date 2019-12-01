@@ -3,9 +3,27 @@ import VueRouter from 'vue-router'
 import login from '../views/Login.vue'
 import registration from '../views/Registration.vue'
 import profile_forgot_password from '../views/profile_forgot_password.vue'
+import profile from '../views/profile.vue'
 import test from '../views/test.vue'
+import { store } from '@/store/store'
+
 
 Vue.use(VueRouter)
+
+
+function requireAuth (to, from, next) {
+  if (!store.getters.auth.isLogin) { /// THIS NOT WORK, HOW TO ACCESS STORE?
+    
+    return next({
+        name: 'login'
+     })
+
+  } else {
+    next()
+  }
+}
+
+
 
 const routes = [
   
@@ -23,6 +41,12 @@ const routes = [
     path: '/profile_forgot_password',
     name: 'profile_forgot_password',
     component: profile_forgot_password
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: profile,
+    beforeEnter: requireAuth
   },
   {
     path: '/test',
@@ -43,7 +67,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  // mode: 'history'
+  mode: 'history'
 })
 
 export default router

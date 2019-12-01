@@ -7,7 +7,7 @@
 					v-model="email"
 					label="Email"
 					type="text"
-					@keyup="onChangeValidity('email')"
+					:error-messages="onChangeValidity('email')"
 					></v-text-field>
 					<v-btn
 					
@@ -20,23 +20,23 @@
 				</v-btn>
 
 				<v-btn router :to="address.loginPage"
-					color="success"
-					class="mr-4"
-					>
-					Login
-				</v-btn>
-				
-				<v-btn router :to="address.registrationPage"
-					color="success"
-					class="mr-4"
-					>
-					Registration
-				</v-btn>
-			
+				color="success"
+				class="mr-4"
+				>
+				Login
+			</v-btn>
+
+			<v-btn router :to="address.registrationPage"
+			color="success"
+			class="mr-4"
+			>
+			Registration
+		</v-btn>
 
 
-		</v-col>
-	</v-row>
+
+	</v-col>
+</v-row>
 </v-container>
 
 <v-row justify="center">
@@ -146,10 +146,18 @@ export default {
 
 				if(inputName == 'email'){
 					
-					var patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-					var result = patt.test(this.email);
+					let patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+					let result = patt.test(this.email);
 
-					result == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+					if(!result){
+						let errors = [];
+						errors.push('email error');
+						this.email_validity = 'invalid'
+						return errors;
+					}else{
+						this.email_validity = 'valid';
+					}
+
 
 				}
 

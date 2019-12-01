@@ -10,14 +10,14 @@
 					label="Name"
 					type="text"
 					v-model='full_name'
-					@keyup="onChangeValidity('full_name')"
+					:error-messages="onChangeValidity('full_name')"
 					></v-text-field>
 
 					<v-text-field
 					v-model="institution_id"
 					label="Institution ID"
 					type="text"
-					@keyup="onChangeValidity('institution_id')"
+					:error-messages="onChangeValidity('institution_id')"
 					></v-text-field>
 
 
@@ -25,7 +25,7 @@
 					v-model="mobile"
 					label="Mobile"
 					type="text"
-					@keyup="onChangeValidity('mobile')"
+					:error-messages="onChangeValidity('mobile')"
 					></v-text-field>
 
 
@@ -34,14 +34,14 @@
 					v-model="email"
 					label="Email"
 					type="text"
-					@keyup="onChangeValidity('email')"
+					:error-messages="onChangeValidity('email')"
 					></v-text-field>
 
 					<v-text-field
 					v-model="password"
 					type="password"
 					label="password"
-					@keyup="onChangeValidity('password')"
+					:error-messages="onChangeValidity('password')"
 					
 					></v-text-field>
 
@@ -58,24 +58,24 @@
 				<br>
 
 				
-					<v-btn router :to="address.loginPage"
-					
-					color="success"
-					class="mr-4"
-					>
-					Login
-				</v-btn>
-			
-			<v-btn router :to="address.profile_forgot_passwordPage"
+				<v-btn router :to="address.loginPage"
+
 				color="success"
 				class="mr-4"
 				>
-				Forgot Password
+				Login
 			</v-btn>
+			
+			<v-btn router :to="address.profile_forgot_passwordPage"
+			color="success"
+			class="mr-4"
+			>
+			Forgot Password
+		</v-btn>
 
 
-		</v-col>
-	</v-row>
+	</v-col>
+</v-row>
 </v-container>
 
 <v-row justify="center">
@@ -154,35 +154,77 @@ export default {
 				let patt= /[A-Za-z.\s]{5,}/g;
 				let result = patt.test(this.full_name);
 
-				result == false ? this.full_name_validity = 'invalid' : this.full_name_validity = 'valid';
+				if(!result){
+					let errors = [];
+					errors.push('Name at least 6 characters');
+					this.full_name_validity = 'invalid'
+					return errors;
+				}else{
+					this.full_name_validity = 'valid';
+				}
 
 			}else if(inputName == 'institution_id'){
 				// console.log(this.institution_id);
 				let patt= /[A-Za-z\S]{5,}/g;
 				let result = patt.test(this.institution_id);
 
-				result == false ? this.institution_id_validity = 'invalid' : this.institution_id_validity = 'valid';
+			
+
+				if(!result){
+					let errors = [];
+					errors.push('id atleast 5 characters');
+					this.institution_id_validity = 'invalid'
+					return errors;
+				}else{
+					this.institution_id_validity = 'valid';
+				}
+
+
 
 			}else if(inputName == 'mobile'){
 				// console.log(this.mobile);
 				let patt= /[+]{0,1}[\d]{11,}/g;
 				let result = patt.test(this.mobile);
 
-				result == false ? this.mobile_validity = 'invalid' : this.mobile_validity = 'valid';
+				if(!result){
+					let errors = [];
+					errors.push('mobile number must be alteast 11 digit');
+					this.mobile_validity = 'invalid'
+					return errors;
+				}else{
+					this.mobile_validity = 'valid';
+				}
 
 			}else if(inputName == 'email'){
 				// console.log(this.email);
 				let patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
 				let result = patt.test(this.email);
 
-				result == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+
+
+				if(!result){
+					let errors = [];
+					errors.push('invalid email');
+					this.email_validity = 'invalid'
+					return errors;
+				}else{
+					this.email_validity = 'valid';
+				}
 
 			}else if(inputName == 'password'){
 				// console.log(this.password);
 				let patt= /[\S]{6,}/g;
 				let result = patt.test(this.password);
 
-				result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
+
+				if(!result){
+					let errors = [];
+					errors.push('atleast 6 characters');
+					this.password_validity = 'invalid'
+					return errors;
+				}else{
+					this.password_validity = 'valid';
+				}
 
 			}
 		},

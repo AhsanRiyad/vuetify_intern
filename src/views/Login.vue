@@ -9,6 +9,7 @@
 					v-model="email"
 					label="Email"
 					type="text"
+					:error-messages="onChangeValidity('email')"
 					@keyup="onChangeValidity('email')"
 					></v-text-field>
 
@@ -31,14 +32,14 @@
 				</v-btn>
 
 				<v-btn
-				router :to="address.registrationPage"
+				router :to="{ name : 'registration' }"
 				color="success"
 				class="mr-4"
 				>
 				Registration
 			</v-btn>
 
-			<router-link :to='address.profile_forgot_passwordPage'>
+			<router-link :to="{ name : 'profile_forgot_password' }">
 				<v-btn 
 				color="success"
 				class="mr-4"
@@ -117,7 +118,19 @@ export default {
 		onChangeValidity(inputName){
 			if(inputName == 'email'){ var patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
 			var result_email = patt_email.test(this.email);
-			result_email == false ? this.email_validity = 'invalid' : this.email_validity = 'valid';
+
+			if(!result_email){
+			let errors = [];
+			errors.push('email error');
+			this.email_validity = 'invalid'
+			return errors;
+			}else{
+				this.email_validity = 'valid';
+			}
+
+
+
+
 			if(result_email== false){
 				this.redText = true;
 				this.greenText = false;
@@ -125,6 +138,7 @@ export default {
 				this.greenText = true;
 				this.redText = false;
 			}
+
 		}else if(inputName == 'password'){
 			var patt= /[\S]{6,}/g;
 			var result = patt.test(this.password);
@@ -151,7 +165,7 @@ export default {
 
 						// bus.$emit('login_status' , true);
 						this.$store.commit('loginTrue');
-						this.$router.push(this.address.registrationPage) ;
+						this.$router.push({ name: 'profile' }) ;
 					}else{
 						this.login_status = 'email/password doesnt match';  
 					}

@@ -6,14 +6,22 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
 
 	state: {
+		user: {
 		isLogin : false,
+
+		},
 	},
 	mutations: {
 		loginFalse: state => {
-			state.isLogin = false;
+			state.user.isLogin = false;
 		},
 		loginTrue: state => {
-			state.isLogin = true;
+			state.user.isLogin = true;
 		}
 	},
+	getters: {
+		auth: state=>{
+			return state.user;
+		}
+	}
 });

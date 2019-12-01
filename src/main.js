@@ -8,8 +8,7 @@ import { store } from './store/store'
 // export const bus = new Vue();
 
 Vue.prototype.$axios = axios;
-
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 
 
@@ -20,6 +19,7 @@ Vue.mixin({
       modelLogin: 'http://www.localhost/vue/model/login.php',
       modelRegistration: 'http://www.localhost/vue/model/registration.php',
       modelProfile_forgot_password: 'http://www.localhost/vue/model/profile_forgot_password.php',
+      modelProfile_basic: 'http://www.localhost/vue/model/profile_basic.php',
     },
     address: {
       registrationPage: 'registration',
