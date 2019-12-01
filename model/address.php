@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 
 session_start();
 
-$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/project_for_Arif_sir/";
+$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/vuetify_intern/model/";
 
-$rootAdress = 'http://localhost/project_for_Arif_sir/';
+$rootAdress = 'http://localhost/vuetify_intern/model/';
 
 
 // $APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/";
@@ -53,18 +53,6 @@ function cors() {
 
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
