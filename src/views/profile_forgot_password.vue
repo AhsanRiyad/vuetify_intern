@@ -19,14 +19,14 @@
 					Recover
 				</v-btn>
 
-				<v-btn router :to="address.loginPage"
+				<v-btn router :to="{ name: 'login' }"
 				color="success"
 				class="mr-4"
 				>
 				Login
 			</v-btn>
 
-			<v-btn router :to="address.registrationPage"
+			<v-btn router :to="{ name: 'registration' }"
 			color="success"
 			class="mr-4"
 			>
@@ -101,7 +101,7 @@ export default {
 				//alert('inside submit');
 				if(this.email_validity == 'valid'){
 
-					this.$axios.post( this.model.modelProfile_forgot_password , {
+					this.$axios.post( this.$store.getters.modelProfile_forgot_password , {
 						purpose: 'forgot_password',
 						email: this.email,
 						

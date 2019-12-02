@@ -83,7 +83,7 @@
         <br>
 
         
-        <v-btn router :to="address.loginPage"
+        <v-btn router :to="{ name: 'login' }"
 
         color="success"
         class="mr-4"
@@ -91,7 +91,7 @@
         Login
       </v-btn>
       
-      <v-btn router :to="address.profile_forgot_passwordPage"
+      <v-btn router :to="{ name: 'profile_forgot_password' }"
       color="success"
       class="mr-4"
       >
@@ -178,6 +178,25 @@ export default {
     loading: false,
     items: ['A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-']
   }), 
+
+  created(){
+
+    
+
+
+     this.$axios.post( this.$store.getters.modelProfile_basic ,
+      {
+        purpose: 'getProfileBasicInfo',
+        
+      }
+      ).then(function(response){
+        console.log(response);
+         this.$store.commit('set_user_info' , response.data);
+      }.bind(this))
+      .catch(function(){
+        //console.log(error);
+      }.bind(this));
+  },
 
 
   methods: {
@@ -298,7 +317,7 @@ export default {
 
         if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.date_of_birth_validity == 'valid' ){
 
-          this.$axios.post( this.model.modelProfile_basic ,
+          this.$axios.post( this.$store.getters.modelProfile_basic ,
           {
             purpose: 'basic',
             full_name: this.full_name,
@@ -311,7 +330,7 @@ export default {
           ).then(function(){
             this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
             this.dialog = true;
-            this.get_users_data();
+           
           }.bind(this))
           .catch(function(){
         //console.log(error);
@@ -322,6 +341,7 @@ export default {
           //alert('all filed are not valid');
         }
       },
+
   }
 
 

@@ -151,7 +151,7 @@ export default {
 			this.loading = true;
 			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
 			// alert('submitted');
-			this.$axios.post( this.model.modelLogin , {
+			this.$axios.post( this.$store.getters.modelLogin , {
 				email: this.email,  
 				password: this.password
 			})
@@ -159,19 +159,18 @@ export default {
 				this.loading = false;
 					//window.location.href = 'http://google.com';
 
-					// console.log(response);
+					console.log(response);
 
 					if(response.data == 'YES_USER' || response.data == 'YES_ADMIN'){
-
 						// bus.$emit('login_status' , true);
+						
 						this.$store.commit('loginTrue');
 						this.$router.push({ name: 'profile' }) ;
+
+
 					}else{
 						this.login_status = 'email/password doesnt match';  
 					}
-
-
-
 
 					this.dialog= true;
 				}.bind(this))

@@ -13,25 +13,15 @@ Vue.config.productionTip = false;
 
 
 
-Vue.mixin({
+/*Vue.mixin({
   data: () => ({
-    model: {
-      modelLogin: 'http://www.localhost/vue/model/login.php',
-      modelRegistration: 'http://www.localhost/vue/model/registration.php',
-      modelProfile_forgot_password: 'http://www.localhost/vue/model/profile_forgot_password.php',
-      modelProfile_basic: 'http://www.localhost/vue/model/profile_basic.php',
-    },
-    address: {
-      registrationPage: 'registration',
-      loginPage: '/login',
-      profile_forgot_passwordPage: '/profile_forgot_password',
-    },
-    login: false,
-
 
   }),
+  computed: {
+
+  },
   created: function () {}
-})
+})*/
 
 
 
@@ -40,18 +30,16 @@ new Vue({
   vuetify,
   store: store,
   render: function (h) { return h(App) },
-  created(){
-
-
+/*
     let axiosConfig = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         "Access-Control-Allow-Origin": "*",
       }
     };
+*/
 
-
-    this.$axios.post('http://www.localhost/vue/address.php', {
+   /* this.$axios.post('http://www.localhost/vue/address.php', {
       title: 'Notebook',
       body: '',
       userId: 1,
@@ -63,6 +51,6 @@ new Vue({
       }.bind(this))
       .catch(function () {
 
-      }.bind(this));
-  }
+      }.bind(this));*/
+  
 }).$mount('#app')

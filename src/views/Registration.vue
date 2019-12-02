@@ -58,7 +58,7 @@
 				<br>
 
 				
-				<v-btn router :to="address.loginPage"
+				<v-btn router :to="{ name: 'login' }"
 
 				color="success"
 				class="mr-4"
@@ -66,7 +66,7 @@
 				Login
 			</v-btn>
 			
-			<v-btn router :to="address.profile_forgot_passwordPage"
+			<v-btn router :to="{ name: 'profile_forgot_password' }"
 			color="success"
 			class="mr-4"
 			>
@@ -235,7 +235,7 @@ export default {
 			if(this.full_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
 				// alert('valid');
 
-				this.$axios.post(this.model.modelRegistration, {
+				this.$axios.post(this.$store.getters.modelRegistration, {
 					full_name: this.full_name,
 					institution_id: this.institution_id,
 					email: this.email,
