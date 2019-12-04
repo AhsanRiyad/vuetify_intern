@@ -43,9 +43,6 @@
 
   
 
-
-  
-
 <v-navigation-drawer
 v-model="drawer"
 absolute
@@ -70,17 +67,16 @@ temporary
   :key="item.title"
   link
   >
-  <v-list-item-icon>
-    
-  </v-list-item-icon>
+ 
 
   <v-list-item-content>
-    <router-link :to=' { name : `${item.link}` }' 
-      
-    :class="'/'+item.link ===  $route.path ? highlighted = true : ''"
-    active-class="highlighted"
+    <router-link  :to=' { name : `${item.name}` }' 
+    class="green py-3 my-n1 white--text text-center"
+    :class=" $route.path == item.link ?  secondary = true : ''"
+    active-class = "secondary"
+    
     >
-    <v-list-item-title>{{ item.title }} <!-- {{ $route.path }} --></v-list-item-title>
+    <v-list-item-title  > {{ item.title }} {{ $route.path }}</v-list-item-title>
   </router-link>
   </v-list-item-content>
 </v-list-item>
@@ -100,11 +96,18 @@ temporary
       return {
         drawer: null,
         items: [
-        { title: 'Profile', link: 'profile' },
-        { title: 'Logout',  link: 'login'  },
+        { title: 'Profile', name: 'profile' , link: '/profile' },
+        { title: 'Logout',  name: 'login' , link: '/login'  },
         ],
+        green : true,
+        secondary: false,
       }
     },
+    methods: {
+      colorChange(){
+        console.log('color change');
+      }
+    }
     
   }
 </script>

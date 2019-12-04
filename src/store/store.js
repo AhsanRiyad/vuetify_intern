@@ -27,7 +27,8 @@ export const store = new Vuex.Store({
 			recentPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/recent_photos',
 			oldPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/old_photos',
 			groupPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/group_photos',
-		}
+		},
+		component_name: 'profile_basic',
 	},
 	mutations: {
 		loginFalse: state => {
@@ -44,6 +45,9 @@ export const store = new Vuex.Store({
 		checkCookie: (state)=>{
 			VueCookies.isKey('email') ? state.user.isLogin = true : state.user.isLogin = false; 
 
+		},
+		setComponentName: (state , name ) =>{
+			state.component_name = name ;
 		}
 	},
 	getters: {
@@ -64,6 +68,9 @@ export const store = new Vuex.Store({
 		},
 		getAllInfo: state => {
 			return state.user_info;
+		},
+		getComponentName: state => {
+			return state.component_name;
 		}
 		
 	},

@@ -186,6 +186,7 @@ export default {
 			}else{
 				this.loading = false;
 				this.login_status = 'email/password doesnt match';  
+				this.dialog = true;
 			}
 		}else{
 			this.login_status = 'invalid field detected';
