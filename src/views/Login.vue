@@ -6,14 +6,16 @@
 					
 					<p v-bind:class="{ 'red--text': redText, 'green--text': greenText }">{{ email_validity }}</p>
 					<v-text-field
+					@keyup.enter="submit()"
 					v-model="email"
 					label="Email"
 					type="text"
 					:error-messages="onChangeValidity('email')"
-					@keyup="onChangeValidity('email')"
+					@change="getUserDetails()"
 					></v-text-field>
 
 					<v-text-field
+					@keyup.enter="submit()"
 					v-model="password"
 					type="password"
 					label="password"
@@ -22,7 +24,6 @@
 					></v-text-field>
 
 					<v-btn
-					
 					color="success"
 					class="mr-4"
 					@click="submit()"
@@ -95,11 +96,12 @@
 <script>
 // @ is an alias to /src
 // import { bus } from '@/main'
-
+import cookie_mixins from '@/mixins/cookie_mixins'
+const md5 = require('crypto-js/md5');
 export default {
 	name: 'login',
 
-
+	mixins: [cookie_mixins],
 	data: ()=>({
 		loading: false,
 		dialog: false,
@@ -111,26 +113,49 @@ export default {
 		login_status: '',
 		greenText: false,
 		redText: false,
+		date : new Date(),
+		expires: '',
 	}), 
 
 
 	methods: {
+		getUserDetails(){
+			//this.expires = this.date.setTime(this.date.getTime() + 7*24*60*60*1000).toGMTString();
+			this.$axios.post( this.$store.getters.modelProfile_basic , {
+				purpose : 'getProfileBasicInfo',
+				email: this.email , 
+			})
+			.then( function(response){
+
+				console.log(response);
+
+				if(response.data !=0){
+					this.$store.commit('set_user_info' , response.data);
+				}
+
+					// this.$store.commit('set_user_info' , response.data);
+						//this.$store.commit('loginTrue');
+
+						// this.$router.push({ name: 'profile' }) ;
+
+					}.bind(this))
+			.catch(function () {
+
+			}.bind(this));
+
+		},
 		onChangeValidity(inputName){
 			if(inputName == 'email'){ var patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
 			var result_email = patt_email.test(this.email);
 
 			if(!result_email){
-			let errors = [];
-			errors.push('email error');
-			this.email_validity = 'invalid'
-			return errors;
+				let errors = [];
+				errors.push('email error');
+				this.email_validity = 'invalid'
+				return errors;
 			}else{
 				this.email_validity = 'valid';
 			}
-
-
-
-
 			if(result_email== false){
 				this.redText = true;
 				this.greenText = false;
@@ -146,51 +171,31 @@ export default {
 		}
 	},
 	submit(){
-			// console.log(this.email);
-			// console.log(this.password); 
-			this.loading = true;
-			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
-			// alert('submitted');
-			this.$axios.post( this.$store.getters.modelLogin , {
-				email: this.email,  
-				password: this.password
-			})
-			.then( function(response){
+		this.loading = true;
+		if(this.email_validity == 'valid' && this.password_validity == 'valid'){
+			if(md5(this.password) == this.$store.getters.getAllInfo.password){
+				
+				this.setCookie('email' , this.email , 7);
+				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);
+
+
+
 				this.loading = false;
-					//window.location.href = 'http://google.com';
-
-					console.log(response);
-
-					if(response.data == 'YES_USER' || response.data == 'YES_ADMIN'){
-						// bus.$emit('login_status' , true);
-						
-						this.$store.commit('loginTrue');
-						this.$router.push({ name: 'profile' }) ;
-
-
-					}else{
-						this.login_status = 'email/password doesnt match';  
-					}
-
-					this.dialog= true;
-				}.bind(this))
-			.catch(function () {
+				this.$router.push({ name: 'profile' }) ;
+			}else{
 				this.loading = false;
-                //return 'hi';
-            }.bind(this)); 
-
+				this.login_status = 'email/password doesnt match';  
+			}
 		}else{
 			this.login_status = 'invalid field detected';
 			this.dialog = true;
-			this.loading = false;			
+			this.loading = false; 
 		}
-	},
+	}
 },
 created(){
-		this.$store.commit('loginFalse');
-
+	this.setCookie('email' , '' , -7);
+	this.setCookie('crypto' , '' , - 7);
 }
-
 }
-
 </script>

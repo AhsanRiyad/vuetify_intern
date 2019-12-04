@@ -9,12 +9,15 @@
           
           label="Name"
           type="text"
-          v-model='full_name'
+          
+          :value="this.$store.getters.getAllInfo.full_name"
+          @input="full_name = $event"
           :error-messages="onChangeValidity('full_name')"
           ></v-text-field>
 
           <v-text-field
-          v-model="institution_id"
+          :value="this.$store.getters.getAllInfo.institution_id"
+          @input="institution_id = $event"
           label="Institution ID"
           type="text"
           :error-messages="onChangeValidity('institution_id')"
@@ -22,84 +25,96 @@
 
 
           <v-text-field
-          v-model="mobile"
+          :value="this.$store.getters.getAllInfo.mobile"
+          @input="mobile = $event"
           label="Mobile"
           type="text"
           :error-messages="onChangeValidity('mobile')"
           ></v-text-field>
           
           <v-text-field
-          v-model="nid_or_passport"
+          :value="this.$store.getters.getAllInfo.nid_or_passport"
+          @input="nid_or_passport = $event"
           label="nid_or_passport"
           type="text"
           :error-messages="onChangeValidity('nid_or_passport')"
           ></v-text-field> 
 
           <v-select
-          v-model="blood_group"
+          :value="this.$store.getters.getAllInfo.blood_group"
+          @input="blood_group = $event"
           :items="items"
           label="Blood Group"
           :error-messages="onChangeValidity('blood_group')"
           ></v-select>
-  
 
 
-       
-    
-      <v-menu 
-        ref="menu"
-        v-model="menu"
-        :close-on-content-click="false"
-        :return-value.sync="date_of_birth"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field :error-messages="onChangeValidity('date_of_birth')"
+
+
+
+          <v-menu 
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          :return-value.sync="date_of_birth"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+          >
+          <template v-slot:activator="{ on }">
+            <v-text-field :error-messages="onChangeValidity('date_of_birth')"
             v-model="date_of_birth"
             label="Date of birth"
             readonly
             v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="date_of_birth" no-title scrollable>
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="primary" @click="$refs.menu.save(date_of_birth)">OK</v-btn>
-        </v-date-picker>
-      </v-menu>
-    
-   
-          <v-btn 
-          color="success"
-          class="my-4"
-          @click="submit()"
-          :loading="loading"
-          >
-          Registration
-        </v-btn>
-        
-        <br>
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date_of_birth" no-title scrollable>
+            <v-spacer></v-spacer>
+            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date_of_birth)">OK</v-btn>
+          </v-date-picker>
+        </v-menu>
 
-        
-        <v-btn router :to="{ name: 'login' }"
 
+        <v-btn 
         color="success"
-        class="mr-4"
+        class="my-4"
+        @click="submit()"
+        :loading="loading"
         >
-        Login
+        Update
       </v-btn>
-      
-      <v-btn router :to="{ name: 'profile_forgot_password' }"
+
+      <br>
+
+
+      <v-btn router :to="{ name: 'login' }"
+
       color="success"
       class="mr-4"
       >
-      Forgot Password
+      Login
     </v-btn>
 
+    <v-btn router :to="{ name: 'profile_forgot_password' }"
+    color="success"
+    class="mr-4"
+    >
+    Forgot Password
+  </v-btn> 
 
-  </v-col>
+
+<!-- 
+  <v-btn @click="getData()"
+  color="success"
+  class="mr-4"
+  >
+  getData
+</v-btn> -->
+
+
+</v-col>
 </v-row>
 </v-container>
 
@@ -143,16 +158,17 @@
 </template>
 <script>
 // @ is an alias to /src
-
+import commonMixins from '@/mixins/commonMixins'
 
 export default {
   name: 'registration',
+  mixins: [commonMixins],
 
   data: ()=>({
-    date_of_birth: new Date().toISOString().substr(0, 10),
-      menu: false,
-      modal: false,
-      menu2: false,
+    date_of_birth: '',
+    menu: false,
+    modal: false,
+    menu2: false,
 
 
     name: 'riyad---vue',
@@ -181,31 +197,27 @@ export default {
 
   created(){
 
-    
+     // this.setAllInfo();
+    // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-     this.$axios.post( this.$store.getters.modelProfile_basic ,
-      {
-        purpose: 'getProfileBasicInfo',
-        
-      }
-      ).then(function(response){
-        console.log(response);
-         this.$store.commit('set_user_info' , response.data);
-      }.bind(this))
-      .catch(function(){
-        //console.log(error);
-      }.bind(this));
-  },
+       this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString();
+     // this.date_of_birth = new Date(this.$store.getters.getAllInfo.date_of_birth);
+     
+    // alert(this.$store.getters.getAllInfo.date_of_birth);
+      
+    },
+    methods: {
 
+      /*getData(){
+        console.log( this.$store.getters.getAllInfo);
 
-  methods: {
-    onChangeValidity(inputName){
-      if(inputName == 'full_name'){
+      },*/
+      onChangeValidity(inputName){
+        if(inputName == 'full_name'){
         // console.log(this.$refs.full_name.value);
         let patt= /[A-Za-z.\s]{5,}/g;
         let result = patt.test(this.full_name);
-
         if(!result){
           let errors = [];
           errors.push('Name at least 6 characters');
@@ -214,7 +226,6 @@ export default {
         }else{
           this.full_name_validity = 'valid';
         }
-
       }else if(inputName == 'institution_id'){
         // console.log(this.institution_id);
         let patt= /[A-Za-z\S]{5,}/g;
@@ -260,10 +271,6 @@ export default {
         }else{
           this.nid_or_passport_validity = 'valid';
         }
-
-
-
-
       }else if(inputName == 'blood_group'){
 
         let patt= /[+-A-O]{1,3}/g;
@@ -292,13 +299,10 @@ export default {
         if(result == true && matches[0]>1950 && matches[0] <2000){
           this.date_of_birth_validity = 'valid';
         }else{
-
           let errors = [];
           errors.push('invalid date of birth');
           this.date_of_birth_validity = 'invalid'
           return errors;
-
-
         }
 
           //result == false ? this.dob_validity = 'invalid' : this.dob_validity = 'valid';
@@ -330,11 +334,11 @@ export default {
           ).then(function(){
             this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
             this.dialog = true;
-           
+
           }.bind(this))
           .catch(function(){
         //console.log(error);
-    }.bind(this));
+      }.bind(this));
         }else{
           this.status_text = 'all field are not valid';
           this.dialog = true;
@@ -342,8 +346,8 @@ export default {
         }
       },
 
-  }
+    }
 
 
 
-</script>
+  </script>

@@ -7,12 +7,12 @@
 
 <script>
 // import { bus } from '@/main'
-
+import cookie_mixins from '@/mixins/cookie_mixins'
 import toolbar from '@/views/toolbar.vue'
 
 export default {
 name: 'App',
-
+mixins: [cookie_mixins],
 components: {
 toolbar,
 },
@@ -23,16 +23,10 @@ login: false,
 computed: {
 isLogin(){
   return this.$store.getters.auth;
-
 }
-}/*
+},
 created(){
-bus.$on('login_status' , (data)=>{
-
-this.login = data;
-
-
-})
-}*/
+	// this.checkCookie();
+}
 };
 </script>

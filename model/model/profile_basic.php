@@ -8,6 +8,8 @@ $data =  file_get_contents('php://input');
 $d1 = json_decode($data);
 
 
+
+
 if($d1->purpose == 'basic'){
   $full_name= $d1->full_name;
   $mobile= $d1->mobile;
@@ -49,16 +51,17 @@ if($d1->purpose == 'basic'){
 
 
 }else if($d1->purpose == 'getProfileBasicInfo'){
-
+// $id__ = 1;
+  $email = $d1->email;
   $conn = get_mysqli_connection();
-  $sql = "select * from all_info_together where id = ".$id__."";
+  $sql = "select * from all_info_together where email = '".$email."' ";
 
   $result = mysqli_query($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     echo json_encode($row);
   } else {
-    echo "0 results";
+    echo "0";
   }
   mysqli_close($conn);
 
@@ -66,7 +69,7 @@ if($d1->purpose == 'basic'){
   // $i = 0;
 // echo json_encode(var_dump($row));
 }else if($d1->purpose == 'profile_completeness_100'){
-
+  
   $user_type = $d1->user_type;
   $conn = get_mysqli_connection();
   $sql = '';

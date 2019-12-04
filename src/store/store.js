@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axios from 'axios'
+// Vue.prototype.$axios = axios;
+
+
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -14,9 +18,7 @@ export const store = new Vuex.Store({
 			isEmailVerified: false,
 			isChangeRequest: false,
 		},
-		user_info: {
-
-		},
+		user_info: '',
 		model:{
 			modelAddress: 'http://www.localhost/vuetify_intern/model/model/',
 		},
@@ -36,7 +38,7 @@ export const store = new Vuex.Store({
 		set_user_info: (state , user_info ) => {
 			
 			state.user_info = user_info;
-
+			state.user.isLogin = true;
 
 
 		}
@@ -56,8 +58,33 @@ export const store = new Vuex.Store({
 		},
 		modelProfile_basic: state => {
 			return state.model.modelAddress+'profile_basic.php';
+		},
+		getAllInfo: state => {
+			return state.user_info;
 		}
 		
 	},
+	actions: {
+
+		getAllDataFromDB : (context, url) => {
+			
+			axios.post( url , {
+				purpose : 'getProfileBasicInfo'
+			})
+			.then( function(response){
+				
+					//console.log(response);
+					context.commit('set_user_info' , response.data);
+					
+				}.bind(this))
+			.catch(function () {
+               
+            }.bind(this)); 
+
+
+		}
+
+
+	}
 	
 });

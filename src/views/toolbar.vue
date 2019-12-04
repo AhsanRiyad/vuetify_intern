@@ -57,7 +57,7 @@ temporary
   </v-list-item-avatar>
 
   <v-list-item-content>
-    <v-list-item-title>John Leider</v-list-item-title>
+    <v-list-item-title> {{ this.$store.getters.getAllInfo.full_name }} </v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
@@ -71,22 +71,22 @@ temporary
   link
   >
   <v-list-item-icon>
-    <v-icon>{{ item.icon }}</v-icon>
+    
   </v-list-item-icon>
 
   <v-list-item-content>
-    <v-list-item-title>{{ item.title }}</v-list-item-title>
+    <router-link :to=' { name : `${item.link}` }' 
+      
+    :class="'/'+item.link ===  $route.path ? highlighted = true : ''"
+    active-class="highlighted"
+    >
+    <v-list-item-title>{{ item.title }} <!-- {{ $route.path }} --></v-list-item-title>
+  </router-link>
   </v-list-item-content>
 </v-list-item>
 </v-list>
 </v-navigation-drawer>
-
-
-
-
-
-
-  </div>
+</div>
 
 
 
@@ -100,8 +100,8 @@ temporary
       return {
         drawer: null,
         items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' },
+        { title: 'Profile', link: 'profile' },
+        { title: 'Logout',  link: 'login'  },
         ],
       }
     },
@@ -111,10 +111,15 @@ temporary
 
 
 
-<style >
+<style scoped>
 
   .v-navigation-drawer>.v-list:not(.v-list--dense) .v-list__tile {
     text-decoration: none;
+  }
+
+  .highlighted{
+    background-color: 'red';
+    color: 'yellow';
   }
 
 </style>

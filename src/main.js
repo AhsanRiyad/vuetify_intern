@@ -5,6 +5,8 @@ import vuetify from './plugins/vuetify'
 // import VueResouce from 'vue-resource'
 import axios from 'axios'
 import { store } from './store/store'
+
+
 // export const bus = new Vue();
 
 Vue.prototype.$axios = axios;
