@@ -24,29 +24,9 @@ export default {
 		},
 		checkCookie() {
 			var email = this.getCookie("email");
-			var crypto = this.getCookie("crypto");
+			// var crypto = this.getCookie("crypto");
 			if (email != '') {
-
-				this.$axios.post( this.$store.getters.modelProfile_basic , {
-					purpose : 'getProfileBasicInfo',
-					email: email , 
-				})
-				.then( function(response){
-
-					console.log(response);
-
-					if(response.data !=0 ){
-						if(response.data.forgot_password_crypto == crypto)
-						this.$store.commit('set_user_info' , response.data);
-
-						return true;
-					}
-					}.bind(this))
-				.catch(function () {
-
-				}.bind(this));
-
-				alert("Welcome again ");
+				return true;
 			}else{
 				alert("not set");
 				return false;

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VueCookies from 'vue-cookies'
 
 import axios from 'axios'
 // Vue.prototype.$axios = axios;
@@ -38,8 +39,10 @@ export const store = new Vuex.Store({
 		set_user_info: (state , user_info ) => {
 			
 			state.user_info = user_info;
-			state.user.isLogin = true;
-
+			//state.user.isLogin = true;
+		},
+		checkCookie: (state)=>{
+			VueCookies.isKey('email') ? state.user.isLogin = true : state.user.isLogin = false; 
 
 		}
 	},
@@ -66,16 +69,16 @@ export const store = new Vuex.Store({
 	},
 	actions: {
 
-		getAllDataFromDB : (context, url) => {
+		getAllDataFromDB : (context, url , email) => {
 			
 			axios.post( url , {
-				purpose : 'getProfileBasicInfo'
+				purpose : 'getProfileBasicInfo',
+				email : email , 
 			})
 			.then( function(response){
 				
 					//console.log(response);
 					context.commit('set_user_info' , response.data);
-					
 				}.bind(this))
 			.catch(function () {
                

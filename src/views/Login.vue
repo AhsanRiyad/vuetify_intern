@@ -175,11 +175,12 @@ export default {
 		if(this.email_validity == 'valid' && this.password_validity == 'valid'){
 			if(md5(this.password) == this.$store.getters.getAllInfo.password){
 				
-				this.setCookie('email' , this.email , 7);
-				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);
+				/*this.setCookie('email' , this.email , 7);
+				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);*/
+				this.$cookies.set('email' , this.email);
+				this.$cookies.set('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto);
 
-
-
+				this.$store.commit('loginTrue');
 				this.loading = false;
 				this.$router.push({ name: 'profile' }) ;
 			}else{
@@ -194,8 +195,10 @@ export default {
 	}
 },
 created(){
-	this.setCookie('email' , '' , -7);
-	this.setCookie('crypto' , '' , - 7);
+
+	this.$store.commit('loginFalse');
+	this.$cookies.set('email', '');
+	this.$cookies.set('crypto', '');
 }
 }
 </script>

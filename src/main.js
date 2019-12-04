@@ -5,7 +5,11 @@ import vuetify from './plugins/vuetify'
 // import VueResouce from 'vue-resource'
 import axios from 'axios'
 import { store } from './store/store'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies);
 
+// set default config
+VueCookies.config('7d');
 
 // export const bus = new Vue();
 
@@ -32,27 +36,11 @@ new Vue({
   vuetify,
   store: store,
   render: function (h) { return h(App) },
-/*
-    let axiosConfig = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        "Access-Control-Allow-Origin": "*",
-      }
-    };
-*/
+  methods:{},
+  beforeCreate(){
 
-   /* this.$axios.post('http://www.localhost/vue/address.php', {
-      title: 'Notebook',
-      body: '',
-      userId: 1,
-    }, axiosConfig )
-      .then(function (response) {
-
-        console.log(response);
-
-      }.bind(this))
-      .catch(function () {
-
-      }.bind(this));*/
-  
+    //this.$cookies.isKey('email') ? alert(true) : alert(false); 
+        
+    
+  }
 }).$mount('#app')

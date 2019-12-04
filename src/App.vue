@@ -25,8 +25,16 @@ isLogin(){
   return this.$store.getters.auth;
 }
 },
+beforeCreate(){
+
+		
+
+},
 created(){
-	// this.checkCookie();
+
+
+
+
 }
 };
 </script>
