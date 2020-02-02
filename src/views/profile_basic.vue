@@ -3,21 +3,21 @@
     <v-container class="white" >
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
-
-
-          <v-text-field
           
+          <v-text-field
+        
           label="Name"
           type="text"
-          
-          :value="this.$store.getters.getAllInfo.full_name"
-          @input="full_name = $event"
+  
+
+          v-model="full_name"
+
           :error-messages="onChangeValidity('full_name')"
           ></v-text-field>
 
           <v-text-field
-          :value="this.$store.getters.getAllInfo.institution_id"
-          @input="institution_id = $event"
+          v-model="institution_id"
+          
           label="Institution ID"
           type="text"
           :error-messages="onChangeValidity('institution_id')"
@@ -25,24 +25,23 @@
 
 
           <v-text-field
-          :value="this.$store.getters.getAllInfo.mobile"
-          @input="mobile = $event"
+          v-model="mobile"
+          
           label="Mobile"
           type="text"
           :error-messages="onChangeValidity('mobile')"
           ></v-text-field>
           
           <v-text-field
-          :value="this.$store.getters.getAllInfo.nid_or_passport"
-          @input="nid_or_passport = $event"
+          v-model="nid_or_passport"
+          
           label="nid_or_passport"
           type="text"
           :error-messages="onChangeValidity('nid_or_passport')"
           ></v-text-field> 
 
           <v-select
-          :value="this.$store.getters.getAllInfo.blood_group"
-          @input="blood_group = $event"
+          v-model = "blood_group"
           :items="items"
           label="Blood Group"
           :error-messages="onChangeValidity('blood_group')"
@@ -87,7 +86,7 @@
 
       <br>
 
-<slot></slot>
+      <slot></slot>
 
 <!-- 
   <v-btn @click="getData()"
@@ -182,13 +181,23 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-       this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString();
+    this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString();
+
+
+    this.full_name = this.$store.getters.getAllInfo.full_name;
+    this.institution_id = this.$store.getters.getAllInfo.institution_id;
+    this.mobile = this.$store.getters.getAllInfo.mobile;
+    this.nid_or_passport = this.$store.getters.getAllInfo.nid_or_passport;
+    this.blood_group = this.$store.getters.getAllInfo.blood_group;
+
+
+
      // this.date_of_birth = new Date(this.$store.getters.getAllInfo.date_of_birth);
      
     // alert(this.$store.getters.getAllInfo.date_of_birth);
-      
-    },
-    methods: {
+
+  },
+  methods: {
 
       /*getData(){
         console.log( this.$store.getters.getAllInfo);
@@ -206,6 +215,8 @@ export default {
           return errors;
         }else{
           this.full_name_validity = 'valid';
+          let errors = [];
+          errors.push(true);
         }
       }else if(inputName == 'institution_id'){
         // console.log(this.institution_id);
@@ -220,6 +231,8 @@ export default {
           return errors;
         }else{
           this.institution_id_validity = 'valid';
+          let errors = [];
+          errors.push(false);
         }
 
 

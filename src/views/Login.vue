@@ -108,7 +108,7 @@ export default {
 		status_text: '',
 		email: '',
 		password: '',
-		email_validity: '',
+		email_validity:'',
 		password_validity: '',
 		login_status: '',
 		greenText: false,
@@ -145,8 +145,8 @@ export default {
 
 		},
 		onChangeValidity(inputName){
-			if(inputName == 'email'){ var patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-			var result_email = patt_email.test(this.email);
+			if(inputName == 'email'){ let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+			let result_email = patt_email.test(this.email);
 
 			if(!result_email){
 				let errors = [];

@@ -9,7 +9,7 @@
 					
 					<v-btn :color="color" 
 					:class=" items[n].name == $store.getters.getComponentName ? (color = 'secondary' , disabled = true ) : (color =  'primary' , disabled = false ) "
-					:disabled="disabled"
+					:disabled="disabled" @click="changeComponent(items[n].name)"
 					> {{items[n].title }} </v-btn>
 					
 
@@ -22,9 +22,7 @@
 
 					<v-btn class="px-4" :color="color" 
 					:class=" items[n].name == $store.getters.getComponentName ? (color = 'secondary' , disabled = true ) : (color =  'primary' , disabled = false ) "
-					:disabled="disabled"
-					
-					> {{items[n].title }} </v-btn>
+					:disabled="disabled" @click="changeComponent(items[n].name)"> {{items[n].title }} </v-btn>
 					
 
 				</v-col>
@@ -63,6 +61,9 @@ export default {
 	methods: {
 		changeColor(){
 			console.log('change color');
+		},
+		changeComponent(name){
+			this.$store.commit('setComponentName' , name);
 		}
 	}
 

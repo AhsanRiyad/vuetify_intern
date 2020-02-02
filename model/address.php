@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 
 session_start();
 
-$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/intern_project_vue_vuetify/model/";
+$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/vuetify_intern/model/";
 
-$rootAdress = 'http://localhost/intern_project_vue_vuetify/model/';
+$rootAdress = 'http://localhost/vuetify_intern/model/';
 
 
 // $APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/";

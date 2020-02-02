@@ -10,6 +10,12 @@ npm install
 npm run serve
 ```
 
+
+### Compiles and hot-reloads for development in a specific port
+```
+npm run serve -- --port 3000
+```
+
 ### Compiles and minifies for production
 ```
 npm run build

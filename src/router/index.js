@@ -55,15 +55,7 @@ function requireAuth (to, from, next) {
 
   }
 
-
-
-
-  
-
-
-    // store.dispatch('getAllDataFromDB', store.getters.modelProfile_basic , VueCookies.get('email'));
-
-
+  // store.dispatch('getAllDataFromDB', store.getters.modelProfile_basic , VueCookies.get('email'));
   }
 }
 
@@ -73,6 +65,11 @@ const routes = [
 
 {
   path: '/login',
+  name: 'login',
+  component: login
+},
+{
+  path: '/',
   name: 'login',
   component: login
 },

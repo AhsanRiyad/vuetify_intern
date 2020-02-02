@@ -76,7 +76,7 @@ temporary
     active-class = "secondary"
     
     >
-    <v-list-item-title  > {{ item.title }} {{ $route.path }}</v-list-item-title>
+    <v-list-item-title  > {{ item.title }}</v-list-item-title>
   </router-link>
   </v-list-item-content>
 </v-list-item>
