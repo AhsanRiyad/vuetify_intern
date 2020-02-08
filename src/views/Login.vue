@@ -1,8 +1,8 @@
 <template>
-	<v-app class="grey" > 
-		<v-container class="white" >
-			<v-row justify="center" align="center"> 
-				<v-col cols="8" xl="4" >
+	<v-app class=" grey lighten-3  content_bg"  > 
+		<v-container  class=" white " >
+			<v-row justify="center" align="center" class=""> 
+				<v-col cols="12" xl="4" lg="4" >
 					
 					<p v-bind:class="{ 'red--text': redText, 'green--text': greenText }">{{ email_validity }}</p>
 					<v-text-field
@@ -11,7 +11,6 @@
 					label="Email"
 					type="text"
 					:error-messages="onChangeValidity('email')"
-					@change="getUserDetails()"
 					></v-text-field>
 
 					<v-text-field
@@ -53,6 +52,8 @@
 	</v-col>
 </v-row>
 </v-container>
+
+
 
 <v-row justify="center">
 	<v-dialog
@@ -203,3 +204,17 @@ created(){
 }
 }
 </script>
+
+
+<style>
+	
+	.root_bg{
+		background-color: #efefef;
+	}
+	
+	.content_bg{
+		height: 100vh;
+	}
+
+
+</style>
