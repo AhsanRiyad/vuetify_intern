@@ -47,7 +47,7 @@
         xs12
         mb-5
       >
-        <h2 class="headline font-weight-bold mb-3">Important Links</h2>
+        <h2 class="headline font-weight-bold mb-3 riyad">Important Links</h2>
 
         <v-layout justify-center>
           <a
