@@ -3,122 +3,121 @@
     <v-container class="white" >
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
+
+          <v-text-field
+
+          label="Present Address Line 1"
+          type="text"
+
+
+          v-model="present_line1"
+
+          :error-messages="onChangeValidity('present_line1')"
+          ></v-text-field>
+
+
+
+          <v-text-field
+
+          label="Present post code"
+          type="text"
+
+
+          v-model="present_post_code"
+
+          :error-messages="onChangeValidity('present_post_code')"
+          ></v-text-field>
+
+
+
+          <v-text-field
+
+          label="Present district"
+          type="text"
+
+
+          v-model="present_district"
+
+          :error-messages="onChangeValidity('present_district')"
+          ></v-text-field>
+
+
+
+          <v-text-field
+
+          label="Present country"
+          type="text"
+
+
+          v-model="present_country"
+
+          :error-messages="onChangeValidity('present_country')"
+          ></v-text-field>
+
+
           
           <v-text-field
-        
-          label="Name"
+
+          label="Present Address Line 1"
           type="text"
-  
 
-          v-model="full_name"
 
-          :error-messages="onChangeValidity('full_name')"
+          v-model="present_line1"
+
+          :error-messages="onChangeValidity('present_line1')"
           ></v-text-field>
 
 
-                  
+
           <v-text-field
-        
-          label="Name"
+
+          label="Present post code"
           type="text"
-  
 
-          v-model="full_name"
 
-          :error-messages="onChangeValidity('full_name')"
+          v-model="present_post_code"
+
+          :error-messages="onChangeValidity('present_post_code')"
           ></v-text-field>
 
 
-                  
+
           <v-text-field
-        
-          label="Name"
+
+          label="Present district"
           type="text"
-  
 
-          v-model="full_name"
 
-          :error-messages="onChangeValidity('full_name')"
+          v-model="present_district"
+
+          :error-messages="onChangeValidity('present_district')"
           ></v-text-field>
 
 
-                  
+
           <v-text-field
-        
-          label="Name"
-          type="text"
-  
 
-          v-model="full_name"
-
-          :error-messages="onChangeValidity('full_name')"
-          ></v-text-field>
-
-
-                  
-          <v-text-field
-        
-          label="Name"
-          type="text"
-  
-
-          v-model="full_name"
-
-          :error-messages="onChangeValidity('full_name')"
-          ></v-text-field>
-
-
-                  
-          <v-text-field
-        
-          label="Name"
-          type="text"
-  
-
-          v-model="full_name"
-
-          :error-messages="onChangeValidity('full_name')"
-          ></v-text-field>
-
-
-                  
-          <v-text-field
-        
-          label="Name"
+          label="Present country"
           type="text"
 
 
-          v-model="full_name"
+          v-model="present_country"
 
-          :error-messages="onChangeValidity('full_name')"
+          :error-messages="onChangeValidity('present_country')"
           ></v-text-field>
 
+          <v-btn 
+          color="success"
+          class="my-4"
+          @click="submit()"
+          :loading="loading"
+          >
+          Update
+        </v-btn>
 
-                  
-          <v-text-field
-        
-          label="Name"
-          type="text"
-  
+        <br>
 
-          v-model="full_name"
-
-          :error-messages="onChangeValidity('full_name')"
-          ></v-text-field>
-
-
-        <v-btn 
-        color="success"
-        class="my-4"
-        @click="submit()"
-        :loading="loading"
-        >
-        Update
-      </v-btn>
-
-      <br>
-
-      <slot></slot>
+        <slot></slot>
 
 <!-- 
   <v-btn @click="getData()"
@@ -185,26 +184,39 @@ export default {
 
     name: 'riyad---vue',
     dialog: false,
-    status_text: '',
-    full_name : '',
-    email: '',
-    mobile: '',
-    institution_id: '',
-    blood_group: '',
-    dob: '',
-    nid_or_passport:'',
-    nid_or_passport_validity:'',
-    blood_group_validity : '',
-    dob_validity : '',
-    full_name_validity : '',
-    date_of_birth_validity: '',
-    email_validity: '',
-    mobile_validity: '',
-    institution_id_validity: '',
-    password_validity: '',
-    registratrion_status: 'default',
-    loading: false,
-    items: ['A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-']
+    status_text: '' ,
+    present_line1_input: true,
+    present_line2_input: true,
+    present_district_input: true,
+    present_post_code_input: true,
+    present_country_input: true,
+    permanent_line1_input: true,
+    permanent_line2_input: true,
+    permanent_district_input: true,
+    permanent_post_code_input: true,
+    permanent_country_input: true,
+    present_line1_validity: false,
+    present_line2_validity: false,
+    present_district_validity: false,
+    present_post_code_validity: false,
+    present_country_validity: false,
+    permanent_line1_validity: false,
+    permanent_line2_validity: false,
+    permanent_district_validity: false,
+    permanent_post_code_validity: false,
+    permanent_country_validity: false,
+    present_line1: '',
+    recent_photo: '',
+    present_line2: '',
+    present_district: '',
+    present_post_code: '',
+    present_country: '',
+    permanent_line1: '',
+    permanent_line2: '',
+    permanent_district: '',
+    permanent_post_code: '',
+    permanent_country: '',
+    users_info: '',
   }), 
 
   created(){
@@ -213,14 +225,18 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString();
+   
 
 
-    this.full_name = this.$store.getters.getAllInfo.full_name;
-    this.institution_id = this.$store.getters.getAllInfo.institution_id;
-    this.mobile = this.$store.getters.getAllInfo.mobile;
-    this.nid_or_passport = this.$store.getters.getAllInfo.nid_or_passport;
-    this.blood_group = this.$store.getters.getAllInfo.blood_group;
+
+    this.present_line1= this.$store.getters.getAllInfo.present_line1;
+    this.present_district= this.$store.getters.getAllInfo.present_district;
+    this.present_post_code= this.$store.getters.getAllInfo.present_post_code;
+    this.present_country= this.$store.getters.getAllInfo.present_country;
+    this.permanent_line1= this.$store.getters.getAllInfo.permanent_line1;
+    this.permanent_district= this.$store.getters.getAllInfo.permanent_district;
+    this.permanent_post_code= this.$store.getters.getAllInfo.permanent_post_code;
+    this.permanent_country= this.$store.getters.getAllInfo.permanent_country;
 
 
 
