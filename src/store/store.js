@@ -21,12 +21,12 @@ export const store = new Vuex.Store({
 		},
 		user_info: '',
 		model:{
-			modelAddress: 'http://www.localhost/vuetify_intern/model/model/',
+			modelAddress: 'http://www.localhost/model/model/',
 		},
 		upload_directory: {
-			recentPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/recent_photos',
-			oldPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/old_photos',
-			groupPhoto_directory: 'http://www.localhost/vuetify_intern/model/assets/img/uploads/group_photos',
+			recentPhoto_directory: 'http://www.localhost/model/assets/img/uploads/recent_photos',
+			oldPhoto_directory: 'http://www.localhost/model/assets/img/uploads/old_photos',
+			groupPhoto_directory: 'http://www.localhost/model/assets/img/uploads/group_photos',
 		},
 		component_name: 'profile_basic',
 	},

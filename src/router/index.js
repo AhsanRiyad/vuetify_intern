@@ -10,11 +10,10 @@ import VueCookies from 'vue-cookies'
 import axios from 'axios'
 
 
+
 Vue.use(VueRouter)
 
-
 function requireAuth (to, from, next) {
-
 
   if (store.getters.auth.isLogin) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 
