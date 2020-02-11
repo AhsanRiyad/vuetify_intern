@@ -15,8 +15,6 @@
           :error-messages="onChangeValidity('present_line1')"
           ></v-text-field>
 
-
-
           <v-text-field
 
           label="Present post code"
@@ -27,7 +25,6 @@
 
           :error-messages="onChangeValidity('present_post_code')"
           ></v-text-field>
-
 
 
           <v-text-field
@@ -224,11 +221,6 @@ export default {
      // this.setAllInfo();
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
-
-   
-
-
-
     this.present_line1= this.$store.getters.getAllInfo.present_line1;
     this.present_district= this.$store.getters.getAllInfo.present_district;
     this.present_post_code= this.$store.getters.getAllInfo.present_post_code;
@@ -237,7 +229,6 @@ export default {
     this.permanent_district= this.$store.getters.getAllInfo.permanent_district;
     this.permanent_post_code= this.$store.getters.getAllInfo.permanent_post_code;
     this.permanent_country= this.$store.getters.getAllInfo.permanent_country;
-
 
 
      // this.date_of_birth = new Date(this.$store.getters.getAllInfo.date_of_birth);

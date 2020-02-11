@@ -183,6 +183,8 @@ export default {
 				this.$store.commit('loginTrue');
 				this.loading = false;
 				this.$router.push({ name: 'profile' }) ;
+				// this.$router.push({ name: 'registration' }) ;
+				// this.$router.replace('profile') ;
 			}else{
 				this.loading = false;
 				this.login_status = 'email/password doesnt match';  

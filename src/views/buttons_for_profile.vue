@@ -1,5 +1,5 @@
 <template>
-	
+
 	<div>
 
 		<v-container class="cyan lighten-2">
@@ -8,8 +8,6 @@
 					
 					
 					<v-btn :color="color" 
-					:class=" items[n].name == $store.getters.getComponentName ? (color = 'secondary' , disabled = true ) : (color =  'primary' , disabled = false ) "
-					:disabled="disabled" @click="changeComponent(items[n].name)"
 					> {{items[n].title }} </v-btn>
 					
 
@@ -20,9 +18,8 @@
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers2" :key="n">
 
-					<v-btn class="px-4" :color="color" 
-					:class=" items[n].name == $store.getters.getComponentName ? (color = 'secondary' , disabled = true ) : (color =  'primary' , disabled = false ) "
-					:disabled="disabled" @click="changeComponent(items[n].name)"> {{items[n].title }} </v-btn>
+					<v-btn class="px-4"  :color="color"
+					> {{items[n].title }} </v-btn>
 					
 
 				</v-col>
