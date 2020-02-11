@@ -1,19 +1,27 @@
 <template>
   <v-app class="grey" > 
-	
+
 	<!-- 
     <component v-bind:is="$store.getters.getComponentName"> <buttons_for_profile></buttons_for_profile> </component> -->
     
-    <profile_basic class="mb-0"></profile_basic>
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
+          
+          <component v-bind:is="$store.getters.getComponentName"> <buttons_for_profile ></buttons_for_profile> </component>
 
-    <buttons_for_profile class="mt-0"></buttons_for_profile>
-    
 
+          <!-- <profile_basic></profile_basic> -->
+        </v-col>
+      </v-row>
 
+      <v-row>
+        <v-col cols="12" md="12" class="mt-md-n12">
+          
+        </v-col>
+      </v-row>
+    </v-container>
 
-
-  
-	
   </v-app>
 </template>
 <script>
@@ -25,24 +33,18 @@ export default {
   name: 'basic',
   components: { 'profile_basic': profile_basic  , 'buttons_for_profile': buttons_for_profile }, 
   
-data: ()=>({}), 
+  data: ()=>({}), 
 
-created(){},
-methods: {},
-submit(){},
+  created(){},
+  methods: {},
+  submit(){},
 
 }
-
-
-
 </script>
 
 
 
 <style>
-  
-
-
 
 
 </style>
