@@ -63,12 +63,8 @@ function requireAuth (to, from, next) {
 const routes = [
 
 {
-  path: '/login',
-  name: 'login',
-  component: login
-},
-{
-  path: '/',
+  path: '/login' ,
+  alias: '/',
   name: 'login',
   component: login
 },

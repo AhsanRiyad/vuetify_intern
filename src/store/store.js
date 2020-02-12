@@ -29,6 +29,7 @@ export const store = new Vuex.Store({
 			groupPhoto_directory: 'http://www.localhost/model/assets/img/uploads/group_photos',
 		},
 		component_name: 'profile_basic',
+		page_title: 'Dashboard',
 	},
 	mutations: {
 		loginFalse: state => {
@@ -48,6 +49,9 @@ export const store = new Vuex.Store({
 		},
 		setComponentName: (state , name ) =>{
 			state.component_name = name ;
+		},
+		setPageTitle: (state , name ) =>{
+			state.page_title = name ;
 		}
 	},
 	getters: {
@@ -66,11 +70,17 @@ export const store = new Vuex.Store({
 		modelProfile_basic: state => {
 			return state.model.modelAddress+'profile_basic.php';
 		},
+		modelProfile_personal: state => {
+			return state.model.modelAddress+'profile_personal.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},
 		getComponentName: state => {
 			return state.component_name;
+		},
+		getPageTitle: state => {
+			return state.page_title;
 		}
 		
 	},

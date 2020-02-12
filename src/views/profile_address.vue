@@ -107,7 +107,7 @@
           color="success"
           class="my-4"
           @click="submit()"
-          :loading="loading"
+          
           >
           Update
         </v-btn>

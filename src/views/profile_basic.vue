@@ -3,12 +3,12 @@
     <v-container class="white" >
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
-          
+
           <v-text-field
-        
+
           label="Name"
           type="text"
-  
+
 
           v-model="full_name"
 
@@ -46,10 +46,6 @@
           label="Blood Group"
           :error-messages="onChangeValidity('blood_group')"
           ></v-select>
-
-
-
-
 
           <v-menu 
           ref="menu"
@@ -199,6 +195,41 @@ export default {
   },
   methods: {
 
+   submit(){
+       //alert(this.blood_group);
+       // console.log(this.$store.getters.getAllInfo.email);
+
+
+
+        //alert(this.blood_group);
+
+      
+
+          this.$axios.post( this.$store.getters.modelProfile_basic ,
+          {
+            id: this.$store.getters.getAllInfo.id ,
+            email: this.$store.getters.getAllInfo.email ,
+            purpose: 'basic',
+            full_name: this.full_name,
+            mobile: this.mobile,
+            institution_id: this.institution_id,
+            nid_or_passport: this.nid_or_passport,
+            blood_group: this.blood_group,
+            dob: this.date_of_birth,
+          }
+          ).then(function(result){
+
+            console.log(result);
+            this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+            this.dialog = true;
+
+          }.bind(this))
+          .catch(function(){
+        //console.log(error);
+      }.bind(this));
+        
+      },
+
       /*getData(){
         console.log( this.$store.getters.getAllInfo);
 
@@ -302,46 +333,11 @@ export default {
           //result == false ? this.dob_validity = 'invalid' : this.dob_validity = 'valid';
         }
       }
-    },
-    submit(){
-        //alert(this.blood_group);
-
-        this.validityCheckInput('full_name');
-        this.validityCheckInput('mobile');
-        this.validityCheckInput('institution_id');
-        this.validityCheckInput('nid_or_passport');
-        this.onChangeValidity('blood_group');
-        this.onChangeValidity('date_of_birth');
-
-        if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.date_of_birth_validity == 'valid' ){
-
-          this.$axios.post( this.$store.getters.modelProfile_basic ,
-          {
-            purpose: 'basic',
-            full_name: this.full_name,
-            mobile: this.mobile,
-            institution_id: this.institution_id,
-            nid_or_passport: this.nid_or_passport,
-            blood_group: this.blood_group,
-            dob: this.date_of_birth,
-          }
-          ).then(function(){
-            this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
-            this.dialog = true;
-
-          }.bind(this))
-          .catch(function(){
-        //console.log(error);
-      }.bind(this));
-        }else{
-          this.status_text = 'all field are not valid';
-          this.dialog = true;
-          //alert('all filed are not valid');
-        }
-      },
-
     }
+    
+
+  }
 
 
 
-  </script>
+</script>

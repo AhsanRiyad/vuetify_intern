@@ -1,39 +1,39 @@
 <template>
   <div>
     <v-app-bar 
-      color="deep-purple accent-4"
-      dark
+    color="deep-purple accent-4"
+    dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Page title</v-toolbar-title>
+    <v-toolbar-title> {{  this.$store.getters.getPageTitle }} </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+    <v-btn icon>
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
+
+    <v-menu
+    left
+    bottom
+    >
+    <template v-slot:activator="{ on }">
+      <v-btn icon v-on="on">
+        <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
+    </template>
 
-      <v-menu
-        left
-        bottom
-      >
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
+    <v-list>
+      <v-list-item>
+        <v-list-item-title > <v-btn router :to="{ name : 'login' }">Logout</v-btn> </v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
+</v-app-bar>
 
-        <v-list>
-          <v-list-item>
-            <v-list-item-title > <v-btn router :to="{ name : 'login' }">Logout</v-btn> </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar>
-  
 
-  
+
 
 <v-navigation-drawer
 v-model="drawer"
@@ -59,7 +59,7 @@ temporary
   :key="item.title"
   link
   >
- 
+
 
   <v-list-item-content>
     <router-link  :to=' { name : `${item.name}` }' 
@@ -70,7 +70,7 @@ temporary
     >
     <v-list-item-title  > {{ item.title }}</v-list-item-title>
   </router-link>
-  </v-list-item-content>
+</v-list-item-content>
 </v-list-item>
 </v-list>
 </v-navigation-drawer>
@@ -93,6 +93,7 @@ temporary
         ],
         green : true,
         secondary: false,
+        
       }
     },
     methods: {

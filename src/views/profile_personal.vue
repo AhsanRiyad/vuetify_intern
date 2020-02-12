@@ -55,20 +55,20 @@
           type="text"
           :error-messages="onChangeValidity('designation')"
           ></v-text-field> 
-        
 
-        <v-btn 
-        color="success"
-        class="my-4"
-        @click="submit()"
-        :loading="loading"
-        >
-        Update
-      </v-btn>
 
-      <br>
+          <v-btn 
+          color="success"
+          class="my-4"
+          @click="submit()"
 
-      <slot></slot>
+          >
+          Update
+        </v-btn>
+
+        <br>
+
+        <slot></slot>
 
 <!-- 
   <v-btn @click="getData()"
@@ -128,36 +128,36 @@ export default {
   name: 'profile_personal',
   data: ()=>({
     name: 'riyad---vue',
-      dialog: '' , 
-      status_text: '',
-      fathers_name_input: true,
-      mothers_name_input: true,
-      spouse_name_input: true,
-      number_of_children_input: true,
-      dob_input: true,
-      profession_input: true,
-      workplace_or_institution_input: true,
-      designation_input: true,
-      fathers_name: '',
-      mothers_name: '',
-      spouse_name: '',
-      number_of_children: '',
-      dob: '',
-      profession: '',
-      workplace_or_institution: '',
-      designation: '',
-      designation_validity: false,
-      fathers_name_validity: false,
-      mothers_name_validity: false,
-      spouse_name_validity: false,
-      number_of_children_validity: false,
-      dob_validity: false,
-      profession_validity: false,
-      workplace_or_institution_validity: false,
-      users_info: '',
-      submit_disabled: false,
-      type: '',
-      recent_photo:'',
+    dialog: '' , 
+    status_text: '',
+    fathers_name_input: true,
+    mothers_name_input: true,
+    spouse_name_input: true,
+    number_of_children_input: true,
+    dob_input: true,
+    profession_input: true,
+    workplace_or_institution_input: true,
+    designation_input: true,
+    fathers_name: '',
+    mothers_name: '',
+    spouse_name: '',
+    number_of_children: '',
+    dob: '',
+    profession: '',
+    workplace_or_institution: '',
+    designation: '',
+    designation_validity: false,
+    fathers_name_validity: false,
+    mothers_name_validity: false,
+    spouse_name_validity: false,
+    number_of_children_validity: false,
+    dob_validity: false,
+    profession_validity: false,
+    workplace_or_institution_validity: false,
+    users_info: '',
+    submit_disabled: false,
+    type: '',
+    recent_photo:'',
   }), 
 
   created(){
@@ -184,6 +184,35 @@ export default {
 
   },
   methods: {
+
+    submit(){
+
+      this.$axios.post( this.$store.getters.modelProfile_personal ,
+      {
+        purpose: 'personal',
+        id: this.$store.getters.getAllInfo.id ,
+        email: this.$store.getters.getAllInfo.email ,
+        fathers_name: this.$store.getters.getAllInfo.fathers_name,
+        mothers_name: this.$store.getters.getAllInfo.mother_name,
+        spouse_name: this.$store.getters.getAllInfo.spouse_name,
+        number_of_children: this.$store.getters.getAllInfo.number_of_children,
+        profession: this.$store.getters.getAllInfo.profession,
+        workplace_or_institution: this.$store.getters.getAllInfo.institution,
+        designation: this.$store.getters.getAllInfo.designation,
+      }
+      ).then(function(response){
+
+        this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+
+        this.dialog = true;
+        console.log(response);
+      }.bind(this))
+      .catch(function(){
+        //console.log(error);
+      }.bind(this));
+    },
+
+
 
       /*getData(){
         console.log( this.$store.getters.getAllInfo);
@@ -229,45 +258,9 @@ export default {
         }
       }
     },
-    submit(){
-        //alert(this.blood_group);
-
-        this.validityCheckInput('full_name');
-        this.validityCheckInput('mobile');
-        this.validityCheckInput('institution_id');
-        this.validityCheckInput('nid_or_passport');
-        this.onChangeValidity('blood_group');
-        this.onChangeValidity('date_of_birth');
-
-        if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.date_of_birth_validity == 'valid' ){
-
-          this.$axios.post( this.$store.getters.modelProfile_basic ,
-          {
-            purpose: 'basic',
-            full_name: this.full_name,
-            mobile: this.mobile,
-            institution_id: this.institution_id,
-            nid_or_passport: this.nid_or_passport,
-            blood_group: this.blood_group,
-            dob: this.date_of_birth,
-          }
-          ).then(function(){
-            this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
-            this.dialog = true;
-
-          }.bind(this))
-          .catch(function(){
-        //console.log(error);
-      }.bind(this));
-        }else{
-          this.status_text = 'all field are not valid';
-          this.dialog = true;
-          //alert('all filed are not valid');
-        }
-      },
-
-    }
+    
+  }
 
 
 
-  </script>
+</script>

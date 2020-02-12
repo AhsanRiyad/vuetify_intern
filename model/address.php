@@ -1,10 +1,6 @@
 <?php 
 //define('$rootAdress', "$_SERVER[DOCUMENT_ROOT]/project_for_Arif_sir/");
 
-/*header('Access-Control-Allow-Origin: http://www.localhost/model/model/profile_basic.php');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');*/
-
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,13 +8,11 @@ error_reporting(E_ALL);
 
 session_start();
 
+$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/model/";
+
+$rootAdress = 'http://localhost/model/';
 
 
-
-
-$APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/vuetify_intern/model/";
-
-$rootAdress = 'http://localhost/vuetify_intern/model/';
 
 
 // $APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/";
@@ -30,9 +24,14 @@ $rootAdress = 'http://localhost/vuetify_intern/model/';
 
 //hosting
 //$rootAdress = 'http://ndc92.friendsbd.website/';
-
-
 /*
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+
+*/
+
+
 cors() ;
 
 function cors() {
@@ -61,7 +60,9 @@ function cors() {
 
     
 }
-*/
+
+
+/*header("Access-Control-Allow-Origin: *");*/
 
 
 // assets

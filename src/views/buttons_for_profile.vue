@@ -1,36 +1,28 @@
 <template>
-
 	<div>
-
 		<v-container class="cyan lighten-2">
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers1" :key="n">
 					
-					
-					<v-btn :color="color" 
+					<v-btn
+					:disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , n)" 
 					> {{items[n].title }} </v-btn>
 					
-
 				</v-col>
 			</v-row>
-
 
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers2" :key="n">
 
-					<v-btn class="px-4"  :color="color"
+					<v-btn class="px-4"  :color="items[n].color" @click="changeComponent(items[n].name , n)"
 					> {{items[n].title }} </v-btn>
 					
-
 				</v-col>
 			</v-row>
 		</v-container>
 
-
 	</div>
 
-
-	
 </template>
 
 <script>
@@ -42,15 +34,16 @@ export default {
 			numbers1: [0,1,2],
 			numbers2: [3,4,5],
 			color: 'primary',
+			color2: 'secondary',
 			disabled: false,
 			component_name: 'personal',
 			items: [
-			{ title: 'BASIC', name: 'profile_basic' },
-			{ title: 'PERSONAL',  name: 'profile_personal'  },
-			{ title: 'ADDRESS',  name: 'profile_address'  },
-			{ title: 'PHOTO',  name: 'profile_photo'  },
-			{ title: 'CHANGE EMAIL',  name: 'profile_change_email'  },
-			{ title: 'CHANGE PASSWORD',  name: 'profile_change_password'  },
+			{ title: 'BASIC', name: 'profile_basic' , color: 'primary' },
+			{ title: 'PERSONAL', name: 'profile_personal' , color: 'primary' },
+			{ title: 'ADDRESS', name: 'profile_address' , color: 'primary' },
+			{ title: 'PHOTO', name: 'profile_photo' , color: 'primary' },
+			{ title: 'CHANGE EMAIL', name: 'profile_change_email' , color: 'primary' },
+			{ title: 'CHANGE PASSWORD', name: 'profile_change_password' , color: 'primary' },
 			],
 		}
 		
@@ -60,7 +53,13 @@ export default {
 			console.log('change color');
 		},
 		changeComponent(name){
+
+			// console.log('button clicked');
 			this.$store.commit('setComponentName' , name);
+			this.$store.commit('setPageTitle' , name);
+			
+
+
 		}
 	}
 
