@@ -10,35 +10,35 @@ $d1 = json_decode($data);
 
 function verify_change_request($user_id){
 
-$conn = get_mysqli_connection();
-$sql = "select `full_name`, `mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country`  from all_info_together where  id = ".$user_id." ";
+  $conn = get_mysqli_connection();
+  $sql = "select `full_name`, `mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country`  from all_info_together where  id = ".$user_id." ";
 
-$result = mysqli_query($conn, $sql);
+  $result = mysqli_query($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
   }
 
-$arrayValueString =  implode(',' ,$row);
-$arrayKeyString =  implode(',' , array_keys($row));
-$newArrayString = $arrayKeyString .'@#$'.$arrayValueString;
-$arrayTogether = explode('@#$' , $newArrayString);
-$array1keyString = $arrayTogether[0];
-$array2ValueString = $arrayTogether[1];
+  $arrayValueString =  implode(',' ,$row);
+  $arrayKeyString =  implode(',' , array_keys($row));
+  $newArrayString = $arrayKeyString .'@#$'.$arrayValueString;
+  $arrayTogether = explode('@#$' , $newArrayString);
+  $array1keyString = $arrayTogether[0];
+  $array2ValueString = $arrayTogether[1];
 //final pair1
-$arrayKey_tobeUpdated =  $stringToArrayKey = explode(',' , $array1keyString);
-$arrayValue_tobeUpdated = $stringToArrayValue = explode(',' , $array2ValueString);
-$arrayAssoc;
-$i = 0;
-for($i =0; $i<count($stringToArrayKey); $i++){
-  
+  $arrayKey_tobeUpdated =  $stringToArrayKey = explode(',' , $array1keyString);
+  $arrayValue_tobeUpdated = $stringToArrayValue = explode(',' , $array2ValueString);
+  $arrayAssoc;
+  $i = 0;
+  for($i =0; $i<count($stringToArrayKey); $i++){
+    
    $arrayAssoc[$stringToArrayKey[$i]] = $stringToArrayValue[$i];
-}
-$sql = "select last_verified_info from all_info_together where  id = ".$user_id." ";
+ }
+ $sql = "select last_verified_info from all_info_together where  id = ".$user_id." ";
 
-$result = mysqli_query($conn, $sql);
-  if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-  }
+ $result = mysqli_query($conn, $sql);
+ if (mysqli_num_rows($result) > 0) {
+  $row = mysqli_fetch_assoc($result);
+}
 
 
 $array =  explode('@#$' , $row['last_verified_info']);
@@ -59,11 +59,15 @@ if(count($arrayNew)==0){
 
 }
 
- $conn->close();
+$conn->close();
 }
 
 
 if($d1->purpose == 'personal'){
+
+  $GLOBALS['id__'] = $d1->id;
+  $email = $d1->email;
+
   $fathers_name= $d1->fathers_name;
   $mothers_name= $d1->mothers_name;
   $spouse_name= $d1->spouse_name;

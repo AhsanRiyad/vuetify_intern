@@ -71,11 +71,17 @@
             <v-btn text color="primary" @click="$refs.menu.save(date_of_birth)">OK</v-btn>
           </v-date-picker>
         </v-menu>
+        
+        
+        
+          <v-btn 
+          color="success"
+          class="my-4"
+          @click="submit()"
 
-
-
-        <br>
-
+          >
+          Update
+        </v-btn>
 
         <slot></slot>
 
@@ -174,7 +180,7 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1970-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
+    this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1570-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
 
 
 

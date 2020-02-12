@@ -187,30 +187,54 @@ export default {
 
     submit(){
 
-      this.$axios.post( this.$store.getters.modelProfile_personal ,
-      {
-        purpose: 'personal',
-        id: this.$store.getters.getAllInfo.id ,
-        email: this.$store.getters.getAllInfo.email ,
-        fathers_name: this.$store.getters.getAllInfo.fathers_name,
-        mothers_name: this.$store.getters.getAllInfo.mother_name,
-        spouse_name: this.$store.getters.getAllInfo.spouse_name,
-        number_of_children: this.$store.getters.getAllInfo.number_of_children,
-        profession: this.$store.getters.getAllInfo.profession,
-        workplace_or_institution: this.$store.getters.getAllInfo.institution,
-        designation: this.$store.getters.getAllInfo.designation,
-      }
-      ).then(function(response){
+      this.onChangeValidity('fathers_name');
+      this.onChangeValidity('mothers_name');
+      this.onChangeValidity('spouse_name');
+      this.onChangeValidity('number_of_children');
+      this.onChangeValidity('profession');
+      this.onChangeValidity('workplace_or_institution');
+      this.onChangeValidity('designation');
 
-        this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
 
-        this.dialog = true;
-        console.log(response);
-      }.bind(this))
-      .catch(function(){
+      if( this.fathers_name_validity == 'valid' &&  this.mothers_name_validity == 'valid' && this.spouse_name_validity == 'valid' && this.number_of_children_validity == 'valid' &&  this.profession_validity == 'valid' && this.workplace_or_institution_validity == 'valid' && this.designation_validity == 'valid' ){
+
+
+
+
+        this.$axios.post( this.$store.getters.modelProfile_personal ,
+        {
+          purpose: 'personal',
+          id: this.$store.getters.getAllInfo.id ,
+          email: this.$store.getters.getAllInfo.email ,
+          fathers_name: this.$store.getters.getAllInfo.fathers_name,
+          mothers_name: this.$store.getters.getAllInfo.mother_name,
+          spouse_name: this.$store.getters.getAllInfo.spouse_name,
+          number_of_children: this.$store.getters.getAllInfo.number_of_children,
+          profession: this.$store.getters.getAllInfo.profession,
+          workplace_or_institution: this.$store.getters.getAllInfo.institution,
+          designation: this.$store.getters.getAllInfo.designation,
+        }
+        ).then(function(response){
+
+          this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+
+          this.dialog = true;
+          console.log(response);
+        }.bind(this))
+        .catch(function(){
         //console.log(error);
       }.bind(this));
-    },
+
+
+          this.status_text = 'All fields are valid';
+          this.dialog = true ;
+        }else{
+          this.status_text = 'invalid fields detected';
+          this.dialog = true ;
+        }
+
+
+      },
 
 
 
@@ -220,41 +244,99 @@ export default {
       },*/
       onChangeValidity(inputName){
         //console.log(this.fathers_name);
-        if(inputName == 'fathers_name'){
-          //console.log(this.fathers_name);
+        if(inputName == 'fathers_name'){ 
+
+          const errors = [];
+          
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.fathers_name);
-          result == false ? this.fathers_name_validity = 'invalid' : this.fathers_name_validity = 'valid';
+          
+          result == false ? ( this.fathers_name_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.fathers_name_validity = 'valid';
+
+          return errors;
+
+
         }else if(inputName == 'mothers_name'){
           //console.log(this.mothers_name);
+          const errors = [];
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.mothers_name);
-          result == false ? this.mothers_name_validity = 'invalid' : this.mothers_name_validity = 'valid';
+          
+          result == false ? ( this.mothers_name_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.mothers_name_validity = 'valid';
+
+          return errors;
+
         }else if(inputName == 'spouse_name'){
           //console.log(this.spouse_name);
+          
+          const errors = [];
+
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.spouse_name);
-          result == false ? this.spouse_name_validity = 'invalid' : this.spouse_name_validity = 'valid';
+
+          
+          result == false ? ( this.spouse_name_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.spouse_name_validity = 'valid';
+
+          return errors;
+
         }else if(inputName == 'number_of_children'){
           //console.log(this.number_of_children);
+
+          const errors = [];
+
+
           let patt= /^[\d]{1,2}$/g;
           let result = patt.test(this.number_of_children);
-          result == false ? this.number_of_children_validity = 'invalid' : this.number_of_children_validity = 'valid';
+          
+     
+          result == false ? ( this.number_of_children_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.number_of_children_validity = 'valid';
+
+          return errors;
+
         }else if(inputName == 'profession'){
           //console.log(this.profession);
+
+          const errors = [];
+
+
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.profession);
-          result == false ? this.profession_validity = 'invalid' : this.profession_validity = 'valid';
+      
+          result == false ? ( this.profession_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.profession_validity = 'valid';
+
+
+          return errors;
+
         }else if(inputName == 'workplace_or_institution'){
-          //console.log(this.workplace_or_institution);
+
+
+          const errors = [];
+
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.workplace_or_institution);
-          result == false ? this.workplace_or_institution_validity = 'invalid' : this.workplace_or_institution_validity = 'valid';
+
+         
+          result == false ? ( this.workplace_or_institution_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.workplace_or_institution_validity = 'valid';
+
+
+          return errors;
+
         }else if(inputName == 'designation'){
           //console.log(this.designation);
+
+          const errors = [];
+
+
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.designation);
-          result == false ? this.designation_validity = 'invalid' : this.designation_validity = 'valid';
+          
+
+          result == false ? ( this.designation_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.designation_validity = 'valid';
+
+
+
+          return errors;
+
         }
       }
     },
