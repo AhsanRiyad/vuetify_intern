@@ -14,7 +14,7 @@
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers2" :key="n">
 
-					<v-btn class="px-4"  :color="items[n].color" @click="changeComponent(items[n].name , n)"
+					<v-btn class="px-4"  :disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , n)" 
 					> {{items[n].title }} </v-btn>
 					
 				</v-col>
@@ -41,7 +41,7 @@ export default {
 			{ title: 'BASIC', name: 'profile_basic' , color: 'primary' },
 			{ title: 'PERSONAL', name: 'profile_personal' , color: 'primary' },
 			{ title: 'ADDRESS', name: 'profile_address' , color: 'primary' },
-			{ title: 'PHOTO', name: 'profile_photo' , color: 'primary' },
+			{ title: 'PHOTO', name: 'profile_photo_upload' , color: 'primary' },
 			{ title: 'CHANGE EMAIL', name: 'profile_change_email' , color: 'primary' },
 			{ title: 'CHANGE PASSWORD', name: 'profile_change_password' , color: 'primary' },
 			],
