@@ -47,7 +47,7 @@
           :error-messages="onChangeValidity('blood_group')"
           ></v-select>
 
-          <v-menu 
+          <v-menu
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
@@ -57,31 +57,27 @@
           min-width="290px"
           >
           <template v-slot:activator="{ on }">
-            <v-text-field :error-messages="onChangeValidity('dob')"
-            v-model="dob"
-            label="Date of birth"
+            <v-text-field
+            v-model="date_of_birth"
+            label="Picker in menu"
             readonly
             v-on="on"
+            :error-messages="onChangeValidity('date_of_birth')"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="dob" no-title scrollable>
+          <v-date-picker v-model="date_of_birth" no-title scrollable>
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(dob)">OK</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(date_of_birth)">OK</v-btn>
           </v-date-picker>
         </v-menu>
+
+
+
         <br>
-        
-        <v-btn 
-        color="success"
-        class="my-4"
-        @click="submit()"
 
-        >
-        Update
-      </v-btn>
 
-      <slot></slot>
+        <slot></slot>
 
 
 
@@ -142,7 +138,7 @@
 export default {
   name: 'profile_basic',
   data: ()=>({
-    date_of_birth: '',
+    date_of_birth: new Date().toISOString().substr(0, 10),
     menu: false,
     modal: false,
     menu2: false,
@@ -178,7 +174,11 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.dob = this.$store.getters.getAllInfo.date_of_birth.toString();
+    this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1970-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
+
+
+
+
 
 
     this.full_name = this.$store.getters.getAllInfo.full_name;
@@ -205,7 +205,7 @@ export default {
        this.validityCheckInput('institution_id');
        this.validityCheckInput('nid_or_passport');
        this.onChangeValidity('blood_group');
-       this.onChangeValidity('dob');
+       this.onChangeValidity('date_of_birth');
 
        
        if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.dob_validity == 'valid' ){
@@ -259,14 +259,14 @@ export default {
 
           return errors;
 
-        }else if(inputName == 'dob'){
+        }else if(inputName == 'date_of_birth'){
 
           const errors = [];
           let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
-          let result = patt.test(this.dob);
+          let result = patt.test(this.date_of_birth);
           
           patt = /^([0-9]{4})/g;
-          const matches = this.dob.match(patt);
+          const matches = this.date_of_birth.match(patt);
           
 
 
