@@ -73,6 +73,9 @@ export const store = new Vuex.Store({
 		modelProfile_personal: state => {
 			return state.model.modelAddress+'profile_personal.php';
 		},
+		modelProfile_address: state => {
+			return state.model.modelAddress+'profile_address.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},
@@ -98,8 +101,8 @@ export const store = new Vuex.Store({
 					context.commit('set_user_info' , response.data);
 				}.bind(this))
 			.catch(function () {
-               
-            }.bind(this)); 
+				
+			}.bind(this)); 
 
 
 		}

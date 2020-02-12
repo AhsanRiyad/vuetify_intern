@@ -236,29 +236,83 @@ export default {
   },
   methods: {
 
-      /*getData(){
-        console.log( this.$store.getters.getAllInfo);
-
-      },*/
-      onChangeValidity(inputName){
-
-        if(inputName == 'present_line1'){
-
-
-          const errors = [];
-
-          let patt= /[A-Za-z.\S]{5,}/g;
-          let result = patt.test(this.present_line1);
-          
-          result == false ? ( this.present_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_line1_validity = 'valid';
-          
-
-          return errors;
+    submit(){
 
 
 
 
-        }else if(inputName == 'present_district'){
+      this.onChangeValidity('present_line1');
+      this.onChangeValidity('present_district');
+      this.onChangeValidity('present_post_code');
+      this.onChangeValidity('present_country');
+      this.onChangeValidity('permanent_line1');
+      this.onChangeValidity('permanent_district');
+      this.onChangeValidity('permanent_post_code');
+      this.onChangeValidity('permanent_country');
+      if(this.present_line1_validity == 'valid' && this.present_district_validity == 'valid' && this.present_country_validity == 'valid' && this.present_post_code_validity == 'valid' &&  this.permanent_line1_validity == 'valid' &&  this.permanent_district_validity == 'valid' &&  this.permanent_country_validity == 'valid' &&  this.permanent_post_code_validity == 'valid' ){
+
+        this.$axios.post( this.$store.getters.modelProfile_address ,
+        {
+          purpose: 'address1',
+          id: this.$store.getters.getAllInfo.id ,
+          email: this.$store.getters.getAllInfo.email ,
+          present_line1: this.present_line1,
+          present_district: this.present_district,
+          present_post_code: this.present_post_code,
+          present_country: this.present_country,
+          permanent_line1: this.permanent_line1,
+          permanent_district: this.permanent_district,
+          permanent_post_code: this.permanent_post_code,
+          permanent_country: this.permanent_country,
+
+        }
+        ).then(function(){
+
+          this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+          this.dialog = true;
+
+
+          this.$store.getters.getAllInfo.present_line1=this.present_line1;
+          this.$store.getters.getAllInfo.present_district=this.present_district;
+          this.$store.getters.getAllInfo.present_post_code=this.present_post_code;
+          this.$store.getters.getAllInfo.present_country=this.present_country;
+          this.$store.getters.getAllInfo.parmanent_line1=this.permanent_line1;
+          this.$store.getters.getAllInfo.parmanent_district=this.permanent_district;
+          this.$store.getters.getAllInfo.parmanent_post_code=this.permanent_post_code;
+          this.$store.getters.getAllInfo.parmanent_country=this.permanent_country;
+
+        }.bind(this))
+        .catch(function(){
+        }.bind(this));
+        this.status_text = 'all fields are valid';
+        this.dialog = true;
+      }else {
+        this.status_text = 'all fields are not valid';
+        this.dialog = true;
+      }
+
+    },
+
+
+    onChangeValidity(inputName){
+
+      if(inputName == 'present_line1'){
+
+
+        const errors = [];
+
+        let patt= /[A-Za-z.\S]{5,}/g;
+        let result = patt.test(this.present_line1);
+
+        result == false ? ( this.present_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_line1_validity = 'valid';
+
+
+        return errors;
+
+
+
+
+      }else if(inputName == 'present_district'){
           //console.log(this.present_district);
 
 
@@ -355,45 +409,6 @@ export default {
         }
       }
     },
-    submit(){
-        //alert(this.blood_group);
+  }
 
-        this.validityCheckInput('full_name');
-        this.validityCheckInput('mobile');
-        this.validityCheckInput('institution_id');
-        this.validityCheckInput('nid_or_passport');
-        this.onChangeValidity('blood_group');
-        this.onChangeValidity('date_of_birth');
-
-        if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.date_of_birth_validity == 'valid' ){
-
-          this.$axios.post( this.$store.getters.modelProfile_basic ,
-          {
-            purpose: 'basic',
-            full_name: this.full_name,
-            mobile: this.mobile,
-            institution_id: this.institution_id,
-            nid_or_passport: this.nid_or_passport,
-            blood_group: this.blood_group,
-            dob: this.date_of_birth,
-          }
-          ).then(function(){
-            this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
-            this.dialog = true;
-
-          }.bind(this))
-          .catch(function(){
-        //console.log(error);
-      }.bind(this));
-        }else{
-          this.status_text = 'all field are not valid';
-          this.dialog = true;
-          //alert('all filed are not valid');
-        }
-      },
-
-    }
-
-
-
-  </script>
+</script>
