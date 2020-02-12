@@ -4,23 +4,23 @@
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
 
-          <v-text-field
 
+          <v-text-field
+          
           label="Name"
           type="text"
-
-
           v-model="full_name"
-
-          :error-messages="onChangeValidity('full_name')"
+          :error-messages="validityCheckInput('full_name')"
+          
           ></v-text-field>
+
 
           <v-text-field
           v-model="institution_id"
           
           label="Institution ID"
           type="text"
-          :error-messages="onChangeValidity('institution_id')"
+          :error-messages="validityCheckInput('institution_id')"
           ></v-text-field>
 
 
@@ -29,7 +29,7 @@
           
           label="Mobile"
           type="text"
-          :error-messages="onChangeValidity('mobile')"
+          :error-messages="validityCheckInput('mobile')"
           ></v-text-field>
           
           <v-text-field
@@ -57,32 +57,33 @@
           min-width="290px"
           >
           <template v-slot:activator="{ on }">
-            <v-text-field :error-messages="onChangeValidity('date_of_birth')"
-            v-model="date_of_birth"
+            <v-text-field :error-messages="onChangeValidity('dob')"
+            v-model="dob"
             label="Date of birth"
             readonly
             v-on="on"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="date_of_birth" no-title scrollable>
+          <v-date-picker v-model="dob" no-title scrollable>
             <v-spacer></v-spacer>
             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-            <v-btn text color="primary" @click="$refs.menu.save(date_of_birth)">OK</v-btn>
+            <v-btn text color="primary" @click="$refs.menu.save(dob)">OK</v-btn>
           </v-date-picker>
         </v-menu>
-
+        <br>
+        
         <v-btn 
         color="success"
         class="my-4"
         @click="submit()"
-        :loading="loading"
+
         >
         Update
       </v-btn>
 
-      <br>
-
       <slot></slot>
+
+
 
 <!-- 
   <v-btn @click="getData()"
@@ -167,17 +168,17 @@ export default {
     institution_id_validity: '',
     password_validity: '',
     registratrion_status: 'default',
-    loading: false,
-    items: ['A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-']
+    loading: true,
+    items: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-']
   }), 
 
   created(){
 
-     // this.setAllInfo();
+    // this.setAllInfo();
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString();
+    this.dob = this.$store.getters.getAllInfo.date_of_birth.toString();
 
 
     this.full_name = this.$store.getters.getAllInfo.full_name;
@@ -193,148 +194,140 @@ export default {
     // alert(this.$store.getters.getAllInfo.date_of_birth);
 
   },
-  methods: {
-
-   submit(){
-       //alert(this.blood_group);
+  methods: {  
+    submit(){
+       // alert(this.blood_group);
        // console.log(this.$store.getters.getAllInfo.email);
 
+       //alert(this.blood_group);
+       this.validityCheckInput('full_name');
+       this.validityCheckInput('mobile');
+       this.validityCheckInput('institution_id');
+       this.validityCheckInput('nid_or_passport');
+       this.onChangeValidity('blood_group');
+       this.onChangeValidity('dob');
+
+       
+       if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.dob_validity == 'valid' ){
 
 
-        //alert(this.blood_group);
+        this.$axios.post( this.$store.getters.modelProfile_basic ,
+        {
+          id: this.$store.getters.getAllInfo.id ,
+          email: this.$store.getters.getAllInfo.email ,
+          purpose: 'basic',
+          full_name: this.full_name,
+          mobile: this.mobile,
+          institution_id: this.institution_id,
+          nid_or_passport: this.nid_or_passport,
+          blood_group: this.blood_group,
+          dob: this.date_of_birth,
+        }
+        ).then(function(result){
 
-      
+          console.log(result);
+          this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+          this.dialog = true;
 
-          this.$axios.post( this.$store.getters.modelProfile_basic ,
-          {
-            id: this.$store.getters.getAllInfo.id ,
-            email: this.$store.getters.getAllInfo.email ,
-            purpose: 'basic',
-            full_name: this.full_name,
-            mobile: this.mobile,
-            institution_id: this.institution_id,
-            nid_or_passport: this.nid_or_passport,
-            blood_group: this.blood_group,
-            dob: this.date_of_birth,
-          }
-          ).then(function(result){
-
-            console.log(result);
-            this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
-            this.dialog = true;
-
-          }.bind(this))
-          .catch(function(){
+        }.bind(this))
+        .catch(function(){
         //console.log(error);
       }.bind(this));
-        
-      },
+
+      }else{
+        this.status_text = 'all field are not valid';
+        this.dialog = true;
+
+      }
+
+    },
 
       /*getData(){
         console.log( this.$store.getters.getAllInfo);
 
       },*/
       onChangeValidity(inputName){
-        if(inputName == 'full_name'){
-        // console.log(this.$refs.full_name.value);
-        let patt= /[A-Za-z.\s]{5,}/g;
-        let result = patt.test(this.full_name);
-        if(!result){
-          let errors = [];
-          errors.push('Name at least 6 characters');
-          this.full_name_validity = 'invalid'
+
+        if(inputName == 'blood_group'){
+
+          const errors = [];
+          
+          let patt= /[+-A-O]{1,3}/g;
+          let result = patt.test(this.blood_group);
+
+          result == false ? ( this.blood_group_validity = 'invalid' , errors.push('DOB is Not Valid') )   : this.blood_group_validity = 'valid';
+
           return errors;
-        }else{
-          this.full_name_validity = 'valid';
-          let errors = [];
-          errors.push(true);
-        }
-      }else if(inputName == 'institution_id'){
-        // console.log(this.institution_id);
-        let patt= /[A-Za-z\S]{5,}/g;
-        let result = patt.test(this.institution_id);
 
-        
-        if(!result){
-          let errors = [];
-          errors.push('id atleast 5 characters');
-          this.institution_id_validity = 'invalid'
+        }else if(inputName == 'dob'){
+
+          const errors = [];
+          let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
+          let result = patt.test(this.dob);
+          
+          patt = /^([0-9]{4})/g;
+          const matches = this.dob.match(patt);
+          
+
+
+          if(result == true && matches[0]>1950 && matches[0] <2000){
+            this.dob_validity = 'valid';
+          }else{
+            this.dob_validity = 'invalid';
+            errors.push('DOB is Not Valid')
+          }
+
           return errors;
-        }else{
-          this.institution_id_validity = 'valid';
-          let errors = [];
-          errors.push(false);
-        }
-
-
-      }else if(inputName == 'mobile'){
-        // console.log(this.mobile);
-        let patt= /[+]{0,1}[\d]{11,}/g;
-        let result = patt.test(this.mobile);
-
-        if(!result){
-          let errors = [];
-          errors.push('mobile number must be alteast 11 digit');
-          this.mobile_validity = 'invalid'
-          return errors;
-        }else{
-          this.mobile_validity = 'valid';
-        }
-
-      }else if(inputName == 'nid_or_passport'){
-
-        let patt= /[\S]{10,}/g;
-        let result = patt.test(this.nid_or_passport);
-
-        result == false ? this.nid_or_passport_validity = 'invalid' : this.nid_or_passport_validity = 'valid';
-
-        if(!result){
-          let errors = [];
-          errors.push('invalid nid or passport number');
-          this.nid_or_passport_validity = 'invalid'
-          return errors;
-        }else{
-          this.nid_or_passport_validity = 'valid';
-        }
-      }else if(inputName == 'blood_group'){
-
-        let patt= /[+-A-O]{1,3}/g;
-        let result = patt.test(this.blood_group);
-
-
-        if(!result){
-          let errors = [];
-          errors.push('invalid nid or passport number');
-          this.blood_group_validity = 'invalid'
-          return errors;
-        }else{
-          this.blood_group_validity = 'valid';
-        }
-
-
-
-      }else if(inputName == 'date_of_birth'){
-        //alert(this.date_of_birth);
-        let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
-        let result = patt.test(this.date_of_birth);
-
-        patt = /^([0-9]{4})/g;
-        const matches = this.date_of_birth.match(patt);
-
-        if(result == true && matches[0]>1950 && matches[0] <2000){
-          this.date_of_birth_validity = 'valid';
-        }else{
-          let errors = [];
-          errors.push('invalid date of birth');
-          this.date_of_birth_validity = 'invalid'
-          return errors;
-        }
 
           //result == false ? this.dob_validity = 'invalid' : this.dob_validity = 'valid';
         }
+      },
+      validityCheckInput( inputName  ){
+
+        if(inputName == 'full_name'){
+          const errors = [];
+          let patt= /[A-Za-z.\s]{5,}/g;
+          let result = patt.test(this.full_name);
+
+          result == false ? ( this.full_name_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.full_name_validity = 'valid';
+
+          return errors;
+
+        }else if(inputName == 'mobile'){
+
+          const errors = [];
+          let patt= /[+]{0,1}[\d]{11,}/g;
+          let result = patt.test(this.mobile);
+
+          result == false ? ( this.mobile_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.mobile_validity = 'valid';
+
+          return errors;
+
+        }else if(inputName == 'institution_id'){
+
+          const errors = [];
+          let patt= /[\S]{5,}/g;
+          let result = patt.test(this.institution_id);
+
+          result == false ? ( this.institution_id_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.institution_id_validity = 'valid';
+
+          return errors;
+
+
+        }else if(inputName == 'nid_or_passport'){
+
+          const errors = [];
+          let patt= /[\S]{10,}/g;
+          let result = patt.test(this.nid_or_passport);
+
+          result == false ? ( this.nid_or_passport_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.nid_or_passport_validity = 'valid';
+
+          return errors;
+
+        }
       }
     }
-    
+
 
   }
 

@@ -1,0 +1,7 @@
+ label="Name"
+ type="text"
+ :hint="full_name_hint"
+ v-model="full_name"
+ :persistent-hint="full_name_persistant_hint"
+ :loading="full_name_loading"
+ @keyup="validityCheckInput('full_name')"
