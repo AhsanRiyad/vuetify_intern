@@ -180,7 +180,7 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1570-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
+    this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1949-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
 
 
 
@@ -234,6 +234,17 @@ export default {
           console.log(result);
           this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
           this.dialog = true;
+
+
+
+          this.$store.getters.getAllInfo.full_name = this.full_name;
+          this.$store.getters.getAllInfo.mobile = this.mobile;
+          this.$store.getters.getAllInfo.institution_id = this.institution_id;
+          this.$store.getters.getAllInfo.nid_or_passport = this.nid_or_passport;
+          this.$store.getters.getAllInfo.blood_group = this.blood_group;
+          this.$store.getters.getAllInfo.date_of_birth = this.date_of_birth;
+
+
 
         }.bind(this))
         .catch(function(){

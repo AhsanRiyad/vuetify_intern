@@ -4,7 +4,6 @@
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
 					
-					<p v-bind:class="{ 'red--text': redText, 'green--text': greenText }">{{ email_validity }}</p>
 					<v-text-field
 					@keyup.enter="submit()"
 					v-model="email"
@@ -145,36 +144,38 @@ export default {
 
 		},
 		onChangeValidity(inputName){
-			if(inputName == 'email'){ let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-			let result_email = patt_email.test(this.email);
 
-			if(!result_email){
-				let errors = [];
-				errors.push('email error');
-				this.email_validity = 'invalid'
-				return errors;
-			}else{
-				this.email_validity = 'valid';
-			}
-			if(result_email== false){
-				this.redText = true;
-				this.greenText = false;
-			}else{
-				this.greenText = true;
-				this.redText = false;
-			}
+			
 
-		}else if(inputName == 'password'){
-			var patt= /[\S]{6,}/g;
-			var result = patt.test(this.password);
-			result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
-		}
-	},
-	submit(){
-		this.loading = true;
-		if(this.email_validity == 'valid' && this.password_validity == 'valid'){
-			if(md5(this.password) == this.$store.getters.getAllInfo.password){
+			if(inputName == 'email'){ 
+
+				const errors = [];
 				
+				let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+				let result_email = patt_email.test(this.email);
+
+				if(!result_email){
+					this.email_validity = 'invalid'
+					errors.push('email error');
+				}else{
+					this.email_validity = 'valid';
+				}
+
+				return errors;
+
+			}else if(inputName == 'password'){
+
+
+				var patt= /[\S]{6,}/g;
+				var result = patt.test(this.password);
+				result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
+			}
+		},
+		submit(){
+			this.loading = true;
+			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
+				if(md5(this.password) == this.$store.getters.getAllInfo.password){
+
 				/*this.setCookie('email' , this.email , 7);
 				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);*/
 				this.$cookies.set('email' , this.email);

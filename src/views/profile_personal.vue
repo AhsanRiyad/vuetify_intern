@@ -18,6 +18,7 @@
           type="text"
           :error-messages="onChangeValidity('mothers_name')"
           ></v-text-field>
+          
 
 
           <v-text-field
@@ -69,6 +70,7 @@
         <br>
 
         <slot></slot>
+
 
 <!-- 
   <v-btn @click="getData()"
@@ -146,14 +148,14 @@ export default {
     profession: '',
     workplace_or_institution: '',
     designation: '',
-    designation_validity: false,
-    fathers_name_validity: false,
-    mothers_name_validity: false,
-    spouse_name_validity: false,
-    number_of_children_validity: false,
-    dob_validity: false,
-    profession_validity: false,
-    workplace_or_institution_validity: false,
+    designation_validity: 'invalid',
+    fathers_name_validity: 'invalid',
+    mothers_name_validity: 'invalid',
+    spouse_name_validity: 'invalid',
+    number_of_children_validity: 'invalid',
+    dob_validity: 'invalid',
+    profession_validity: 'invalid',
+    workplace_or_institution_validity: 'invalid',
     users_info: '',
     submit_disabled: false,
     type: '',
@@ -166,8 +168,7 @@ export default {
     // this.full_name = this.$store.getters.getAllInfo.full_name;
 
 
-    this.fathers_name = this.$store.getters.getAllInfo.fathers_name.toString();
-
+    this.fathers_name = this.$store.getters.getAllInfo.fathers_name;
 
     this.mothers_name = this.$store.getters.getAllInfo.mother_name;
     this.spouse_name = this.$store.getters.getAllInfo.spouse_name;
@@ -198,43 +199,52 @@ export default {
 
       if( this.fathers_name_validity == 'valid' &&  this.mothers_name_validity == 'valid' && this.spouse_name_validity == 'valid' && this.number_of_children_validity == 'valid' &&  this.profession_validity == 'valid' && this.workplace_or_institution_validity == 'valid' && this.designation_validity == 'valid' ){
 
-
-
-
         this.$axios.post( this.$store.getters.modelProfile_personal ,
         {
           purpose: 'personal',
           id: this.$store.getters.getAllInfo.id ,
           email: this.$store.getters.getAllInfo.email ,
-          fathers_name: this.$store.getters.getAllInfo.fathers_name,
-          mothers_name: this.$store.getters.getAllInfo.mother_name,
-          spouse_name: this.$store.getters.getAllInfo.spouse_name,
-          number_of_children: this.$store.getters.getAllInfo.number_of_children,
-          profession: this.$store.getters.getAllInfo.profession,
-          workplace_or_institution: this.$store.getters.getAllInfo.institution,
-          designation: this.$store.getters.getAllInfo.designation,
+          fathers_name: this.fathers_name,
+          mothers_name: this.mothers_name,
+          spouse_name: this.spouse_name,
+          number_of_children: this.number_of_children,
+          profession: this.profession,
+          workplace_or_institution: this.workplace_or_institution,
+          designation: this.designation,
         }
-        ).then(function(response){
+        ).then(function(){
 
           this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
 
           this.dialog = true;
-          console.log(response);
+          
+
+
+          this.$store.getters.getAllInfo.fathers_name = this.fathers_name ;
+          this.$store.getters.getAllInfo.mother_name = this.mothers_name ;
+          this.$store.getters.getAllInfo.spouse_name = this.spouse_name ;
+          this.$store.getters.getAllInfo.number_of_children = this.number_of_children ;
+          this.$store.getters.getAllInfo.profession = this.profession ;
+          this.$store.getters.getAllInfo.institution = this.workplace_or_institution ;
+          this.$store.getters.getAllInfo.designation = this.designation ;
+
+          
+
         }.bind(this))
         .catch(function(){
         //console.log(error);
       }.bind(this));
 
 
-          this.status_text = 'All fields are valid';
-          this.dialog = true ;
-        }else{
-          this.status_text = 'invalid fields detected';
-          this.dialog = true ;
-        }
+        this.status_text = 'All fields are valid';
+        this.dialog = true ;
+      }else{
+        this.status_text = 'invalid fields detected';
+        this.dialog = true ;
+      }
 
 
-      },
+    },
 
 
 
@@ -257,7 +267,9 @@ export default {
 
 
         }else if(inputName == 'mothers_name'){
-          //console.log(this.mothers_name);
+          // console.log(this.mothers_name);
+
+
           const errors = [];
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.mothers_name);
@@ -288,7 +300,7 @@ export default {
           let patt= /^[\d]{1,2}$/g;
           let result = patt.test(this.number_of_children);
           
-     
+
           result == false ? ( this.number_of_children_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.number_of_children_validity = 'valid';
 
           return errors;
@@ -301,7 +313,7 @@ export default {
 
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.profession);
-      
+
           result == false ? ( this.profession_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.profession_validity = 'valid';
 
 
@@ -315,7 +327,7 @@ export default {
           let patt= /[A-Za-z.\s]{5,}/g;
           let result = patt.test(this.workplace_or_institution);
 
-         
+
           result == false ? ( this.workplace_or_institution_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.workplace_or_institution_validity = 'valid';
 
 

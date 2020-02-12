@@ -8,8 +8,6 @@
 
           label="Present Address Line 1"
           type="text"
-
-
           v-model="present_line1"
 
           :error-messages="onChangeValidity('present_line1')"
@@ -55,52 +53,52 @@
           
           <v-text-field
 
-          label="Present Address Line 1"
+          label="permanent Address Line 1"
           type="text"
 
 
-          v-model="present_line1"
+          v-model="permanent_line1"
 
-          :error-messages="onChangeValidity('present_line1')"
+          :error-messages="onChangeValidity('permanent_line1')"
           ></v-text-field>
 
 
 
           <v-text-field
 
-          label="Present post code"
+          label="permanent post code"
           type="text"
 
 
-          v-model="present_post_code"
+          v-model="permanent_post_code"
 
-          :error-messages="onChangeValidity('present_post_code')"
+          :error-messages="onChangeValidity('permanent_post_code')"
           ></v-text-field>
 
 
 
           <v-text-field
 
-          label="Present district"
+          label="permanent district"
           type="text"
 
 
-          v-model="present_district"
+          v-model="permanent_district"
 
-          :error-messages="onChangeValidity('present_district')"
+          :error-messages="onChangeValidity('permanent_district')"
           ></v-text-field>
 
 
 
           <v-text-field
 
-          label="Present country"
+          label="permanent country"
           type="text"
 
 
-          v-model="present_country"
+          v-model="permanent_country"
 
-          :error-messages="onChangeValidity('present_country')"
+          :error-messages="onChangeValidity('permanent_country')"
           ></v-text-field>
 
           <v-btn 
@@ -225,10 +223,10 @@ export default {
     this.present_district= this.$store.getters.getAllInfo.present_district;
     this.present_post_code= this.$store.getters.getAllInfo.present_post_code;
     this.present_country= this.$store.getters.getAllInfo.present_country;
-    this.permanent_line1= this.$store.getters.getAllInfo.permanent_line1;
-    this.permanent_district= this.$store.getters.getAllInfo.permanent_district;
-    this.permanent_post_code= this.$store.getters.getAllInfo.permanent_post_code;
-    this.permanent_country= this.$store.getters.getAllInfo.permanent_country;
+    this.permanent_line1= this.$store.getters.getAllInfo.parmanent_line1;
+    this.permanent_district= this.$store.getters.getAllInfo.parmanent_district;
+    this.permanent_post_code= this.$store.getters.getAllInfo.parmanent_post_code;
+    this.permanent_country= this.$store.getters.getAllInfo.parmanent_country;
 
 
      // this.date_of_birth = new Date(this.$store.getters.getAllInfo.date_of_birth);
@@ -243,102 +241,117 @@ export default {
 
       },*/
       onChangeValidity(inputName){
-        if(inputName == 'full_name'){
-        // console.log(this.$refs.full_name.value);
-        let patt= /[A-Za-z.\s]{5,}/g;
-        let result = patt.test(this.full_name);
-        if(!result){
-          let errors = [];
-          errors.push('Name at least 6 characters');
-          this.full_name_validity = 'invalid'
+
+        if(inputName == 'present_line1'){
+
+
+          const errors = [];
+
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.present_line1);
+          
+          result == false ? ( this.present_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_line1_validity = 'valid';
+          
+
           return errors;
-        }else{
-          this.full_name_validity = 'valid';
-          let errors = [];
-          errors.push(true);
-        }
-      }else if(inputName == 'institution_id'){
-        // console.log(this.institution_id);
-        let patt= /[A-Za-z\S]{5,}/g;
-        let result = patt.test(this.institution_id);
 
-        
-        if(!result){
-          let errors = [];
-          errors.push('id atleast 5 characters');
-          this.institution_id_validity = 'invalid'
+
+
+
+        }else if(inputName == 'present_district'){
+          //console.log(this.present_district);
+
+
+          const errors = [];
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.present_district);
+          result == false ? ( this.present_district_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_district_validity = 'valid';
+          
+
           return errors;
-        }else{
-          this.institution_id_validity = 'valid';
-          let errors = [];
-          errors.push(false);
-        }
 
 
-      }else if(inputName == 'mobile'){
-        // console.log(this.mobile);
-        let patt= /[+]{0,1}[\d]{11,}/g;
-        let result = patt.test(this.mobile);
 
-        if(!result){
-          let errors = [];
-          errors.push('mobile number must be alteast 11 digit');
-          this.mobile_validity = 'invalid'
+        }else if(inputName == 'present_country'){
+          //console.log(this.present_country);
+
+          const errors = [];
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.present_country);
+          result == false ? ( this.present_country_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_country_validity = 'valid';
+          
+
           return errors;
-        }else{
-          this.mobile_validity = 'valid';
-        }
 
-      }else if(inputName == 'nid_or_passport'){
 
-        let patt= /[\S]{10,}/g;
-        let result = patt.test(this.nid_or_passport);
+        }else if(inputName == 'present_post_code'){
+          //console.log(this.present_post_code);
+          
 
-        result == false ? this.nid_or_passport_validity = 'invalid' : this.nid_or_passport_validity = 'valid';
+          const errors = [];
+          let patt= /[+]{0,1}[\d]{4,}/g;
+          let result = patt.test(this.present_post_code);
+          result == false ? ( this.present_post_code_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_post_code_validity = 'valid';
+          
 
-        if(!result){
-          let errors = [];
-          errors.push('invalid nid or passport number');
-          this.nid_or_passport_validity = 'invalid'
           return errors;
-        }else{
-          this.nid_or_passport_validity = 'valid';
-        }
-      }else if(inputName == 'blood_group'){
-
-        let patt= /[+-A-O]{1,3}/g;
-        let result = patt.test(this.blood_group);
 
 
-        if(!result){
-          let errors = [];
-          errors.push('invalid nid or passport number');
-          this.blood_group_validity = 'invalid'
+        }else if(inputName == 'permanent_line1'){
+
+
+          const errors = [];
+
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.permanent_line1);
+          
+          result == false ? ( this.permanent_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_line1_validity = 'valid';
+          
+
           return errors;
-        }else{
-          this.blood_group_validity = 'valid';
-        }
 
 
 
-      }else if(inputName == 'date_of_birth'){
-        //alert(this.date_of_birth);
-        let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
-        let result = patt.test(this.date_of_birth);
 
-        patt = /^([0-9]{4})/g;
-        const matches = this.date_of_birth.match(patt);
+        }else if(inputName == 'permanent_district'){
+          //console.log(this.permanent_district);
 
-        if(result == true && matches[0]>1950 && matches[0] <2000){
-          this.date_of_birth_validity = 'valid';
-        }else{
-          let errors = [];
-          errors.push('invalid date of birth');
-          this.date_of_birth_validity = 'invalid'
+
+          const errors = [];
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.permanent_district);
+          result == false ? ( this.permanent_district_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_district_validity = 'valid';
+          
+
           return errors;
-        }
 
-          //result == false ? this.dob_validity = 'invalid' : this.dob_validity = 'valid';
+
+
+        }else if(inputName == 'permanent_country'){
+          //console.log(this.permanent_country);
+
+          const errors = [];
+          let patt= /[A-Za-z.\S]{5,}/g;
+          let result = patt.test(this.permanent_country);
+          result == false ? ( this.permanent_country_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_country_validity = 'valid';
+          
+
+          return errors;
+
+
+        }else if(inputName == 'permanent_post_code'){
+          //console.log(this.permanent_post_code);
+          
+
+          const errors = [];
+          let patt= /[+]{0,1}[\d]{4,}/g;
+          let result = patt.test(this.permanent_post_code);
+          result == false ? ( this.permanent_post_code_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_post_code_validity = 'valid';
+          
+
+          return errors;
+
+
         }
       }
     },
