@@ -140,9 +140,7 @@
             this.status_text = 'email changed successfully';
 
             this.email_change_status = true;
-
-
-
+            
             this.$store.commit('loginFalse');
             this.$cookies.set('email', '');
             this.$cookies.set('crypto', '');

@@ -61,11 +61,11 @@ temporary
   >
 
 
-  <v-list-item-content>
-    <router-link  :to=' { name : `${item.name}` }' 
+  <v-list-item-content @click="titleChange(item.name)">
+    <router-link   :to=' { name : `${item.name}` }' 
     class="green py-3 my-n1 white--text text-center"
     :class=" $route.path == item.link ?  secondary = true : ''"
-    active-class = "secondary"
+    active-class = "secondary"  
     
     >
     <v-list-item-title  > {{ item.title }}</v-list-item-title>
@@ -83,12 +83,12 @@ temporary
 <script>
   export default {
     name: 'toolbar' ,
-
     data () {
       return {
         drawer: null,
         items: [
         { title: 'Profile', name: 'profile' , link: '/profile' },
+        { title: 'New User Request', name: 'new_user_request' , link: '/new_user_request' },
         { title: 'Logout',  name: 'login' , link: '/login'  },
         ],
         green : true,
@@ -99,6 +99,10 @@ temporary
     methods: {
       colorChange(){
         console.log('color change');
+      },
+      titleChange(name){
+
+        this.$store.commit('setPageTitle' , name);
       }
     }
     

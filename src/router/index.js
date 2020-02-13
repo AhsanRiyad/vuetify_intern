@@ -4,6 +4,7 @@ import login from '../views/Login.vue'
 import registration from '../views/Registration.vue'
 import profile_forgot_password from '../views/profile_forgot_password.vue'
 import profile from '../views/profile.vue'
+import new_user_request from '../views/new_user_request.vue'
 import test from '../views/test.vue'
 import { store } from '@/store/store'
 import VueCookies from 'vue-cookies'
@@ -82,6 +83,12 @@ const routes = [
   path: '/profile',
   name: 'profile',
   component: profile,
+  beforeEnter: requireAuth
+},
+{
+  path: '/new_user_request',
+  name: 'new_user_request',
+  component: new_user_request,
   beforeEnter: requireAuth
 },
 {

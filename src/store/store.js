@@ -24,6 +24,7 @@ export const store = new Vuex.Store({
 			modelAddress: 'http://www.localhost/model/model/',
 		},
 		upload_directory: {
+			rootDirectory: 'http://www.localhost/model/',
 			recentPhoto_directory: 'http://www.localhost/model/assets/img/uploads/recent_photos',
 			oldPhoto_directory: 'http://www.localhost/model/assets/img/uploads/old_photos',
 			groupPhoto_directory: 'http://www.localhost/model/assets/img/uploads/group_photos',
@@ -61,6 +62,9 @@ export const store = new Vuex.Store({
 		modelLogin: state => {
 			return state.model.modelAddress+'login.php';
 		},
+		modelAddress: state => {
+			return state.upload_directory.rootDirectory;
+		},
 		modelRegistration: state => {
 			return state.model.modelAddress+'registration.php';
 		},
@@ -84,6 +88,9 @@ export const store = new Vuex.Store({
 		},
 		modelProfile_change_email: state => {
 			return state.model.modelAddress+'profile_change_email.php';
+		},
+		modelnew_user_request: state => {
+			return state.model.modelAddress+'new_user_request.php';
 		},
 		getAllInfo: state => {
 			return state.user_info;
