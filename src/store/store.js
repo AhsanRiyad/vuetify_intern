@@ -79,6 +79,12 @@ export const store = new Vuex.Store({
 		modelProfile_photo_upload: state => {
 			return state.model.modelAddress+'profile_photo_upload.php';
 		},
+		modelProfile_change_password: state => {
+			return state.model.modelAddress+'profile_change_password.php';
+		},
+		modelProfile_change_email: state => {
+			return state.model.modelAddress+'profile_change_email.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},

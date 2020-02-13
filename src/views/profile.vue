@@ -28,11 +28,15 @@ import profile_basic from './profile_basic'
 import profile_personal from './profile_personal'
 import profile_address from './profile_address'
 import profile_photo_upload from './profile_photo_upload'
+import profile_change_password from './profile_change_password'
+import profile_change_email from './profile_change_email'
 
 export default {
   name: 'basic',
   components: { 'profile_basic': profile_basic  , 'buttons_for_profile': buttons_for_profile, 'profile_personal': profile_personal, 'profile_address': profile_address , 
     'profile_photo_upload': profile_photo_upload,
+    'profile_change_password': profile_change_password,
+    'profile_change_email': profile_change_email,
 }, 
 
   data: ()=>({}), 
