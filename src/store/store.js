@@ -76,6 +76,9 @@ export const store = new Vuex.Store({
 		modelProfile_address: state => {
 			return state.model.modelAddress+'profile_address.php';
 		},
+		modelProfile_photo_upload: state => {
+			return state.model.modelAddress+'profile_photo_upload.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},

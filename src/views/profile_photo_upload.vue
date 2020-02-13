@@ -12,7 +12,7 @@
           <v-btn 
           color="success"
           class="my-4"
-          @click="submit()"
+          @click="uploadPhoto_recent()"
 
           >
           Upload
@@ -23,18 +23,18 @@
         <v-btn 
         color="success"
         class="my-4"
-        @click="submit()"
+        @click="uploadPhoto_old()"
 
         >
         Upload
       </v-btn>
 
-      <v-file-input show-size accept="image/*" label="Group Photo"></v-file-input>
+      <v-file-input @change="handleFileUpload_group()" v-model="group_photo" show-size accept="image/*" label="Group Photo"></v-file-input>
 
       <v-btn 
       color="success"
       class="my-4"
-      @click="submit()"
+      @click="uploadPhoto_group()"
 
       >
       Upload
@@ -102,7 +102,7 @@
       recent_photo_name: 'choose file',
       old_photo: null,
       old_photo_name: 'choose file',
-      group_photo: '',
+      group_photo: null,
       group_photo_name: 'choose file',
       loading_recent_photo:false,
       loading_old_photo:false,
@@ -125,7 +125,7 @@
           formData.append('user_id', this.$store.getters.getAllInfo.id);
           // formData.append('email', 'riyad298@gmail.com');
           // formData.append('user_id', 1);
-          this.$axios.post( this.model.modelProfile_photo_upload ,
+          this.$axios.post( this.$store.getters.modelProfile_photo_upload, 
             formData,
             { 
               headers: {
@@ -136,6 +136,8 @@
               this.loading_recent_photo = false;
               response.data == 'success' ? this.status = 'upload successful' : this.status = 'problem uploading your photo, try again';
               
+              console.log(response);
+
               this.dialog = true;
               this.recent_photo_name = 'choose file';
               
@@ -157,7 +159,7 @@
         handleFileUpload_recent: function(){
 
 
-        if(this.recent_photo != null){
+          if(this.recent_photo != null){
 
 
 
@@ -169,7 +171,7 @@
           this.status = 'incorrect file type\n select again';
           this.dialog = true;
         }else if(this.recent_photo.size/1024/1024 > 1.5){
-          
+
           this.file_type = false;
           this.status = 'Size limit exceeds, maximum size 1.5MB';
           this.dialog = true;
@@ -181,22 +183,22 @@
         }
         
 
-        }
+      }
 
-      },
-      uploadPhoto_old: function(){
+    },
+    uploadPhoto_old: function(){
         //alert(this.csrf_token1);
         if(this.file_type == true){
           this.loading_old_photo = true;
           let formData = new FormData();
           formData.append('old_photo', this.old_photo);
           formData.append('purpose', 'old_photo');
-          formData.append('email', this.users_info__.email__);
-          formData.append('user_id', this.users_info__.id__);
+          formData.append('email', this.$store.getters.getAllInfo.email);
+          formData.append('user_id', this.$store.getters.getAllInfo.id);
           // formData.append('email', 'riyad298@gmail.com');
           // formData.append('user_id', 1);
           formData.append('csrf_token1', this.csrf_token1);
-          this.$axios.post( this.model.modelProfile_photo_upload,
+          this.$axios.post( this.$store.getters.modelProfile_photo_upload,
             formData,
             { 
               headers: {
@@ -229,10 +231,7 @@
         handleFileUpload_old: function(){
 
 
-        if(this.old_photo != null){
-
-
-
+          if(this.old_photo != null){
         //console.log(this.old_photo.size/1024/1024);
         var patt = /^(image\/){1}[A-Za-z]*/g;
         var result = patt.test(this.old_photo.type);
@@ -241,7 +240,7 @@
           this.status = 'incorrect file type\n select again';
           this.dialog = true;
         }else if(this.old_photo.size/1024/1024 > 1.5){
-          
+
           this.file_type = false;
           this.status = 'Size limit exceeds, maximum size 1.5MB';
           this.dialog = true;
@@ -253,22 +252,22 @@
         }
         
 
-        }
+      }
 
-      },
-      uploadPhoto_group: function(){
+    },
+    uploadPhoto_group: function(){
         //alert(this.csrf_token1);
         if(this.file_type == true){
           this.loading_group_photo = true;
           let formData = new FormData();
           formData.append('group_photo', this.group_photo);
           formData.append('purpose', 'group_photo');
-          formData.append('email', this.users_info__.email__);
-          formData.append('user_id', this.users_info__.id__);
+          formData.append('email', this.$store.getters.getAllInfo.email);
+          formData.append('user_id', this.$store.getters.getAllInfo.id);
           // formData.append('email', 'riyad298@gmail.com');
           // formData.append('user_id', 1);
           formData.append('csrf_token1', this.csrf_token1);
-          this.$axios.post( this.model.modelProfile_photo_upload,
+          this.$axios.post( this.$store.getters.modelProfile_photo_upload,
             formData,
             { 
               headers: {
@@ -298,9 +297,11 @@
         },
         handleFileUpload_group: function(){
         //alert('uploading files');
-        this.group_photo = this.$refs.group_photo.files[0];
+
+        if(this.group_photo != null){
+
+
         //console.log(this.group_photo.size/1024/1024);
-        //console.log(this.group_photo);
         var patt = /^(image\/){1}[A-Za-z]*/g;
         var result = patt.test(this.group_photo.type);
         if(!result){
@@ -308,20 +309,27 @@
           this.status = 'incorrect file type\n select again';
           this.dialog = true;
         }else if(this.group_photo.size/1024/1024 > 1.5){
+
           this.file_type = false;
           this.status = 'Size limit exceeds, maximum size 1.5MB';
           this.dialog = true;
-        }else{
+        }
+        else{
           this.file_type = true;
           this.group_photo_name = this.group_photo.name.slice(0,15);
-          this.group_photo = this.$refs.group_photo.files[0];
+          
         }
+        
+
+
+
       }
     }
-
-
-
   }
+
+
+
+}
 
 
 
