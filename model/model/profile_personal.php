@@ -30,7 +30,7 @@ function verify_change_request($user_id){
   $arrayAssoc;
   $i = 0;
   for($i =0; $i<count($stringToArrayKey); $i++){
-    
+
    $arrayAssoc[$stringToArrayKey[$i]] = $stringToArrayValue[$i];
  }
  $sql = "select last_verified_info from all_info_together where  id = ".$user_id." ";
@@ -65,16 +65,22 @@ $conn->close();
 
 if($d1->purpose == 'personal'){
 
-  $GLOBALS['id__'] = $d1->id;
+  $id__ = $d1->id;
   $email = $d1->email;
 
-  $fathers_name= $d1->fathers_name;
-  $mothers_name= $d1->mothers_name;
-  $spouse_name= $d1->spouse_name;
-  $number_of_children= $d1->number_of_children;
+  $fathers_name = $d1->fathers_name;
+  $mothers_name = $d1->mothers_name;
+  $spouse_name = $d1->spouse_name;
+  $number_of_children = $d1->number_of_children;
   $profession = $d1->profession;
-  $workplace_or_institution= $d1->workplace_or_institution;
-  $designation= $d1->designation;
+  $workplace_or_institution = $d1->workplace_or_institution;
+  $designation = $d1->designation;
+
+
+  
+
+  // echo json_encode($d1);
+
 
   $conn = get_mysqli_connection();
   $sql = "select `full_name`, `mobile`, `institution_id`,  `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country` from all_info_together where  id = ".$id__."";
@@ -102,9 +108,7 @@ if($d1->purpose == 'personal'){
 
   verify_change_request($id__);
 
-
   echo $row['st'];
-
 
 
 }else if($d1->purpose == 'getProfileBasicInfo'){

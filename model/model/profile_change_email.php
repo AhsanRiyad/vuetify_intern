@@ -12,7 +12,8 @@ $d1 = json_decode($data);
 
 if($d1->purpose == 'email'){
 
-
+  $email__ = $d1->email_old;
+  $id__ = $d1->id;
   $email1 = $d1->email;
 
 	//echo $email1;
@@ -53,8 +54,9 @@ if($d1->purpose == 'email'){
 }else if($d1->purpose == 'changeEmail'){
 
 
-
-
+  $email__ = $d1->email_old;
+  $id__ = $d1->id;
+  
   $email = $d1->email;
   $otp = $d1->otp;
   $conn = get_mysqli_connection();
@@ -86,6 +88,7 @@ if($d1->purpose == 'email'){
 }else if($d1->purpose == 'verify_email_otp'){
 
 
+  // $email__ = $d1->email_old;
   $verify_email_otp = $d1->verify_email_otp;
   $purpose = $d1->purpose;
 	// $otp = $d1->verify_email_otp;

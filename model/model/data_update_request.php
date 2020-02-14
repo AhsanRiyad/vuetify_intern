@@ -81,6 +81,7 @@ if($d2->purpose=='get_change_req_user'){
 
 	$array =  explode('@#$' , $row['last_verified_info']);
 //desired array
+	
 	$arrayKey_from_database =  $stringToArrayKey_from_verified_info = explode(',' , $array[0] );
 	$arrayValue_from_database = $stringToArrayValue_from_verified_info = explode(',' , $array[1] );
 	$arrayNew = [];

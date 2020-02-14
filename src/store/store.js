@@ -92,6 +92,9 @@ export const store = new Vuex.Store({
 		modelnew_user_request: state => {
 			return state.model.modelAddress+'new_user_request.php';
 		},
+		modeldata_update_request: state => {
+			return state.model.modelAddress+'data_update_request.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},

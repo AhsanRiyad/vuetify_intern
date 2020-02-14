@@ -6,7 +6,7 @@ use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 require $APP_ROOT.'vendor/autoload.php';
 
-$optimizerChain = OptimizerChainFactory::create();
+// $optimizerChain = OptimizerChainFactory::create();
 
 $purpose_type =  $_POST['purpose'];
 $conn = get_mysqli_connection();
@@ -38,7 +38,7 @@ if($purpose_type == 'group_photo'){
 	$target_file = $target_dir . $base_name;
 	move_uploaded_file($_FILES[$purpose_type]["tmp_name"], $target_file) ;
 
-	$optimizerChain->optimize($target_file);
+	
 
 	$sql = "call upload_photo( ? , ? , ? , ?, @existing_file_name , @result )";
 	$stmt = $conn->prepare($sql);
@@ -76,7 +76,7 @@ if($purpose_type == 'group_photo'){
 	}
 
 	move_uploaded_file($_FILES[$purpose_type]["tmp_name"], $target_file) ;
-	$optimizerChain->optimize($target_file);
+	
 	$sql = "call upload_photo( ? , ? , ? , ?, @existing_file_name , @result )";
 	$stmt = $conn->prepare($sql);
 	$stmt->bind_param('sssi' , $purpose_type ,  $base_name , $email, $user_id );

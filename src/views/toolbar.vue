@@ -89,6 +89,7 @@ temporary
         items: [
         { title: 'Profile', name: 'profile' , link: '/profile' },
         { title: 'New User Request', name: 'new_user_request' , link: '/new_user_request' },
+        { title: 'Data Update Request', name: 'data_update_request' , link: '/data_update_request' },
         { title: 'Logout',  name: 'login' , link: '/login'  },
         ],
         green : true,

@@ -81,6 +81,11 @@ if(count($arrayNew)==0){
 
 
 if($d1->purpose == 'address1'){
+
+
+  $id__= $d1->id;
+  $email= $d1->email;
+  
   $present_line1= $d1->present_line1;
   $present_district= $d1->present_district;
   $present_post_code= $d1->present_post_code;

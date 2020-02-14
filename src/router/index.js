@@ -5,6 +5,7 @@ import registration from '../views/Registration.vue'
 import profile_forgot_password from '../views/profile_forgot_password.vue'
 import profile from '../views/profile.vue'
 import new_user_request from '../views/new_user_request.vue'
+import data_update_request from '../views/data_update_request.vue'
 import test from '../views/test.vue'
 import { store } from '@/store/store'
 import VueCookies from 'vue-cookies'
@@ -89,6 +90,12 @@ const routes = [
   path: '/new_user_request',
   name: 'new_user_request',
   component: new_user_request,
+  beforeEnter: requireAuth
+},
+{
+  path: '/data_update_request',
+  name: 'data_update_request',
+  component: data_update_request,
   beforeEnter: requireAuth
 },
 {

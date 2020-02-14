@@ -15,7 +15,8 @@ if($d1->purpose == 'password'){
   $password1= md5($d1->password);
 
 	//echo $password1;
-
+  $id__ = $d1->id;
+  $email = $d1->email;
   $conn = get_mysqli_connection();
   $sql = "call update_profile_password( ? , ? , @result)";
   $stmt = $conn->prepare($sql);
