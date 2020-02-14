@@ -21,13 +21,13 @@ export const store = new Vuex.Store({
 		},
 		user_info: '',
 		model:{
-			modelAddress: 'http://www.localhost/model/model/',
+			modelAddress: 'http://ndc92spa.riyadahsan.xyz/model/model/',
 		},
 		upload_directory: {
-			rootDirectory: 'http://www.localhost/model/',
-			recentPhoto_directory: 'http://www.localhost/model/assets/img/uploads/recent_photos',
-			oldPhoto_directory: 'http://www.localhost/model/assets/img/uploads/old_photos',
-			groupPhoto_directory: 'http://www.localhost/model/assets/img/uploads/group_photos',
+			rootDirectory: 'http://ndc92spa.riyadahsan.xyz/model/',
+			recentPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/assets/img/uploads/recent_photos',
+			oldPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/assets/img/uploads/old_photos',
+			groupPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/assets/img/uploads/group_photos',
 		},
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',

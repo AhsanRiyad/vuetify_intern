@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar 
-    color="deep-purple accent-4"
+    color="deep-purple accent-4" 
     dark
     >
     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -10,7 +10,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn icon>
+    <v-btn @click="titleChange('Search')" icon router :to="{ name : 'search' }">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
 
@@ -61,7 +61,7 @@ temporary
   >
 
 
-  <v-list-item-content @click="titleChange(item.name)">
+  <v-list-item-content @click="titleChange(item.title)">
     <router-link   :to=' { name : `${item.name}` }' 
     class="green py-3 my-n1 white--text text-center"
     :class=" $route.path == item.link ?  secondary = true : ''"
@@ -85,6 +85,7 @@ temporary
     name: 'toolbar' ,
     data () {
       return {
+        absolute: true,
         drawer: null,
         items: [
         { title: 'Profile', name: 'profile' , link: '/profile' },
