@@ -34,6 +34,19 @@
         </v-col>
 
 
+        <v-col cols="12">
+
+
+          <v-progress-linear 
+          :indeterminate="indeterminate"
+          :color="progress_color"
+          ></v-progress-linear>
+
+
+        </v-col>
+
+
+
       </v-row>
 
 
@@ -60,7 +73,15 @@
                 <td> {{ user.membership_number }} </td>
                 <td> {{ user.institution_id }} </td>
                 
-               
+                <td>
+
+                </td>
+
+
+                <td>
+                  <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
+                </td>
+
 
 
 
@@ -88,11 +109,15 @@
 
 <script>
 
+  import get_details from '@/views/get_details.vue'
+  
 
 
   export default {
     name: 'search',
-    
+    components: {
+      'get_details': get_details
+    },
     data: ()=>({
       category: 'Full Name',
       category_items: [
@@ -100,8 +125,11 @@
       'Institution ID',
       'Membership Number',
       ],
+      indeterminate: false,
+      progress_hidden: true,
+      progress_color: 'white',
       search_text: '',
-      user_list : [] , 
+      user_list : [], 
       array_size: true ,
       users_info_as_props: {},
     }),
@@ -109,20 +137,13 @@
 
       getFilteredArray(){
 
-
-
         let arrayNew =  this.user_list.filter( (value) => {
 
          return this.$store.getters.getAllInfo.id != value.id && value.email != 'admin@admin.com' ;
 
        });
 
-
-
         // this.user_list = arrayNew;
-      
-        
-
         return arrayNew;
 
 
@@ -140,7 +161,9 @@
       search(){
         //console.log(this.search_text);
         //console.log(this.category);
-
+        this.indeterminate = true;
+        this.progress_hidden=false;
+        this.progress_color = 'red';
         this.$axios.post( this.$store.getters.modelSearch ,
         {
           purpose: this.category ,
@@ -155,19 +178,32 @@
           if(response.data.length == 1){
             this.user_list = []; 
             this.user_list[0] =  JSON.parse(response.data);
+
+            // this.$store.commit('setSearchResult' , this.user_list[0]);
+
             // console.log(this.user_list[0]);
           }else if(response.data.length > 1){
             this.user_list =  response.data;
             // console.log(this.user_list[0].email);
 
+            // this.$store.commit('setSearchResult' , this.user_list);
 
           }else if(response.data == 0){
             this.user_list =  [];
+            // this.$store.commit('setSearchResult' , this.user_list);
           }
           console.log(this.user_list);
+
+
+          this.progress_hidden=true;
+          this.indeterminate = false;
+          this.progress_color = 'white';
+
         }.bind(this))
         .catch(function(){
-
+          this.indeterminate = false;
+          this.progress_hidden=true;
+          this.progress_color = 'white';
           // 
         }.bind(this));
 
@@ -177,7 +213,7 @@
 
     },
     created(){
-
+      this.$store.getters.getAllInfo.type == 'admin' ? this.category_items.push("Rejected User" , "Newly Registered") : '';
 
       this.users_info_as_props = this.$store.getters.getAllInfo;
 /*

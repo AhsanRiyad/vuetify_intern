@@ -1,190 +1,174 @@
 <template>
-  <v-app class="grey" > 
-    <v-container class="white" >
-
-
-      <v-row justify="center">
-        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark v-on="on">Profile</v-btn>
-          </template>
-          <v-card>
-            <v-toolbar dark color="primary">
-              <v-btn icon dark @click="close_dialog()">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-              <v-toolbar-title>Profile</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-toolbar-items>
-                <v-btn dark text @click="close_dialog()">Close</v-btn>
-              </v-toolbar-items>
-            </v-toolbar>
 
 
 
-            <v-container>
-
-              <v-row v-if="profile_user_status == 'approved'" justify="center" class="mb-5">
-                <v-col lg="8" class="text-center success white--text" >
-
-
-                  <v-alert type="success">
-                    <h1> Verified User  </h1>
-                    <p v-if="change_request_status == 'requested' "> This user has a change request </p>
-                    <v-btn @click.stop="reject_user_button()" color="error" v-if="users_info_as_props.type == 'admin'" >Reject User</v-btn>
-                    <div class="w-100 mb-2"></div>
-
-                    <v-btn v-if="users_info_as_props.type == 'admin' && profile_user_type != 'admin' " @click.stop="make_admin_button()" color="primary" >Make Admin</v-btn>
-
-                    <v-btn v-else-if="users_info_as_props.type == 'admin' && profile_user_type != 'user' " @click.stop="make_user_button()" color="primary" >Make user</v-btn>
-                  </v-alert>
-
-
-                </v-col>
-              </v-row>
-
-
-              <v-row v-if="profile_user_status == 'rejected' || profile_user_status == 'not_verified'" justify="center" class="mb-5">
-                <v-col lg="8" class="text-center danger white--text" >
-
-
-                  <v-alert type="error">
-
-                    <h1 v-if="profile_user_status == 'rejected'"> Rejected User  </h1>
-                    <h1 v-else-if="profile_user_status == 'not_verified'"> New User  </h1>
-                    <p v-if="change_request_status == 'requested' "> This user has a change request </p>
-                    <v-btn @click.stop="approve_user_button()" color="success" v-if="users_info_as_props.type == 'admin'" >Aprrove User</v-btn>
-                    <div class="w-100 mb-2"></div>
-
-
-                  </v-alert>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Profile</v-btn>
+      </template>
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="close_dialog()">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Profile</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="close_dialog()">Close</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
 
 
 
-                </v-col>
-              </v-row>
+        <v-container>
+
+          <v-row v-if="profile_user_status == 'approved'" justify="center" class="mb-5">
+            <v-col lg="8" class="text-center success white--text" >
+
+
+              <v-alert type="success">
+                <h1> Verified User  </h1>
+                <p v-if="change_request_status == 'requested' "> This user has a change request </p>
+                <v-btn @click.stop="reject_user_button()" color="error" v-if="this.$store.getters.getAllInfo.type == 'admin'" >Reject User</v-btn>
+                <div class="w-100 mb-2"></div>
+
+                <v-btn v-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'admin' " @click.stop="make_admin_button()" color="primary" >Make Admin</v-btn>
+
+                <v-btn v-else-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'user' " @click.stop="make_user_button()" color="primary" >Make user</v-btn>
+              </v-alert>
+
+
+            </v-col>
+          </v-row>
+
+
+          <v-row v-if="profile_user_status == 'rejected' || profile_user_status == 'not_verified'" justify="center" class="mb-5">
+            <v-col lg="8" class="text-center danger white--text" >
+
+
+              <v-alert type="error">
+
+                <h1 v-if="profile_user_status == 'rejected'"> Rejected User  </h1>
+                <h1 v-else-if="profile_user_status == 'not_verified'"> New User  </h1>
+                <p v-if="change_request_status == 'requested' "> This user has a change request </p>
+                <v-btn @click.stop="approve_user_button()" color="success" v-if="this.$store.getters.getAllInfo.type == 'admin'" >Aprrove User</v-btn>
+                <div class="w-100 mb-2"></div>
+
+
+              </v-alert>
 
 
 
-
-              <v-row  justify="center">
-                <v-col lg="8" class="text-center success white--text" >
-                  <h1>
-                    Profile
-                  </h1>
-
-                  <v-btn v-if="users_info_as_props.type == 'admin' && profile_user_type != 'admin' " @click.stop="edit_info=!edit_info" color="warning" >Edit</v-btn>
-
-                </v-col>
-              </v-row>
+            </v-col>
+          </v-row>
 
 
-              <v-row justify="center" >
-                <v-col lg="8" >
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left title">Index</th>
-                          <th class="text-left title">Details</th>
-                          <th class="text-left title" v-if="edit_info">Edit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr  v-for="(item) in users_info" v-show="item[2]=='public' || users_info_as_props.type == 'admin' ">
-                          <td  class="body-1">{{ takeName(item[0]) }} </td>
-                          <td>
 
-                            {{ item[1] }} 
+          <v-row class="mt-n6 py-n2">          
+            <v-col cols="12">
+              <v-progress-linear 
+              :indeterminate="indeterminate"
+              :color="progress_color"
+              height="20"
+              ></v-progress-linear>
+            </v-col>
+          </v-row>
 
 
-                          </td>
-                          <td v-if="edit_info">
 
-                            <v-text-field v-model="item[1]" v-show="item[0] != 'blood_group' && item[0] != 'date_of_birth' " :disabled="item[0]=='membership_number' || item[0]=='registration_date' || item[0] == 'change_request' || item[0] == 'status' || item[0] == 'email_verification_status'  || item[0] == 'type'   || change_request_status == 'requested' "  @change="changeInfo(item[0] , item[1] , this)"></v-text-field>
+          <v-row  justify="center">
+            <v-col lg="8" class="text-center success white--text" >
+              <h1>
+                Profile
+              </h1>
 
+              <v-btn v-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'admin' " @click.stop="edit_info=!edit_info" color="warning" >Edit</v-btn>
 
-                            <v-select :disabled="change_request_status == 'requested'" v-model="item[1]" v-show="item[0] == 'blood_group' "
-                            :items="blood_group_list" @change="changeInfo(item[0] , item[1] , this)"
-                            ></v-select>
-
-                            <input :disabled="change_request_status == 'requested'" v-model="item[1]" type="date" class="form-control" v-if="item[0] == 'date_of_birth' "
-                            :items="blood_group_list" @change="changeInfo(item[0] , item[1] , this )">
+            </v-col>
+          </v-row>
 
 
 
 
-                          </td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                </v-col >
-              </v-row>
-            </v-container>
+
+          <v-row justify="center" >
+            <v-col lg="8" >
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left title">Index</th>
+                      <th class="text-left title">Details</th>
+                      <th class="text-left title" v-if="edit_info">Edit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  v-for="(item) in users_info" :key="item.key" v-show="item[2]=='public' || $store.getters.getAllInfo.type == 'admin' ">
+                      <td  class="body-1">{{ takeName(item[0]) }} </td>
+                      <td>
+
+                        {{ item[1] }} 
 
 
-          </v-card>
-        </v-dialog>
+                      </td>
+                      <td v-if="edit_info">
+
+                        <v-text-field v-model="item[1]" v-show="item[0] != 'blood_group' && item[0] != 'date_of_birth' " :disabled="item[0]=='membership_number' || item[0]=='registration_date' || item[0] == 'change_request' || item[0] == 'status' || item[0] == 'email_verification_status'  || item[0] == 'type'   || change_request_status == 'requested' "  @change="changeInfo(item[0] , item[1] , this)"  @keyup.enter="changeInfo(item[0] , item[1] , this)"  ></v-text-field>
 
 
-        <template>
-          <v-row justify="center">
-            <v-dialog
-            v-model="dialog2"
-            max-width="290"
-            >
-            <v-card>
-              <v-card-title class="headline red--text">{{ dialog2_title }}</v-card-title>
+                        <v-select :disabled="change_request_status == 'requested'" v-model="item[1]" v-show="item[0] == 'blood_group' "
+                        :items="blood_group_list" @change="changeInfo(item[0] , item[1] , this)"
 
-              <v-card-text class="red--text">
-                {{ dialog2_body }}
-              </v-card-text>
+                        @keyup.enter="changeInfo(item[0] , item[1] , this)"
+                        ></v-select>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
+                        <input :disabled="change_request_status == 'requested'" v-model="item[1]" type="date" class="form-control" v-if="item[0] == 'date_of_birth' "
+                        :items="blood_group_list" @change="changeInfo(item[0] , item[1] , this )"
+                        
+                        @keyup.enter="changeInfo(item[0] , item[1] , this )"
+
+                        >
 
 
 
-                <v-btn
-                color="green darken-1"
-                text :disabled="dialog2_btn_disabled"
-                @click="reject_user()"
-                >
-                Yes
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-row>
-    </template>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </v-col >
+          </v-row>
+        </v-container>
 
 
+      </v-card>
+    </v-dialog>
 
 
     <template>
       <v-row justify="center">
-
-
         <v-dialog
-        v-model="dialog3"
+        v-model="dialog2"
         max-width="290"
         >
         <v-card>
-          <v-card-title class="headline green--text">{{ dialog3_title }}</v-card-title>
+          <v-card-title class="headline red--text">{{ dialog2_title }}</v-card-title>
 
-          <v-card-text class="black--text">
-            {{ dialog3_body }}
+          <v-card-text class="red--text">
+            {{ dialog2_body }}
           </v-card-text>
 
           <v-card-actions>
             <v-spacer></v-spacer>
 
 
+
             <v-btn
             color="green darken-1"
-            text :disabled="dialog3_btn_disabled"
-            @click="make_admin()"
+            text :disabled="dialog2_btn_disabled"
+            @click="reject_user()"
             >
             Yes
           </v-btn>
@@ -192,6 +176,41 @@
       </v-card>
     </v-dialog>
   </v-row>
+</template>
+
+
+
+
+<template>
+  <v-row justify="center">
+
+
+    <v-dialog
+    v-model="dialog3"
+    max-width="290"
+    >
+    <v-card>
+      <v-card-title class="headline green--text">{{ dialog3_title }}</v-card-title>
+
+      <v-card-text class="black--text">
+        {{ dialog3_body }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+
+        <v-btn
+        color="green darken-1"
+        text :disabled="dialog3_btn_disabled"
+        @click="make_admin()"
+        >
+        Yes
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+</v-row>
 </template>
 
 
@@ -287,17 +306,20 @@
 </v-row>
 
 
-
-</v-container>
-</v-app>
 </template>
 
 
 <script>
   export default {
     name: 'get_details',
-    props: ['email' , 'user_id' ,  'users_info_as_props' , 'category'],
+    props: ['email' , 'user_id'  , 'category' , 'user_details'],
     data: ()=>({
+
+      indeterminate: true,
+      progress_hidden: true,
+      progress_color: 'red',
+
+
       dialog: false,
       dialog2: false,
       dialog3: false,
@@ -489,8 +511,14 @@
 
           if(result == false){
             this.dialog6 = true;
+            this.dialog6_title = 'Invalid name';
+            this.dialog6_body = "Name must be at least 6 characters";
+          }else{
+              this.change_info_database(name , value);
+            this.dialog6 = true;
             this.dialog6_title = 'Success';
-            this.dialog6_body = "mother name changed successfully";
+            this.dialog6_body = "mother's name changed successfully";
+
           }
         }else if(name=='spouse_name'){
           let patt= /[A-Za-z.\s]{5,}/g;
@@ -720,7 +748,7 @@
         }
       },
       change_info_database(purpose , value){
-        this.$axios.post(this.model.modelAdminChangeInfo , {
+        this.$axios.post(this.$store.getters.modelAdminChangeInfo , {
           purpose : purpose,
           main_purpose : 'search_other_option',
           email: this.email,
@@ -752,173 +780,178 @@
       close_dialog(){
 
        /* bus.$emit('categroy_from_get_details' , this.category);*/
-        this.dialog = false;
-        this.get_updated_data();
-      },
-      reject_user_button(){
+       this.$emit('update:search');
+       this.dialog = false;
+       this.get_updated_data();
+     },
+     reject_user_button(){
 
-        this.dialog2 = true
-        this.dialog2_body = 'Are you sure you want to block the user?';
-        this.dialog2_title = 'Block user?';
-        this.dialog2_btn_disabled = false;
+      this.dialog2 = true
+      this.dialog2_body = 'Are you sure you want to block the user?';
+      this.dialog2_title = 'Block user?';
+      this.dialog2_btn_disabled = false;
 
-      },
-      status_name_check(name){
+    },
+    status_name_check(name){
 
-        if(name == 'email_verification_status' || name == 'status'){
-          return true;
-        }else{
-          return false;
-        }
-
-
-      },
-      approve_user_button(){
-
-        this.dialog4 = true
-        this.dialog4_body = 'Are you sure you want to block the user?';
-        this.dialog4_title = 'Block user?';
-        this.dialog4_btn_disabled = false;
-
+      if(name == 'email_verification_status' || name == 'status'){
+        return true;
+      }else{
+        return false;
       }
-      ,
-      reject_user(){
-
-        this.$axios.post(this.$store.getters.modelSearch , {
-          purpose : 'reject_user',
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id : this.user_id,
-        })
-        .then(function () {
 
 
-          this.dialog2_body = 'User blocked Successfully';
-          this.dialog2_title = 'Success';
-          this.dialog2_btn_disabled = true;
-          this.get_updated_data();
+    },
+    approve_user_button(){
+
+      this.dialog4 = true
+      this.dialog4_body = 'Are you sure you want to block the user?';
+      this.dialog4_title = 'Block user?';
+      this.dialog4_btn_disabled = false;
+
+    }
+    ,
+    reject_user(){
+
+      this.$axios.post(this.$store.getters.modelSearch , {
+        purpose : 'reject_user',
+        main_purpose : 'search_other_option',
+        email: this.email,
+        user_id : this.user_id,
+      })
+      .then(function () {
+
+
+        this.dialog2_body = 'User blocked Successfully';
+        this.dialog2_title = 'Success';
+        this.dialog2_btn_disabled = true;
+        this.get_updated_data();
 
 
 
-        }.bind(this))
-        .catch(function () {
+      }.bind(this))
+      .catch(function () {
           // 
         });
 
 
 
 
-        
-      },
-      dialog2_reject_user_no(){
-        this.dialog2 = false;
-        this.dialog2_btn_disabled = false
-      },
-      make_admin(){
 
-        this.$axios.post(this.$store.getters.modelSearch , {
-          purpose : 'make_admin',
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id: this.user_id,
-        })
-        .then(function () {
+    },
+    dialog2_reject_user_no(){
+      this.dialog2 = false;
+      this.dialog2_btn_disabled = false
+    },
+    make_admin(){
 
-          this.edit_info = false;
-          this.dialog3_body = 'Made admin successfully';
-          this.dialog3_title = 'Success';
-          this.dialog3_btn_disabled = true;
-          this.get_updated_data();
+      this.$axios.post(this.$store.getters.modelSearch , {
+        purpose : 'make_admin',
+        main_purpose : 'search_other_option',
+        email: this.email,
+        user_id: this.user_id,
+      })
+      .then(function () {
 
-
-
-
-        }.bind(this))
-        .catch(function () {
-
-        });
-
-        
-      },
-      make_admin_button(){
-
-
-        this.dialog3 = true;
-        this.dialog3_btn_disabled = false;
-
-      },
-      dialog3_make_admin_no(){
-
-        this.dialog3 = false;
-        this.dialog3_btn_disabled = false
-      },
-      make_user(){
-
-        this.$axios.post(this.$store.getters.modelSearch , {
-          purpose : 'make_user',
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id: this.user_id,
-        })
-        .then(function () {
-
-          this.dialog5_body = 'Made user successfully';
-          this.dialog5_title = 'Success';
-          this.dialog5_btn_disabled = true;
-          this.get_updated_data();
-
-        }.bind(this))
-        .catch(function () {
-
-        });
-
-
-        
-      },
-      make_user_button(){
-
-        this.dialog5 = true;
-        this.dialog5_btn_disabled = false;
-      },
-      make_user_no(){
-
-        this.dialog5 = false;
-        this.dialog5_btn_disabled = false
-      },
-      approve_user(){
-
-
-        this.$axios.post(this.$store.getters.modelSearch , {
-          purpose : 'approve_user',
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id: this.user_id,
-        })
-        .then(function () {
-
-          this.dialog4_body = 'User approved successfully';
-          this.dialog4_title = 'Success';
-          this.dialog4_btn_disabled = true;
-          this.get_updated_data();
+        this.edit_info = false;
+        this.dialog3_body = 'Made admin successfully';
+        this.dialog3_title = 'Success';
+        this.dialog3_btn_disabled = true;
+        this.get_updated_data();
 
 
 
-        }.bind(this))
-        .catch(function () {
 
-        });
+      }.bind(this))
+      .catch(function () {
+
+      });
 
 
-        
-      },
-      dialog4_approve_user_no(){
+    },
+    make_admin_button(){
 
-        this.dialog4 = false;
-        this.dialog4_btn_disabled = false
-      },
-      get_updated_data(){
+
+      this.dialog3 = true;
+      this.dialog3_btn_disabled = false;
+
+    },
+    dialog3_make_admin_no(){
+
+      this.dialog3 = false;
+      this.dialog3_btn_disabled = false
+    },
+    make_user(){
+
+      this.$axios.post(this.$store.getters.modelSearch , {
+        purpose : 'make_user',
+        main_purpose : 'search_other_option',
+        email: this.email,
+        user_id: this.user_id,
+      })
+      .then(function () {
+
+        this.dialog5_body = 'Made user successfully';
+        this.dialog5_title = 'Success';
+        this.dialog5_btn_disabled = true;
+        this.get_updated_data();
+
+      }.bind(this))
+      .catch(function () {
+
+      });
+
+
+
+    },
+    make_user_button(){
+
+      this.dialog5 = true;
+      this.dialog5_btn_disabled = false;
+    },
+    make_user_no(){
+
+      this.dialog5 = false;
+      this.dialog5_btn_disabled = false
+    },
+    approve_user(){
+
+
+      this.$axios.post(this.$store.getters.modelSearch , {
+        purpose : 'approve_user',
+        main_purpose : 'search_other_option',
+        email: this.email,
+        user_id: this.user_id,
+      })
+      .then(function () {
+
+        this.dialog4_body = 'User approved successfully';
+        this.dialog4_title = 'Success';
+        this.dialog4_btn_disabled = true;
+        this.get_updated_data();
+
+
+
+      }.bind(this))
+      .catch(function () {
+
+      });
+
+
+
+    },
+    dialog4_approve_user_no(){
+
+      this.dialog4 = false;
+      this.dialog4_btn_disabled = false
+    },
+    get_updated_data(){
         // alert(this.user_id);
         //alert('this.user_id');
+
+        this.indeterminate = true;
+        this.progress_color = 'red';
+
         this.$axios.post( this.$store.getters.modelSearch ,
         {
           purpose: 'get_profile_details_for_all',
@@ -931,14 +964,24 @@
           this.profile_user_status = this.users_info[23][1];
           this.profile_user_type = this.users_info[26][1];
           this.change_request_status= this.users_info[25][1];
+
+          this.indeterminate = false;
+          this.progress_color = 'white';
+
         }.bind(this))
         .catch(function(){
+         this.indeterminate = false;
+         this.progress_color = 'white';
 
-
-        }.bind(this));
+       }.bind(this));
       }
     },
     created(){
+
+      this.indeterminate = true;
+      
+      this.progress_color = 'red';
+
 
 
       this.$axios.post( this.$store.getters.modelSearch ,
@@ -954,11 +997,17 @@
         this.profile_user_type = this.users_info[26][1];
         this.change_request_status= this.users_info[25][1];
 
+        this.indeterminate = false;
+        this.progress_color = 'white';
+
         // console.log(this.users_info[22][0]);
       }.bind(this))
       .catch(function(){
 
-      }.bind(this));
+       this.indeterminate = false;
+       this.progress_color = 'white';
+
+     }.bind(this));
 
     }
 

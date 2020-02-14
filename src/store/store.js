@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
 		},
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
+		search_result: [],
 	},
 	mutations: {
 		loginFalse: state => {
@@ -49,12 +50,15 @@ export const store = new Vuex.Store({
 			VueCookies.isKey('email') ? state.user.isLogin = true : state.user.isLogin = false; 
 
 		},
-		setComponentName: (state , name ) =>{
+		setComponentName: ( state , name ) =>{
 			state.component_name = name ;
 		},
-		setPageTitle: (state , name ) =>{
+		setPageTitle: ( state , name ) =>{
 			state.page_title = name ;
-		}
+		},
+		setSearchResult: ( state , name ) =>{
+			state.search_result = name ;
+		},
 	},
 	getters: {
 		auth: state=>{
@@ -99,6 +103,9 @@ export const store = new Vuex.Store({
 		modelSearch: state => {
 			return state.model.modelAddress+'search.php';
 		},
+		modelAdminChangeInfo: state => {
+			return state.model.modelAddress+'admin_change_info.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},
@@ -107,6 +114,9 @@ export const store = new Vuex.Store({
 		},
 		getPageTitle: state => {
 			return state.page_title;
+		},
+		getSearchResult: state => {
+			return state.search_result;
 		}
 		
 	},
