@@ -75,34 +75,37 @@
                 
                 <td>
 
+                  <gallery :email='user.email' :user_id='user.id' ></gallery>
                 </td>
 
-
-                <td>
-                  <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
-                </td>
+              
 
 
-
-
-              </tr>
-            </tbody>
-
-
-          </template>
-        </v-simple-table>
+              <td>
+                <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
+              </td>
 
 
 
 
-      </v-col>
-    </v-row>
+            </tr>
+          </tbody>
+
+
+        </template>
+      </v-simple-table>
+
+
+
+
+    </v-col>
+  </v-row>
 
 
 
 
 
-  </v-container>
+</v-container>
 </v-app>
 </template>
 
@@ -110,13 +113,15 @@
 <script>
 
   import get_details from '@/views/get_details.vue'
+  import gallery from '@/views/gallery.vue'
   
 
 
   export default {
     name: 'search',
     components: {
-      'get_details': get_details
+      'get_details': get_details,
+      'gallery': gallery,
     },
     data: ()=>({
       category: 'Full Name',

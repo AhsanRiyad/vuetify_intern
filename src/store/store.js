@@ -26,9 +26,9 @@ export const store = new Vuex.Store({
 		},
 		upload_directory: {
 			rootDirectory: 'http://localhost/model/',
-			recentPhoto_directory: 'http://localhost/model/assets/img/uploads/recent_photos',
-			oldPhoto_directory: 'http://localhost/model/assets/img/uploads/old_photos',
-			groupPhoto_directory: 'http://localhost/model/assets/img/uploads/group_photos',
+			recentPhoto_directory: 'http://localhost/model/assets/img/uploads/recent_photos/',
+			oldPhoto_directory: 'http://localhost/model/assets/img/uploads/old_photos/',
+			groupPhoto_directory: 'http://localhost/model/assets/img/uploads/group_photos/',
 		},
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
@@ -117,6 +117,9 @@ export const store = new Vuex.Store({
 		},
 		getSearchResult: state => {
 			return state.search_result;
+		},
+		getUploadDirectory: state => {
+			return state.upload_directory;
 		}
 		
 	},

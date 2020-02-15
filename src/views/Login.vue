@@ -13,6 +13,7 @@
 					@change="getUserDetails()"
 					></v-text-field>
 
+
 					<v-text-field
 					@keyup.enter="submit()"
 					v-model="password"
@@ -174,7 +175,7 @@ export default {
 		submit(){
 			this.loading = true;
 			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
-				if(md5(this.password) == this.$store.getters.getAllInfo.password){
+				if(md5(this.password) == this.$store.getters.getAllInfo.password){ 
 
 				/*this.setCookie('email' , this.email , 7);
 				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);*/

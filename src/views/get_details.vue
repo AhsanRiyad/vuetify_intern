@@ -514,7 +514,7 @@
             this.dialog6_title = 'Invalid name';
             this.dialog6_body = "Name must be at least 6 characters";
           }else{
-              this.change_info_database(name , value);
+            this.change_info_database(name , value);
             this.dialog6 = true;
             this.dialog6_title = 'Success';
             this.dialog6_body = "mother's name changed successfully";

@@ -1,11 +1,148 @@
 <template>
-  <v-app class="grey" > 
-    <v-container class="white" >
+
+  <v-row justify="center">
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Gallery</v-btn>
+      </template>
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Gallery</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="dialog = false">Close</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+
+
+
+        <v-row align="center" justify="center">
+
+          <v-col cols="12" align="center" justify="center">
+            <h1> Recent Photo </h1>
+          </v-col>
+          
+          <v-col cols="12" align="center" justify="center">
+
+            <v-img
+            :src="getRecentPhoto"
+            lazy-src="https://picsum.photos/id/11/100/60"
+            aspect-ratio="1"
+            class="grey lighten-2"
+            max-width="500"
+            max-height="300"
+            >
+            <template v-slot:placeholder>
+              <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+              >
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+
+      </v-col>
+
+    </v-row>
+    <v-row align="center" justify="center">
+
+      <v-col cols="12" align="center" justify="center">
+        <h1> Old Photo </h1>
+      </v-col>
+
+      <v-col cols="12" align="center" justify="center">
+
+        <v-img
+        :src="getOldPhoto"
+        lazy-src="https://picsum.photos/id/11/100/60"
+        aspect-ratio="1"
+        class="grey lighten-2"
+        max-width="500"
+        max-height="300"
+        >
+        <template v-slot:placeholder>
+          <v-row
+          class="fill-height ma-0"
+          align="center"
+          justify="center"
+          >
+          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
+
+  </v-col>
+
+</v-row>
+
+
+
+<v-row>
+
+  <v-col cols="12" align="center" justify="center">
+    <h1> Group Photo </h1>
+  </v-col>
+  
+
+
+
+  <v-col cols="12" sm="6" offset-sm="3">
+    <v-card>
+      <v-container fluid>
+        <v-row>
+          <v-col
+          v-for="n in 9"
+          :key="n"
+          class="d-flex child-flex"
+          cols="4"
+          >
+          <v-card flat tile class="d-flex">
+            <v-img
+            :src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
+            :lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
+            aspect-ratio="1"
+            class="grey lighten-2" @click="zoom_in(`https://picsum.photos/500/300?image=${n * 5 + 10}` , 'Group Photo')"
+            >
+            <template v-slot:placeholder>
+              <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+              >
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+      </v-card>
+    </v-col>
+  </v-row>
+</v-container>
+</v-card>
+</v-col>
+</v-row>
+
+
+
+
+</v-card>
+</v-dialog>
+
+
+
 
 
 
 
 <v-row justify="center">
+
+
+
+
   <v-dialog v-model="dialog1" scrollable max-width="700px">
 
     <v-card>
@@ -47,15 +184,15 @@
 
 
 
-  
 
 
 
 
 
+</v-row>
 
-</v-container>
-</v-app>
+
+
 </template>
 
 
@@ -86,9 +223,34 @@
 
 
     }),
-    computed:{},
-    methods: {
-      zoom_in(photo , baseName){
+    computed:{
+      getRecentPhoto(){
+        let recent_photo;
+        this.$store.getters.getAllInfo.recent_photo == 'not_set' ? recent_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+'default.jpg' : recent_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory + this.$store.getters.getAllInfo.recent_photo;
+
+        return recent_photo;
+
+
+
+
+      },
+      getOldPhoto(){
+
+
+       let old_photo;
+       this.$store.getters.getAllInfo.old_photo == 'not_set' ? old_photo = this.$store.getters.getUploadDirectory.oldPhoto_directory+'default.jpg' : old_photo = this.$store.getters.getUploadDirectory.oldPhoto_directory + this.$store.getters.getAllInfo.old_photo;
+
+       return old_photo;
+
+
+
+
+
+     }
+
+   },
+   methods: {
+    zoom_in(photo , baseName){
       //alert(photo);
       this.button_disabled = false;
       this.photo_delete_status = '';
@@ -109,15 +271,11 @@
       email: this.email ,
       user_id: this.user_id ,
     }
-    ).then(function(response){
+    ).then(function(){
         //this.users_info = response.data;
         // alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);
-
-        // console.log(response);
-        this.recent_photo = response.data.recent_photo;
-        this.old_photo = response.data.old_photo;
-        this.group_photo = response.data.group_photo;
-
+        // console.log(this.recent_photo);
+        
         //alert(this.rootAdress+'assets/img/uploads/recent_photos/'+this.recent_photo);
         //alert(this.rootAdress+'assets/img/uploads/group_photos/'+this.group_photo[0]);
 
