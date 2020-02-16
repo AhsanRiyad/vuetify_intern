@@ -5,7 +5,7 @@
 				<v-col cols="auto" v-for="n in numbers1" :key="n">
 					
 					<v-btn
-					:disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , n)" 
+					:disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , items[n].title)"
 					> {{items[n].title }} </v-btn>
 					
 				</v-col>
@@ -14,7 +14,7 @@
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers2" :key="n">
 
-					<v-btn class="px-4"  :disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , n)" 
+					<v-btn class="px-4"  :disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , items[n].title)" 
 					> {{items[n].title }} </v-btn>
 					
 				</v-col>
@@ -52,11 +52,11 @@ export default {
 		changeColor(){
 			console.log('change color');
 		},
-		changeComponent(name){
+		changeComponent(name , title){
 
 			// console.log('button clicked');
 			this.$store.commit('setComponentName' , name);
-			this.$store.commit('setPageTitle' , name);
+			this.$store.commit('setPageTitle' , title);
 			
 
 

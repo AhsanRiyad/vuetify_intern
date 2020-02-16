@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row  justify="center">
-      <v-col lg="8" class="text-center success white--text" >
+      <v-col md="8" class="text-center success white--text" >
         <h1>
           Privacy
         </h1>
@@ -10,7 +10,7 @@
 
 
     <v-row justify="center" >
-      <v-col lg="8" >
+      <v-col md="8" >
         <v-simple-table>
           <template v-slot:default>
             <thead>

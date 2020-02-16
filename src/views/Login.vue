@@ -141,7 +141,7 @@ export default {
 
 					}.bind(this))
 			.catch(function () {
-
+				alert('network error');
 			}.bind(this));
 
 		},
@@ -185,12 +185,13 @@ export default {
 
 				this.$store.commit('loginTrue');
 				this.loading = false;
+				this.$store.commit('setPageTitle' , 'Dashboard');
 				this.$router.push({ name: 'profile' }) ;
 				// this.$router.push({ name: 'registration' }) ;
 				// this.$router.replace('profile') ;
 			}else{
 				this.loading = false;
-				this.login_status = 'email/password doesnt match';  
+				this.login_status = 'email/password doesnt match';
 				this.dialog = true;
 			}
 		}else{
