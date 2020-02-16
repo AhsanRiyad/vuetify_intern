@@ -1,10 +1,11 @@
-
 <template>
 	<v-app class="grey" > 
 		<v-container class="white" >
-			<v-row justify="center" align="center"> 
+			<v-row justify="center" align="center" class="my-auto"> 
 				<v-col cols="8" xl="4" >
 					
+					<h3> Welcome, Please Login! </h3>
+
 					<v-text-field
 					@keyup.enter="submit()"
 					v-model="email"
@@ -33,26 +34,36 @@
 					Login
 				</v-btn>
 
-				<v-btn
+
+
+
+
+			</v-col>
+		</v-row>
+
+		<v-row justify="center" align="center">
+
+			<v-col cols="8" xl="4" >
+				<v-btn 
 				router :to="{ name : 'registration' }"
-				color="success"
-				class="mr-4"
+				color="primary"
+				class="mr-4 mb-2 mb-sm-0"
 				>
 				Registration
 			</v-btn>
 
 			<router-link :to="{ name : 'profile_forgot_password' }">
 				<v-btn 
-				color="success"
+				color="warning"
 				class="mr-4"
 				>
 				Forgot Password
 			</v-btn>
 		</router-link>
-
-
 	</v-col>
+
 </v-row>
+
 </v-container>
 
 <v-row justify="center">

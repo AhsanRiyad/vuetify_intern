@@ -3,6 +3,10 @@
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
+
+					<h3> Dear User, Please enter your email, we will send you recovery instructions </h3>
+
+
 					<v-text-field
 					v-model="email"
 					label="Email"
@@ -19,24 +23,53 @@
 					Recover
 				</v-btn>
 
+
+
+
+	</v-col>
+
+
+
+	
+
+
+
+
+
+</v-row>
+
+	
+		<v-row justify="center" align="center">
+
+			<v-col cols="8" xl="4" >
+
+
+
 				<v-btn router :to="{ name: 'login' }"
-				color="success"
-				class="mr-4"
+				color="primary"
+				class="mr-4 "
 				>
 				Login
 			</v-btn>
 
 			<v-btn router :to="{ name: 'registration' }"
-			color="success"
+			color="warning"
 			class="mr-4"
 			>
 			Registration
 		</v-btn>
 
+				
 
 
 	</v-col>
+
 </v-row>
+
+
+
+
+
 </v-container>
 
 <v-row justify="center">

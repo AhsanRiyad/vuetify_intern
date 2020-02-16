@@ -34,7 +34,6 @@
 
 
 
-
 <v-navigation-drawer
 v-model="drawer"
 absolute
@@ -93,6 +92,7 @@ temporary
         { title: 'Data Update Request', name: 'data_update_request' , link: '/data_update_request' },
         { title: 'Gallery', name: 'gallery' , link: '/gallery' },
         { title: 'Privacy', name: 'data_privacy' , link: '/data_privacy' },
+        { title: 'Admin Options', name: 'admin_options' , link: '/admin_options' },
         { title: 'Logout',  name: 'login' , link: '/login'  },
         ],
         green : true,

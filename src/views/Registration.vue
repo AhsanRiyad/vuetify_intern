@@ -4,9 +4,10 @@
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
 					
-					
-					<v-text-field
-					
+
+					<h3> Dear User, We are glad you are here, please register </h3>
+
+					<v-text-field					
 					label="Name"
 					type="text"
 					v-model='full_name'
@@ -37,6 +38,9 @@
 					:error-messages="onChangeValidity('email')"
 					></v-text-field>
 
+
+
+
 					<v-text-field
 					v-model="password"
 					type="password"
@@ -57,24 +61,45 @@
 				
 				<br>
 
-				
+
+			</v-col>
+
+
+
+
+
+		</v-row>
+
+
+		<v-row justify="center" align="center">
+
+			<v-col cols="8" xl="4" >
+
+
+
+
 				<v-btn router :to="{ name: 'login' }"
 
-				color="success"
-				class="mr-4"
+				color="primary"
+
+				class="mr-4 "
 				>
 				Login
 			</v-btn>
-			
+
 			<v-btn router :to="{ name: 'profile_forgot_password' }"
-			color="success"
+			color="warning"
 			class="mr-4"
 			>
 			Forgot Password
 		</v-btn>
 
 
+
+
+
 	</v-col>
+
 </v-row>
 </v-container>
 
@@ -168,7 +193,7 @@ export default {
 				let patt= /[A-Za-z\S]{5,}/g;
 				let result = patt.test(this.institution_id);
 
-			
+
 
 				if(!result){
 					let errors = [];
