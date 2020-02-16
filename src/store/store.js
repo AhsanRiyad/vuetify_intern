@@ -109,6 +109,9 @@ export const store = new Vuex.Store({
 		modelAdminChangeInfo: state => {
 			return state.model.modelAddress+'admin_change_info.php';
 		},
+		modelGallery: state => {
+			return state.model.modelAddress+'gallery.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},

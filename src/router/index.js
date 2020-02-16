@@ -8,6 +8,7 @@ import new_user_request from '../views/new_user_request.vue'
 import data_update_request from '../views/data_update_request.vue'
 import search from '../views/search.vue'
 import data_privacy from '../views/data_privacy.vue'
+import gallery from '../views/gallery.vue'
 import test from '../views/test.vue'
 import { store } from '@/store/store'
 import VueCookies from 'vue-cookies'
@@ -110,6 +111,12 @@ const routes = [
   path: '/data_privacy',
   name: 'data_privacy',
   component: data_privacy,
+  beforeEnter: requireAuth
+},
+{
+  path: '/gallery',
+  name: 'gallery',
+  component: gallery,
   beforeEnter: requireAuth
 },
 {

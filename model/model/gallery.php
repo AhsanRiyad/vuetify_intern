@@ -162,8 +162,9 @@ if($d2->purpose == 'getPhotos'){
 }else if($d2->purpose=='deletePhoto'){
 
 	// $basename = trim($d2->basename)
-	$email = $email__;
-	$user_id = $id__;
+	$email = $d2->email;
+	$user_id = $d2->user_id;
+
 
 	$bs = trim($d2->basename);
 	//echo 'inside delete photo';

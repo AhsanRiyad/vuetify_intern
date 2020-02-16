@@ -4,6 +4,8 @@ include $APP_ROOT.'assets/linker/db.php' ;
 
 //echo 'get data';
 
+// header('Content-Type: application/json');
+
 $data =  file_get_contents('php://input');
 $d2 = json_decode($data);
 

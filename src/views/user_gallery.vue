@@ -1,26 +1,72 @@
 <template>
 
-  <v-container>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on">Gallery</v-btn>
+      </template>
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Gallery</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn dark text @click="dialog = false">Close</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
 
 
 
+        <v-row align="center" justify="center">
+
+          <v-col cols="12" align="center" justify="center">
+            <h1> Recent Photo </h1>
+          </v-col>
+          
+          <v-col cols="12" align="center" justify="center">
+
+            <v-img
+            :src="getRecentPhoto"
+            :lazy-src="getRecentPhoto"
+            aspect-ratio="1"
+            class="grey lighten-2"
+            contain
+            max-width="500"
+            max-height="300"
+            >
+            <template v-slot:placeholder>
+              <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+              >
+              <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+            </v-row>
+          </template>
+        </v-img>
+
+      </v-col>
+
+    </v-row>
     <v-row align="center" justify="center">
 
       <v-col cols="12" align="center" justify="center">
-        <h1> Recent Photo </h1>
+        <h1> Old Photo </h1>
       </v-col>
 
       <v-col cols="12" align="center" justify="center">
 
         <v-img
-        :src="getRecentPhoto"
-        :lazy-src="getRecentPhoto"
-        aspect-ratio="1"
-        class="grey lighten-2"
-        contain
-        max-width="500"
-        max-height="300"
-        >
+            :src="getOldPhoto"
+            :lazy-src="getOldPhoto"
+            aspect-ratio="1"
+            class="grey lighten-2"
+            contain
+            max-width="500"
+            max-height="300"
+            >
         <template v-slot:placeholder>
           <v-row
           class="fill-height ma-0"
@@ -31,46 +77,21 @@
         </v-row>
       </template>
     </v-img>
+
   </v-col>
 
-
-
-</v-row>
-<v-row align="center" justify="center">
-  <v-col cols="12" align="center" justify="center">
-    <h1> Old Photo </h1>
-  </v-col>
-  <v-col cols="12" align="center" justify="center">
-
-    <v-img
-    :src="getOldPhoto"
-    :lazy-src="getOldPhoto"
-    aspect-ratio="1"
-    class="grey lighten-2"
-    contain
-    max-width="500"
-    max-height="300"
-    >
-    <template v-slot:placeholder>
-      <v-row
-      class="fill-height ma-0"
-      align="center"
-      justify="center"
-      >
-      <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-    </v-row>
-  </template>
-</v-img>
-</v-col>
 </v-row>
 
 
 
 <v-row>
+
   <v-col cols="12" align="center" justify="center">
     <h1> Group Photo </h1>
   </v-col>
   
+
+
 
   <v-col cols="12" sm="6" offset-sm="3">
     <v-card>
@@ -90,7 +111,7 @@
             :lazy-src="getGroupPhoto+photo"
             
             contain
-            class="grey lighten-2" @click="zoom_in(getGroupPhoto+photo , photo)"
+            class="grey lighten-2" @click="zoom_in(getGroupPhoto+photo , 'Group Photo')"
             >
             <template v-slot:placeholder>
               <v-row
@@ -109,6 +130,15 @@
 </v-card>
 </v-col>
 </v-row>
+
+
+
+
+</v-card>
+</v-dialog>
+
+
+
 
 
 
@@ -138,23 +168,12 @@
         <v-container>
           <v-row class="ml-3">
 
-            <p class="red--text"> <b>{{ photo_delete_status }} </b></p>
-
-
           </v-row>
           <v-row>
             <v-col xs="12">
 
-              <v-btn :disabled="button_disabled" @click="deletePhoto()" large :loading='loading' color="error"  >Delete</v-btn>
-              <v-btn large color="primary"  @click="dialog1 = false">Close</v-btn>
-
-
             </v-col>
           </v-row>
-          
-
-
-
         </v-container>
 
       </v-card-actions>
@@ -162,7 +181,9 @@
   </v-dialog>
 </v-row>
 
-</v-container>
+</v-row>
+
+
 
 </template>
 
@@ -172,7 +193,8 @@
 
 
   export default {
-    name: 'gallery',
+    name: 'user_gallery',
+    props: ['email' , 'user_id'],
     data: ()=>({
       notifications: false,
       sound: true,
@@ -189,10 +211,6 @@
       old_photos: 'assets/img/uploads/old_photos/',
       group_photos:  'assets/img/uploads/group_photos/',
       uploads:  'assets/img/uploads/',
-
-      loading: false,
-      button_disabled: false,
-      photo_delete_status: '',
 
 
 
@@ -215,13 +233,13 @@
      },
      getGroupPhoto(){
 
-      return this.$store.getters.getUploadDirectory.groupPhoto_directory;
+          return this.$store.getters.getUploadDirectory.groupPhoto_directory;
 
 
-    }
+     }
 
-  },
-  methods: {
+   },
+   methods: {
     zoom_in(photo , baseName){
       //alert(photo);
       this.button_disabled = false;
@@ -231,46 +249,16 @@
       this.dialog1 = true;
       // alert('zooming in photo');
     },
-    deletePhoto(){
-      this.loading = true;
-
-      //alert('deleting photo');
-      this.$axios.post( this.$store.getters.modelGallery ,
-      {
-        purpose: 'deletePhoto',
-        basename: this.dialog_photo_baseName,
-        email: this.$store.getters.getAllInfo.email ,
-        user_id: this.$store.getters.getAllInfo.id ,
-
-      }
-      ).then(function(response){
-        this.loading = false;
-        this.recent_photo = response.data.recent_photo;
-        this.old_photo = response.data.old_photo;
-        this.group_photo = response.data.group_photo;
-        this.photo_delete_status = "Your photo has been deleted";
-        this.button_disabled = true ;
-        
-
-
-      }.bind(this))
-      .catch(function(){
-
-        this.loading = false;
-
-
-        //console.log(error);
-      }.bind(this));
-    }
   },
   created(){
+
     this.$axios.post( this.$store.getters.modelSearch ,
     {
 
       purpose: 'getPhotos_for_all_users',
       main_purpose : 'search_other_option',
-      email: this.$store.getters.getAllInfo.email ,
-      user_id: this.$store.getters.getAllInfo.id ,
+      email: this.email ,
+      user_id: this.user_id ,
     }
     ).then(function(response){
         //this.users_info = response.data;

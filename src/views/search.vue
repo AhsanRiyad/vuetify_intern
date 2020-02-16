@@ -73,7 +73,7 @@
                 
                 <td>
 
-                  <gallery :email='user.email' :user_id='user.id' ></gallery>
+                  <user_gallery :email='user.email' :user_id='user.id' ></user_gallery>
                 </td>
 
               
@@ -111,7 +111,7 @@
 <script>
 
   import get_details from '@/views/get_details.vue'
-  import gallery from '@/views/gallery.vue'
+  import user_gallery from '@/views/user_gallery.vue'
   
 
 
@@ -119,7 +119,7 @@
     name: 'search',
     components: {
       'get_details': get_details,
-      'gallery': gallery,
+      'user_gallery': user_gallery,
     },
     data: ()=>({
       category: 'Full Name',
