@@ -14,6 +14,7 @@ $purpose = $d2->purpose;
 
 if($purpose == 'change_institution_id_label'){
 
+
 $sql = "UPDATE admin_options SET institution_id_label= '".$d2->institution_id_label."'  WHERE admin_options_id = 1";
 
 try {
@@ -31,7 +32,6 @@ try {
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), "\n";
 }
-
 
 
 }

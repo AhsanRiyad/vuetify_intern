@@ -10,6 +10,7 @@ import search from '../views/search.vue'
 import data_privacy from '../views/data_privacy.vue'
 import gallery from '../views/gallery.vue'
 import admin_options from '../views/admin_options.vue'
+import add_user from '../views/add_user.vue'
 import test from '../views/test.vue'
 import { store } from '@/store/store'
 import VueCookies from 'vue-cookies'
@@ -19,7 +20,7 @@ import axios from 'axios'
 
 Vue.use(VueRouter)
 
-function requireAuth (to, from, next) {
+function requireAuthLoginCheck (to, from, next) {
 
   if (store.getters.auth.isLogin) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 
@@ -61,8 +62,63 @@ function requireAuth (to, from, next) {
   }
 
   // store.dispatch('getAllDataFromDB', store.getters.modelProfile_basic , VueCookies.get('email'));
-  }
 }
+}
+
+
+
+//function2 starts
+/*function requireAuthAdminCheck (to, from, next) {
+
+  if (store.getters.auth.isLogin) { /// THIS NOT WORK, HOW TO ACCESS STORE?
+
+   return next();
+
+
+ } else {
+  store.commit('checkCookie');
+  if(store.getters.auth.isLogin){
+
+
+    axios.post( store.getters.modelProfile_basic , {
+      purpose : 'getProfileBasicInfo',
+      email : VueCookies.get('email') , 
+    })
+    .then( function(response){
+          if(response.data !=0 && response.data.forgot_password_crypto == VueCookies.get('crypto'))
+          {
+            store.commit('set_user_info' , response.data);
+            return next()
+          }else{
+            return next({
+              name: 'login'
+            })
+          }
+
+          
+        }.bind(this))
+    .catch(function () {
+
+      return next({
+        name: 'login'
+      })
+
+    }.bind(this)); 
+
+
+  }
+
+}
+}
+*/
+
+
+
+
+
+
+
+
 
 
 
@@ -88,43 +144,49 @@ const routes = [
   path: '/profile',
   name: 'profile',
   component: profile,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/new_user_request',
   name: 'new_user_request',
   component: new_user_request,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/data_update_request',
   name: 'data_update_request',
   component: data_update_request,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/search',
   name: 'search',
   component: search,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/data_privacy',
   name: 'data_privacy',
   component: data_privacy,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/admin_options',
   name: 'admin_options',
   component: admin_options,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/gallery',
   name: 'gallery',
   component: gallery,
-  beforeEnter: requireAuth
+  beforeEnter: requireAuthLoginCheck
+},
+{
+  path: '/add_user',
+  name: 'add_user',
+  component: add_user,
+  beforeEnter: requireAuthLoginCheck
 },
 {
   path: '/test',

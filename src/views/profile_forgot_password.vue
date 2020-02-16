@@ -4,7 +4,7 @@
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
 
-					<h3> Dear User, Please enter your email, we will send you recovery instructions </h3>
+					<h3 > Dear User, Please enter your email, we will send you recovery instructions </h3>
 
 
 					<v-text-field
@@ -16,7 +16,7 @@
 					<v-btn
 					
 					color="success"
-					class="mr-4"
+					class="mr-4 mt-4"
 					@click="submit()"
 					:loading="loading"
 					>
@@ -104,12 +104,8 @@
 </v-row>
 
 
-
-
-
 </v-app>
 </template>
-
 <script>
 // @ is an alias to /src
 export default {

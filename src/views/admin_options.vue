@@ -51,9 +51,6 @@
     </v-row>
 
 
-
-
-
     <v-row justify="center">
 
 
@@ -70,7 +67,6 @@
 
        <v-card-actions>
         <v-spacer></v-spacer>
-
 
         <v-btn
         color="green darken-1"
@@ -94,29 +90,29 @@
 export default {
   name: 'admin_options',
   data: ()=>({
-        items: ['Institution ID' ,'School ID' , 'College ID' , 'School Roll' , 'College Roll' , 'University Roll'],
-        institution_id_label: '',
-        dialog : false,
-        dialog_text: '',
+    items: ['Institution ID' ,'School ID' , 'College ID' , 'School Roll' , 'College Roll' , 'University Roll'],
+    institution_id_label: '',
+    dialog : false,
+    dialog_text: '',
 
-      }), 
+  }), 
 
   created(){
-      this.institution_id_label = this.institution_id_label__;
+      // this.institution_id_label = this.institution_id_label__;
 
     },
-  methods: {
+    methods: {
       change_label(){
 
-        this.$axios.post( this.model.modeladmin_options ,
+        this.$axios.post( this.$store.getters.modeladmin_options ,
         {
-          purpose: 'change_institutiofn_id_label',
+          purpose: 'change_institution_id_label',
           institution_id_label: this.institution_id_label,
 
         }
         ).then(function(response){
+          console.log(response);
 
-        
           if(response.data == 'success'){
             this.dialog_text = 'Label Changed Successfully';
             this.dialog = true;
@@ -129,7 +125,7 @@ export default {
         }.bind(this))
         .catch(function(){
 
-          }.bind(this));
+        }.bind(this));
 
 
       }

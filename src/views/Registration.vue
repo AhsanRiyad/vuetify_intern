@@ -29,17 +29,12 @@
 					:error-messages="onChangeValidity('mobile')"
 					></v-text-field>
 
-
-					
 					<v-text-field
 					v-model="email"
 					label="Email"
 					type="text"
 					:error-messages="onChangeValidity('email')"
 					></v-text-field>
-
-
-
 
 					<v-text-field
 					v-model="password"
@@ -74,9 +69,6 @@
 		<v-row justify="center" align="center">
 
 			<v-col cols="8" xl="4" >
-
-
-
 
 				<v-btn router :to="{ name: 'login' }"
 
