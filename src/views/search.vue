@@ -4,7 +4,7 @@
 
 
       <v-row align="center">
-        <v-col offset-md="1" cols="5" md="4">
+        <v-col offset="1" cols="5" md="4">
 
           <v-text-field
           v-model="search_text"
@@ -15,7 +15,7 @@
 
         </v-col>
         
-        <v-col offset-md="1" cols="4" md="3">
+        <v-col offset-md="1" cols="5" md="4">
 
 
           <v-select @change="search()"
@@ -29,9 +29,7 @@
 
         </v-col>
         
-        <v-col cols="3">
-          <v-btn large color="primary"> Search </v-btn>
-        </v-col>
+        
 
 
         <v-col cols="12">
@@ -205,7 +203,10 @@
           this.progress_color = 'white';
 
         }.bind(this))
-        .catch(function(){
+        .catch(function(error){
+
+          console.log(error);
+
           this.indeterminate = false;
           this.progress_hidden=true;
           this.progress_color = 'white';

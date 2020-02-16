@@ -14,13 +14,6 @@ $email = $email__;
 $user_id = $id__ ;
 
 
-
-
-
-
-
-
-
 function getPrivacyData($email , $user_id){
 
 	$conn = get_mysqli_connection();
@@ -133,6 +126,10 @@ $d2 = json_decode($data);
 
 if($d2->purpose == 'getPrivacy'){
 
+
+	$email = $d2->email;
+	$user_id = $d2->id;
+
 	echo getPrivacyData($email , $user_id);
 
 
@@ -156,6 +153,9 @@ if($d2->purpose == 'getPrivacy'){
 }else if($d2->purpose == 'updatePrivacy'){
 
 
+	$email = $d2->email;
+
+	$user_id = $d2->id;
 
 					//print_r($d2->users_info[0][0]);
 

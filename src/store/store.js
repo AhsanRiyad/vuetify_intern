@@ -103,6 +103,9 @@ export const store = new Vuex.Store({
 		modelSearch: state => {
 			return state.model.modelAddress+'search.php';
 		},
+		modeldata_privacy: state => {
+			return state.model.modelAddress+'data_privacy.php';
+		},
 		modelAdminChangeInfo: state => {
 			return state.model.modelAddress+'admin_change_info.php';
 		},

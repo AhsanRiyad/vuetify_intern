@@ -7,6 +7,7 @@ import profile from '../views/profile.vue'
 import new_user_request from '../views/new_user_request.vue'
 import data_update_request from '../views/data_update_request.vue'
 import search from '../views/search.vue'
+import data_privacy from '../views/data_privacy.vue'
 import test from '../views/test.vue'
 import { store } from '@/store/store'
 import VueCookies from 'vue-cookies'
@@ -98,10 +99,17 @@ const routes = [
   name: 'data_update_request',
   component: data_update_request,
   beforeEnter: requireAuth
-},{
+},
+{
   path: '/search',
   name: 'search',
   component: search,
+  beforeEnter: requireAuth
+},
+{
+  path: '/data_privacy',
+  name: 'data_privacy',
+  component: data_privacy,
   beforeEnter: requireAuth
 },
 {
