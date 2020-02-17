@@ -131,8 +131,95 @@ if($d1->purpose == 'basic'){
 
   // $i = 0;
 // echo json_encode(var_dump($row));
+}else if($d1->purpose == 'getProfileBasicInfoForAuth'){
+// $id__ = 1;
+  $email = $d1->email;
+  $conn = get_mysqli_connection();
+  $sql = "select * from all_info_together where email = '".$email."' ";
+  $dataArray; 
+
+
+  $result = mysqli_query($conn, $sql);
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $dataArray['userInfo'] = $row;
+    // echo json_encode($row);
+  } else {
+    $dataArray['userInfo'] = 0;
+    
+  }
+
+  $sql = "call count_request(@verification_request, @change_request)";
+  $result = mysqli_query($conn , $sql);
+  // $stmt = $conn->prepare($sql);
+  // $stmt->execute();
+  $sql = "select @verification_request as vr , @change_request as cr";
+  $result = mysqli_query($conn , $sql);
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+  }
+
+  $countRequest['verificationRequest'] = $row['vr']; 
+  $countRequest['changeRequest'] = $row['cr']; 
+
+  $dataArray['countRequest'] = $countRequest;
+
+
+  $sql = "SELECT institution_id_label FROM admin_options WHERE admin_options_id = 1 ";
+
+  $result = mysqli_query($conn , $sql);
+
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+  }
+  $dataArray['institution_id_label'] = $row['institution_id_label'];
+
+
+  echo json_encode($dataArray);
+
+  mysqli_close($conn);
+
+
+  // $i = 0;
+// echo json_encode(var_dump($row));
+}else if($d1->purpose == 'getCommonInfo'){
+// $id__ = 1;
+  $conn = get_mysqli_connection();
+  $sql = "call count_request(@verification_request, @change_request)";
+  $result = mysqli_query($conn , $sql);
+  // $stmt = $conn->prepare($sql);
+  // $stmt->execute();
+  $sql = "select @verification_request as vr , @change_request as cr";
+  $result = mysqli_query($conn , $sql);
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+  }
+
+  $countRequest['verificationRequest'] = $row['vr']; 
+  $countRequest['changeRequest'] = $row['cr']; 
+
+  $dataArray['countRequest'] = $countRequest;
+
+
+  $sql = "SELECT institution_id_label FROM admin_options WHERE admin_options_id = 1 ";
+
+  $result = mysqli_query($conn , $sql);
+
+  if (mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+  }
+  $dataArray['institution_id_label'] = $row['institution_id_label'];
+
+
+  echo json_encode($dataArray);
+
+  mysqli_close($conn);
+
+
+  // $i = 0;
+// echo json_encode(var_dump($row));
 }else if($d1->purpose == 'profile_completeness_100'){
-  
+
   $user_type = $d1->user_type;
   $conn = get_mysqli_connection();
   $sql = '';

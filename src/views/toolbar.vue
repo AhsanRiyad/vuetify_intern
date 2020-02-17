@@ -65,11 +65,9 @@ temporary
   <v-list-item-content @click="titleChange(item.title)">
     <router-link    :to=' { name : `${item.name}` }' 
     class="green py-3 my-n1 white--text text-center"
-    
     active-class = "secondary"  
-    
     >
-    <v-list-item-title  > {{ item.title }}</v-list-item-title>
+    <v-list-item-title> {{ item.title }} </v-list-item-title>
   </router-link>
 </v-list-item-content>
 </v-list-item>

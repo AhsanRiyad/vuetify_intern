@@ -30,10 +30,14 @@ export const store = new Vuex.Store({
 			oldPhoto_directory: 'http://localhost/model/assets/img/uploads/old_photos/',
 			groupPhoto_directory: 'http://localhost/model/assets/img/uploads/group_photos/',
 		},
+		countRequest: {
+			verificationRequest: 0,
+			changeRequest: 0,
+		},
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
 		search_result: [],
-		inst: [],
+		institution_id_label: '',
 	},
 	mutations: {
 		loginFalse: state => {
@@ -65,6 +69,15 @@ export const store = new Vuex.Store({
 		},
 		setSearchResult: ( state , name ) =>{
 			state.search_result = name ;
+		},
+		setIInstitution_id_label: ( state , name ) =>{
+			state.institution_id_label = name ;
+		},
+		setVerificationRequest: ( state , name ) =>{
+			state.countRequest.verificationInfo = name ;
+		},
+		setChangeRequest: ( state , name ) =>{
+			state.countRequest.changeRequest = name ;
 		},
 	},
 	getters: {
@@ -139,6 +152,9 @@ export const store = new Vuex.Store({
 		},
 		getUploadDirectory: state => {
 			return state.upload_directory;
+		},
+		getIInstitution_id_label: state => {
+			return state.institution_id_label;
 		}
 		
 	},

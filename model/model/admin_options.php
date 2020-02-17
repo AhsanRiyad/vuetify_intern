@@ -15,23 +15,35 @@ $purpose = $d2->purpose;
 if($purpose == 'change_institution_id_label'){
 
 
-$sql = "UPDATE admin_options SET institution_id_label= '".$d2->institution_id_label."'  WHERE admin_options_id = 1";
+	$sql = "UPDATE admin_options SET institution_id_label= '".$d2->institution_id_label."'  WHERE admin_options_id = 1";
 
-try {
-
-
-    if (!mysqli_query($conn , $sql)) {
-        throw new Exception('Data Server Problem');
-    }else{
-    echo 'success';
-
-    }
+	try {
 
 
+		if (!mysqli_query($conn , $sql)) {
+			throw new Exception('Data Server Problem');
+		}else{
+			echo 'success';
 
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
-}
+		}
 
+
+
+	} catch (Exception $e) {
+		echo 'Caught exception: ',  $e->getMessage(), "\n";
+	}
+
+
+}else if($purpose == 'get_institution_id_label'){
+
+	$sql = "SELECT institution_id_label FROM admin_options WHERE admin_options_id = 1 ";
+
+	$result = mysqli_query($conn , $sql);
+
+	if (mysqli_num_rows($result) > 0) {
+		$row = mysqli_fetch_assoc($result);
+	}
+
+	echo $row['institution_id_label'];
 
 }

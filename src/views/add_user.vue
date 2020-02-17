@@ -17,7 +17,7 @@
 
             <v-text-field
             v-model="institution_id"
-            label="Institution ID"
+            :label="this.$store.getters.getIInstitution_id_label"
             type="text"
             :error-messages="onChangeValidity('institution_id')"
             ></v-text-field>

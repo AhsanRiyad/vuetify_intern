@@ -8,11 +8,12 @@
 <script>
 // import { bus } from '@/main'
 import cookie_mixins from '@/mixins/cookie_mixins'
+import commonInfoMixins from '@/mixins/commonInfoMixins'
 import toolbar from '@/views/toolbar.vue'
 
 export default {
 name: 'App',
-mixins: [cookie_mixins],
+mixins: [cookie_mixins,commonInfoMixins],
 components: {
 toolbar,
 },
@@ -35,6 +36,9 @@ created(){
 
 
 
+},
+updated(){
+this.getCommonInfo();
 }
 };
 </script>

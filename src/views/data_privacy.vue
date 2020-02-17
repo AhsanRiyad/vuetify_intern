@@ -127,7 +127,7 @@
       }else if(name == 'mobile'){
         return 'Mobile';
       }else if(name == 'institution_id'){
-        return this.institution_id_label__;
+        return this.$store.getters.getIInstitution_id_label;
       }else if(name == 'nid_or_passport'){
         return 'NID/Passport';
       }else if(name == 'fathers_name'){

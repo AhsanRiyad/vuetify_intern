@@ -12,108 +12,16 @@ import gallery from '../views/gallery.vue'
 import admin_options from '../views/admin_options.vue'
 import add_user from '../views/add_user.vue'
 import test from '../views/test.vue'
-import { store } from '@/store/store'
-import VueCookies from 'vue-cookies'
-import axios from 'axios'
+// import VueCookies from 'vue-cookies'
+// import { store } from '@/store/store.js'
+// import axios from 'axios'
+import authMixins from '@/mixins/authMixin'
+
 
 Vue.use(VueRouter)
 
-function requireAuthLoginCheck (to, from, next) {
-
-  // alert(to.meta.title);
-
-  if(store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
-
-    if(store.getters.auth.isAdmin){
-      return next() ;
-
-    }else if(to.meta.title != 'add_user' && to.meta.title != ''  && to.meta.title != 'new_user_request'  && to.meta.title != 'data_update_request'  && to.meta.title != 'admin_options'){
-      return next() ;
-    }
-
-     
-  }else {
-    store.commit('checkCookie');
-    if(store.getters.auth.isLogin){
-
-      axios.post( store.getters.modelProfile_basic , {
-        purpose : 'getProfileBasicInfo',
-        email : VueCookies.get('email') , 
-      })
-      .then( function(response){
-          //console.log(response);
-          if(response.data !=0 && response.data.forgot_password_crypto == VueCookies.get('crypto'))
-          {
-            store.commit('set_user_info' , response.data);
-            return next()
-          }else{
-            return next({
-              name: 'login'
-            })
-          }
- 
-        }.bind(this))
-      .catch(function () {
-
-        return next({
-          name: 'login'
-        })
-
-      }.bind(this)); 
 
 
-    }
-
-  // store.dispatch('getAllDataFromDB', store.getters.modelProfile_basic , VueCookies.get('email'));
-}
-}
-
-
-
-//function2 starts
-/*function requireAuthAdminCheck (to, from, next) {
-
-  if (store.getters.auth.isLogin) { /// THIS NOT WORK, HOW TO ACCESS STORE?
-
-   return next();
-
-
- } else {
-  store.commit('checkCookie');
-  if(store.getters.auth.isLogin){
-
-
-    axios.post( store.getters.modelProfile_basic , {
-      purpose : 'getProfileBasicInfo',
-      email : VueCookies.get('email') , 
-    })
-    .then( function(response){
-          if(response.data !=0 && response.data.forgot_password_crypto == VueCookies.get('crypto'))
-          {
-            store.commit('set_user_info' , response.data);
-            return next()
-          }else{
-            return next({
-              name: 'login'
-            })
-          }
-
-          
-        }.bind(this))
-    .catch(function () {
-
-      return next({
-        name: 'login'
-      })
-
-    }.bind(this)); 
-
-
-  }
-
-}
-}
-*/
 
 
 const routes = [
@@ -147,7 +55,7 @@ const routes = [
   path: '/profile',
   name: 'profile',
   component: profile,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'profile'
   }
@@ -156,7 +64,7 @@ const routes = [
   path: '/new_user_request',
   name: 'new_user_request',
   component: new_user_request,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'new_user_request'
   }
@@ -165,7 +73,7 @@ const routes = [
   path: '/data_update_request',
   name: 'data_update_request',
   component: data_update_request,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'data_update_request'
   }
@@ -174,7 +82,7 @@ const routes = [
   path: '/search',
   name: 'search',
   component: search,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'search'
   }
@@ -183,7 +91,7 @@ const routes = [
   path: '/data_privacy',
   name: 'data_privacy',
   component: data_privacy,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'data_privacy'
   }
@@ -192,7 +100,7 @@ const routes = [
   path: '/admin_options',
   name: 'admin_options',
   component: admin_options,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'admin_options'
   }
@@ -201,7 +109,7 @@ const routes = [
   path: '/gallery',
   name: 'gallery',
   component: gallery,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'gallery'
   }
@@ -210,7 +118,7 @@ const routes = [
   path: '/add_user',
   name: 'add_user',
   component: add_user,
-  beforeEnter: requireAuthLoginCheck,
+  beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'add_user'
   }

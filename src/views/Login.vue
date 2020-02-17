@@ -112,7 +112,6 @@ import cookie_mixins from '@/mixins/cookie_mixins'
 const md5 = require('crypto-js/md5');
 export default {
 	name: 'login',
-
 	mixins: [cookie_mixins],
 	data: ()=>({
 		loading: false,
@@ -134,16 +133,22 @@ export default {
 		getUserDetails(){
 			//this.expires = this.date.setTime(this.date.getTime() + 7*24*60*60*1000).toGMTString();
 			this.$axios.post( this.$store.getters.modelProfile_basic , {
-				purpose : 'getProfileBasicInfo',
+				purpose : 'getProfileBasicInfoForAuth',
 				email: this.email , 
 			})
-			.then( function(response){
+			.then(function(response){
 
 				console.log(response);
 
-				if(response.data !=0){
-					this.$store.commit('set_user_info' , response.data);
+				if(response.data.userInfo !=0){
+					this.$store.commit('set_user_info' , response.data.userInfo);
 				}
+
+				this.$store.commit('setIInstitution_id_label' , response.data.institution_id_label);
+
+				this.$store.commit('setVerificationRequest' , response.data.countRequest.verificationRequest);
+
+				this.$store.commit('setChangeRequest' , response.data.countRequest.changeRequest);
 
 					// this.$store.commit('set_user_info' , response.data);
 						//this.$store.commit('loginTrue');
@@ -198,8 +203,6 @@ export default {
 				
 				this.$store.getters.getAllInfo.type == 'admin' ? this.$store.commit('adminTrue') :  '';
 
-				
-				alert(this.$store.getters.isAdmin);
 
 
 				this.loading = false;
@@ -220,11 +223,16 @@ export default {
 	}
 },
 created(){
-
 	this.$store.commit('loginFalse');
 	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');
 	this.$cookies.set('crypto', '');
+
+
+	// this.getCommonInfo();
+
+
+
 }
 }
 </script>

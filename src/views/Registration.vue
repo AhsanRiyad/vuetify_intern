@@ -16,7 +16,7 @@
 
 					<v-text-field
 					v-model="institution_id"
-					label="Institution ID"
+					:label="this.$store.getters.getIInstitution_id_label"
 					type="text"
 					:error-messages="onChangeValidity('institution_id')"
 					></v-text-field>
@@ -55,14 +55,7 @@
 				</v-btn>
 				
 				<br>
-
-
 			</v-col>
-
-
-
-
-
 		</v-row>
 
 
@@ -85,10 +78,6 @@
 			>
 			Forgot Password
 		</v-btn>
-
-
-
-
 
 	</v-col>
 
@@ -129,10 +118,6 @@
 </v-card>
 </v-dialog>
 </v-row>
-
-
-
-
 
 </v-app>
 </template>
@@ -290,6 +275,27 @@ export default {
 
 
 		},
+	},
+	created(){
+		
+		this.$store.commit('loginFalse');
+		this.$store.commit('adminFalse');
+		this.$cookies.set('email', '');
+		this.$cookies.set('crypto', '');
+
+
+		this.$axios.post(this.$store.getters.modeladmin_options, {
+			purpose: 'get_institution_id_label'
+		}).then( function(response){
+			console.log(response);
+
+			this.$store.commit('setIInstitution_id_label' , response.data);
+
+		}.bind(this))
+		.catch(function () {
+		}.bind(this));
+
+
 	}
 
 }

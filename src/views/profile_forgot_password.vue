@@ -23,22 +23,13 @@
 					Recover
 				</v-btn>
 
+			</v-col>
 
 
 
-	</v-col>
+		</v-row>
 
 
-
-	
-
-
-
-
-
-</v-row>
-
-	
 		<v-row justify="center" align="center">
 
 			<v-col cols="8" xl="4" >
@@ -59,7 +50,7 @@
 			Registration
 		</v-btn>
 
-				
+
 
 
 	</v-col>
@@ -84,19 +75,13 @@
 		</v-card-text>
 		<v-card-actions>
 			<v-spacer></v-spacer>
-			<v-btn
-			color="green darken-1"
-			text
-			@click="dialog = false"
-			>
-			Disagree
-		</v-btn>
+		
 		<v-btn
 		color="green darken-1"
 		text
 		@click="dialog = false"
 		>
-		Agree
+		Close
 	</v-btn>
 </v-card-actions>
 </v-card>
@@ -195,7 +180,16 @@ export default {
 			},
 
 
+		},
+		created(){
+			
+			this.$store.commit('loginFalse');
+			this.$store.commit('adminFalse');
+			this.$cookies.set('email', '');
+			this.$cookies.set('crypto', '');
 		}
+
+
 
 	}
 
