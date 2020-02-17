@@ -53,15 +53,17 @@ temporary
 
 <v-list dense>
 
-  <v-list-item
-  v-for="item in items"
+  <v-list-item 
+  v-for="item in getMenuList"
   :key="item.title"
   link
+
+
   >
 
 
   <v-list-item-content @click="titleChange(item.title)">
-    <router-link   :to=' { name : `${item.name}` }' 
+    <router-link    :to=' { name : `${item.name}` }' 
     class="green py-3 my-n1 white--text text-center"
     
     active-class = "secondary"  
@@ -101,7 +103,31 @@ temporary
         
       }
     },
+    computed:{
+      getMenuList(){
+        if(this.$store.getters.isAdmin){
+          return this.items;
+        }else{
+          return  [
+        { title: 'Profile', name: 'profile' , link: '/profile' },
+        { title: 'Gallery', name: 'gallery' , link: '/gallery' },
+        { title: 'Privacy', name: 'data_privacy' , link: '/data_privacy' }
+        ];
+        }
+      }
+    },
     methods: {
+      checkAdmin(title){
+
+        if(this.$store.getters.isAdmin ){
+          return true;
+        }else{
+          if(title == 'gallery' || title == 'profile' || title == 'data_privacy' || title == 'search' ){
+            return true;
+          }
+        }
+
+      },
       colorChange(){
         console.log('color change');
       },

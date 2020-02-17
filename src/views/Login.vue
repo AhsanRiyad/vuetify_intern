@@ -195,6 +195,13 @@ export default {
 				this.$cookies.set('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto);
 
 				this.$store.commit('loginTrue');
+				
+				this.$store.getters.getAllInfo.type == 'admin' ? this.$store.commit('adminTrue') :  '';
+
+				
+				alert(this.$store.getters.isAdmin);
+
+
 				this.loading = false;
 				this.$store.commit('setPageTitle' , 'Dashboard');
 				this.$router.push({ name: 'profile' }) ;
@@ -215,6 +222,7 @@ export default {
 created(){
 
 	this.$store.commit('loginFalse');
+	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');
 	this.$cookies.set('crypto', '');
 }

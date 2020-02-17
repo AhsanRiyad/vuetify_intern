@@ -1,3 +1,4 @@
+
 <template>
   <v-app class="grey" > 
     <v-container class="white" >
@@ -23,6 +24,7 @@
          <v-btn 
          color="success"
          class="my-4"
+         :loading="loading"
          @click="submit()"
 
          >
@@ -78,6 +80,7 @@
     data: ()=>({
       name: 'riyad---vue',
       dialog: false,
+      loading: false,
       status: '',
       status_text: '',
       password_input: true,
@@ -136,6 +139,7 @@
       },
       submit(){
         //alert(this.blood_group);
+        this.loading = true;
         this.validityCheckInput('password');
         this.validityCheckInput('repassword');
         if(this.password_validity == 'valid' && this.password == this.repassword){
@@ -148,6 +152,8 @@
           }
           ).then(function(){
             this.status_text = 'Password Updated successfully';
+            this.loading = false;
+
             this.dialog = true;
           }.bind(this))
           .catch(function(){
@@ -156,6 +162,8 @@
         }else{
           this.status_text = 'password doesnt match';
           this.dialog = true;
+          this.loading = false;
+          
           //alert('all filed are not valid');
         }
       }

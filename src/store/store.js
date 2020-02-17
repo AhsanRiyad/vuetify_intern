@@ -33,6 +33,7 @@ export const store = new Vuex.Store({
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
 		search_result: [],
+		inst: [],
 	},
 	mutations: {
 		loginFalse: state => {
@@ -40,6 +41,12 @@ export const store = new Vuex.Store({
 		},
 		loginTrue: state => {
 			state.user.isLogin = true;
+		},
+		adminTrue: state => {
+			state.user.isAdmin = true;
+		},
+		adminFalse: state => {
+			state.user.isAdmin = false;
 		},
 		set_user_info: (state , user_info ) => {
 			
@@ -63,6 +70,9 @@ export const store = new Vuex.Store({
 	getters: {
 		auth: state=>{
 			return state.user;
+		},
+		isAdmin: state=>{
+			return state.user.isAdmin;
 		},
 		modelLogin: state => {
 			return state.model.modelAddress+'login.php';

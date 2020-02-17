@@ -219,7 +219,7 @@
 
     },
     created(){
-      this.$store.getters.getAllInfo.type == 'admin' ? this.category_items.push("Rejected User" , "Newly Registered") : '';
+      this.$store.getters.isAdmin  ? this.category_items.push("Rejected User" , "Newly Registered") : '';
 
       this.users_info_as_props = this.$store.getters.getAllInfo;
 /*
