@@ -5,7 +5,7 @@
    <v-container>
     <v-row justify="center" >
 
-      <v-col cols="10" xl="7" class="green white--text text-center">
+      <v-col cols="12" md="7" xl="7" class="green white--text text-center">
         <h2 > Select Option From Below Table </h2>
       </v-col>
 
@@ -14,7 +14,7 @@
       </v-col>
 
 
-      <v-col cols="10" xl="7" >
+      <v-col cols="12" xl="7" md="7" >
 
         <v-simple-table>
           <template v-slot:default>
@@ -26,8 +26,8 @@
             </thead>
             <tbody>
               <tr class="text-left white--black ">
-                <td class="title py-5">Change Label of Institution ID</td>
-                <td class="title py-5">
+                <td class=" py-5">Change Label of Institution ID</td>
+                <td class=" py-5">
 
 
 

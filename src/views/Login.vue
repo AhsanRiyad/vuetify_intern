@@ -51,15 +51,17 @@
 				>
 				Registration
 			</v-btn>
+				
 
-			<router-link :to="{ name : 'profile_forgot_password' }">
-				<v-btn 
+			<v-btn 
+				router :to="{ name : 'profile_forgot_password' }"
 				color="warning"
-				class="mr-4"
+				class="mr-4 "
 				>
-				Forgot Password
+				Registration
 			</v-btn>
-		</router-link>
+
+
 	</v-col>
 
 </v-row>

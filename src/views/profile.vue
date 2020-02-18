@@ -13,7 +13,6 @@
               <buttons_for_profile slot="buttons"></buttons_for_profile>
 
 
-
               <v-alert v-if="!$store.getters.isVerified && !$store.getters.isAdmin" slot="verification_alert" type="error">
                 You are not verified. Get verified for full access.
               </v-alert>

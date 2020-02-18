@@ -34,11 +34,9 @@
 
 			<v-col cols="8" xl="4" >
 
-
-
 				<v-btn router :to="{ name: 'login' }"
 				color="primary"
-				class="mr-4 "
+				class="mr-4 mb-2 mb-sm-0"
 				>
 				Login
 			</v-btn>

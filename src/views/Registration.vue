@@ -51,7 +51,7 @@
 					@click="submit()"
 					:loading="loading"
 					>
-					Registration
+					Register
 				</v-btn>
 				
 				<br>
@@ -67,7 +67,7 @@
 
 				color="primary"
 
-				class="mr-4 "
+				class="mr-4 mb-2 mb-sm-0"
 				>
 				Login
 			</v-btn>

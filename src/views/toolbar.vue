@@ -41,7 +41,7 @@ temporary
 >
 <v-list-item>
   <v-list-item-avatar>
-    <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+    <v-img :src="profile_photo"></v-img>
   </v-list-item-avatar>
 
   <v-list-item-content>
@@ -114,12 +114,22 @@ temporary
         ],
         green : true,
         secondary: false,
+        profile_photo: 'default.jpg',
         
       }
     },
 
     updated(){
 
+
+      if(this.$store.getters.getAllInfo.recent_photo == ''){
+      this.profile_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+'default.jpg';
+      }else{
+
+      this.profile_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+this.$store.getters.getAllInfo.recent_photo;
+
+
+      }
       this.verificationRequest = this.$store.getters.getCountRequest.verificationRequest;
       this.changeRequest = this.$store.getters.getCountRequest.changeRequest;
 
