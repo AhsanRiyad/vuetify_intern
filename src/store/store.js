@@ -49,6 +49,12 @@ export const store = new Vuex.Store({
 		adminTrue: state => {
 			state.user.isAdmin = true;
 		},
+		verifiedTrue: state => {
+			state.user.isVerified = true;
+		},
+		verifiedFalse: state => {
+			state.user.isVerified = false;
+		},
 		adminFalse: state => {
 			state.user.isAdmin = false;
 		},
@@ -114,6 +120,9 @@ export const store = new Vuex.Store({
 		modelProfile_change_password: state => {
 			return state.model.modelAddress+'profile_change_password.php';
 		},
+		modelProfile_password_recovery: state => {
+			return state.model.modelAddress+'profile_password_recovery.php';
+		},
 		modelProfile_change_email: state => {
 			return state.model.modelAddress+'profile_change_email.php';
 		},
@@ -155,6 +164,12 @@ export const store = new Vuex.Store({
 		},
 		getIInstitution_id_label: state => {
 			return state.institution_id_label;
+		},
+		isVerified: state => {
+			return state.user.isVerified;
+		},
+		getCountRequest: state => {
+			return state.countRequest;
 		}
 		
 	},

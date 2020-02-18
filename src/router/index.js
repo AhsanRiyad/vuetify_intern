@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import login from '../views/Login.vue'
 import registration from '../views/Registration.vue'
 import profile_forgot_password from '../views/profile_forgot_password.vue'
+import profile_password_recovery from '../views/profile_password_recovery.vue'
 import profile from '../views/profile.vue'
 import new_user_request from '../views/new_user_request.vue'
 import data_update_request from '../views/data_update_request.vue'
@@ -49,6 +50,14 @@ const routes = [
   component: profile_forgot_password,
   meta: {
     title: 'profile_forgot_password'
+  }
+},
+{
+  path: '/profile_password_recovery',
+  name: 'profile_password_recovery',
+  component: profile_password_recovery,
+  meta: {
+    title: 'profile_password_recovery'
   }
 },
 {

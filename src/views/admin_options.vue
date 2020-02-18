@@ -6,7 +6,7 @@
     <v-row justify="center" >
 
       <v-col cols="10" xl="7" class="green white--text text-center">
-        <h1 > Select Option From Below Table </h1>
+        <h2 > Select Option From Below Table </h2>
       </v-col>
 
 

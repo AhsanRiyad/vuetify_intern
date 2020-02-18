@@ -56,20 +56,34 @@ temporary
   <v-list-item 
   v-for="item in getMenuList"
   :key="item.title"
-  link
+  link>
+  
 
+<v-list-item-content @click="titleChange(item.title)">
 
+  <router-link    :to=' { name : `${item.name}` }' 
+  class="green py-3 my-n1 white--text text-center"
+  active-class = "secondary"  
   >
+  <v-list-item-title> {{ item.title }} 
+
+  <span class="blue mx-1 px-2" v-if="item.name == 'new_user_request'" > {{ verificationRequest }} </span>
+  <span class="blue mx-1 px-2" v-else-if="item.name == 'data_update_request'" > {{ changeRequest }} </span>
+
+  </v-list-item-title>
+  
+</router-link>
 
 
-  <v-list-item-content @click="titleChange(item.title)">
-    <router-link    :to=' { name : `${item.name}` }' 
-    class="green py-3 my-n1 white--text text-center"
-    active-class = "secondary"  
-    >
-    <v-list-item-title> {{ item.title }} </v-list-item-title>
-  </router-link>
+
+
 </v-list-item-content>
+
+
+
+
+
+
 </v-list-item>
 </v-list>
 </v-navigation-drawer>
@@ -84,6 +98,8 @@ temporary
     name: 'toolbar' ,
     data () {
       return {
+        verificationRequest: 0,
+        changeRequest: 0,
         absolute: true,
         drawer: null,
         items: [
@@ -101,19 +117,28 @@ temporary
         
       }
     },
+
+    updated(){
+
+      this.verificationRequest = this.$store.getters.getCountRequest.verificationRequest;
+      this.changeRequest = this.$store.getters.getCountRequest.changeRequest;
+
+    },
+
     computed:{
       getMenuList(){
         if(this.$store.getters.isAdmin){
           return this.items;
         }else{
           return  [
-        { title: 'Profile', name: 'profile' , link: '/profile' },
-        { title: 'Gallery', name: 'gallery' , link: '/gallery' },
-        { title: 'Privacy', name: 'data_privacy' , link: '/data_privacy' }
-        ];
+          { title: 'Profile', name: 'profile' , link: '/profile' },
+          { title: 'Gallery', name: 'gallery' , link: '/gallery' },
+          { title: 'Privacy', name: 'data_privacy' , link: '/data_privacy' }
+          ];
         }
       }
     },
+
     methods: {
       checkAdmin(title){
 

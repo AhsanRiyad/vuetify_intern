@@ -5,6 +5,9 @@
         <v-col cols="8" xl="4" >
 
 
+
+          <slot name="verification_alert"></slot>
+
           <v-file-input  @change="handleFileUpload_recent()" v-model="recent_photo" show-size accept="image/*" label="Recent Photo"></v-file-input>
           
           <!-- <input type="file" ref="recent_photo" @change="handleFileUpload_recent()"> -->
@@ -42,7 +45,7 @@
 
 
 
-    <slot></slot>
+    <slot name="buttons"></slot>
 
 
 <!-- 

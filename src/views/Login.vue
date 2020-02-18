@@ -142,6 +142,9 @@ export default {
 
 				if(response.data.userInfo !=0){
 					this.$store.commit('set_user_info' , response.data.userInfo);
+
+					response.data.userInfo.status == 'approved' ? this.$store.commit('verifiedTrue') :  this.$store.commit('verifiedFalse');
+
 				}
 
 				this.$store.commit('setIInstitution_id_label' , response.data.institution_id_label);
@@ -205,6 +208,7 @@ export default {
 
 
 
+
 				this.loading = false;
 				this.$store.commit('setPageTitle' , 'Dashboard');
 				this.$router.push({ name: 'profile' }) ;
@@ -223,6 +227,18 @@ export default {
 	}
 },
 created(){
+	this.$store.commit('loginFalse');
+	this.$store.commit('adminFalse');
+	this.$cookies.set('email', '');
+	this.$cookies.set('crypto', '');
+
+
+	// this.getCommonInfo();
+
+
+
+},
+updated(){
 	this.$store.commit('loginFalse');
 	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');

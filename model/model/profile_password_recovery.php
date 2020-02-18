@@ -44,7 +44,8 @@ if($d1->purpose == 'forgot_password_recovery'){
 
   mysqli_close($conn);
 
-  echo $row['st'];
+  // echo $row['st'];
+  echo 'success';
 
 
 

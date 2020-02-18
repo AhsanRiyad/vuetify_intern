@@ -4,6 +4,11 @@
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
 
+
+
+          <slot name="verification_alert"></slot>
+
+
          <v-text-field
          v-model="email"
          v-on:keyup.enter="submit()"
@@ -23,7 +28,7 @@
          Update
        </v-btn>
 
-       <slot></slot>
+       <slot name="buttons"></slot>
 
 
      </v-col>
