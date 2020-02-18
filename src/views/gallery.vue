@@ -234,6 +234,11 @@
     deletePhoto(){
       this.loading = true;
 
+
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       //alert('deleting photo');
       this.$axios.post( this.$store.getters.modelGallery ,
       {
@@ -242,7 +247,7 @@
         email: this.$store.getters.getAllInfo.email ,
         user_id: this.$store.getters.getAllInfo.id ,
 
-      }
+      } , headers
       ).then(function(response){
         this.loading = false;
         this.recent_photo = response.data.recent_photo;
@@ -264,6 +269,11 @@
     }
   },
   created(){
+
+    var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
     this.$axios.post( this.$store.getters.modelSearch ,
     {
 
@@ -271,7 +281,7 @@
       main_purpose : 'search_other_option',
       email: this.$store.getters.getAllInfo.email ,
       user_id: this.$store.getters.getAllInfo.id ,
-    }
+    } , headers
     ).then(function(response){
         //this.users_info = response.data;
         // alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);

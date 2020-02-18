@@ -5,6 +5,7 @@
     <component v-bind:is="$store.getters.getComponentName"> <buttons_for_profile></buttons_for_profile> </component> -->
     
     <v-container>
+      
       <v-row>
         <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
           <keep-alive>

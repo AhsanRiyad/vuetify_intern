@@ -167,13 +167,18 @@
         this.indeterminate = true;
         this.progress_hidden=false;
         this.progress_color = 'red';
+        
+
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
         this.$axios.post( this.$store.getters.modelSearch ,
         {
           purpose: this.category ,
           search_text: this.search_text,
           main_purpose : 'search',
 
-        }
+        } , headers
         ).then(function(response){
 
           console.log(response);

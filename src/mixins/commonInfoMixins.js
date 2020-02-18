@@ -6,10 +6,15 @@ export default {
 methods: {
 getCommonInfo(){
 
+var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
+
+
 axios.post( store.getters.modelProfile_basic , {
 purpose : 'getCommonInfo'
 
-})
+} , headers )
 .then(function(response){
 
 console.log(response);

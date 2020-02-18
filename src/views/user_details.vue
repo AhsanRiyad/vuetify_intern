@@ -242,12 +242,16 @@
 
     mounted() {
 
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post( this.$store.getters.modelnew_user_request  ,
       {
         purpose: 'getProfileBasicInfo',
         user_id: this.user_id,
         
-      }
+      } , headers
       ).then(function(response){
         
         // console.log(response);
@@ -273,9 +277,13 @@
     },
     created(){
 
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post(this.$store.getters.modelnew_user_request , {
         purpose : 'get_data'
-      })
+      } , headers)
       .then(function (response) {
         // console.log(response);
 

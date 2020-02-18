@@ -99,13 +99,18 @@
       updatePrivacy(){
       //alert('upadate privacy');
       this.dialog = true;
+
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post( this.$store.getters.modeldata_privacy ,
       {
         users_info: this.users_info,
         purpose: 'updatePrivacy',
         id: this.$store.getters.getAllInfo.id ,
         email: this.$store.getters.getAllInfo.email ,
-      }
+      } , headers
       ).then(function(response){
         //this.users_info = response.data;
         // this.dialog = false;
@@ -182,14 +187,16 @@
 
   },
   created(){
+    var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
     this.$axios.post( this.$store.getters.modeldata_privacy ,
     {
       purpose: 'getPrivacy',
       id: this.$store.getters.getAllInfo.id ,
       email: this.$store.getters.getAllInfo.email ,
-    },
-    { 
-    }
+    }, headers
     ).then(function(response){
 
       console.log(response);

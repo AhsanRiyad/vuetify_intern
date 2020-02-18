@@ -217,6 +217,11 @@ export default {
       if(this.full_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
         // alert('valid');
 
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
+
         this.$axios.post(this.$store.getters.modelRegistration, {
           full_name: this.full_name,
           institution_id: this.institution_id,
@@ -224,7 +229,7 @@ export default {
           mobile: this.mobile,
           password: this.password,
           who_is_doing_registration: 'admin',
-        })
+        } , headers)
         .then( function(response){
           this.registratrion_status = response.data ; 
           this.loading = false;

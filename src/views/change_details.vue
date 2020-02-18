@@ -119,12 +119,16 @@
     },
     mounted(){
 
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post( this.$store.getters.modeldata_update_request ,
       {
         purpose: 'get_change_req_data',
         user_id: this.user_id,
         
-      }
+      } , headers
       ).then(function(response){
 
         console.log(response);
@@ -148,7 +152,7 @@
         purpose: 'getProfileBasicInfo',
         user_id: this.user_id,
         
-      }
+      } , headers
       ).then(function(response){
 
         // console.log(response.data);

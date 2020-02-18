@@ -252,6 +252,11 @@
   },
   created(){
 
+
+    var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
     this.$axios.post( this.$store.getters.modelSearch ,
     {
 
@@ -259,7 +264,7 @@
       main_purpose : 'search_other_option',
       email: this.email ,
       user_id: this.user_id ,
-    }
+    } , headers
     ).then(function(response){
         //this.users_info = response.data;
         // alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);

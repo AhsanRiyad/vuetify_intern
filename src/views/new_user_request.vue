@@ -45,32 +45,32 @@
   <template>
     <v-row justify="center"> 
 
-    <v-dialog
-    v-model="dialog"
-    max-width="290"
-    >
-    <v-card>
-      <v-card-title class="headline">Action Status</v-card-title>
+      <v-dialog
+      v-model="dialog"
+      max-width="290"
+      >
+      <v-card>
+        <v-card-title class="headline">Action Status</v-card-title>
 
-      <v-card-text>
-        {{ admin_approval_status }}
-      </v-card-text>
+        <v-card-text>
+          {{ admin_approval_status }}
+        </v-card-text>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-spacer></v-spacer>
 
-        <v-btn
-        color="green darken-1"
-        text
-        @click="dialog = false"
-        >OK
-      </v-btn>
+          <v-btn
+          color="green darken-1"
+          text
+          @click="dialog = false"
+          >OK
+        </v-btn>
 
 
-    
-  </v-card-actions>
-</v-card>
-</v-dialog>
+        
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-row>
 </template>
 
@@ -106,9 +106,13 @@
       get_users : function(){
         //alert('get_data_method');
 
-        this.$axios.post(this.$store.getters.modelnew_user_request, {
-          purpose : 'get_data'
-        } ).then(function(response){
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
+
+          this.$axios.post(this.$store.getters.modelnew_user_request, {
+            purpose : 'get_data'
+          } , headers ).then(function(response){
           // console.log(response);
 
 
@@ -130,8 +134,8 @@
 
       }.bind(this));
 
-      },
-      approve_id: function(email , user_id){
+        },
+        approve_id: function(email , user_id){
         //console.log(email);
 
         this.$axios.post(this.$store.getters.modelnew_user_request, {

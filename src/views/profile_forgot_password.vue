@@ -112,12 +112,14 @@ export default {
 
 				//alert('inside submit');
 				if(this.email_validity == 'valid'){
-
+					var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
 					this.$axios.post( this.$store.getters.modelProfile_forgot_password , {
 						purpose: 'forgot_password',
 						email: this.email,
 						
-					})
+					} , headers )
 					.then( function(response){
 						this.loading = false;
 						console.log(response);

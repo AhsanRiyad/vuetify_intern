@@ -42,10 +42,14 @@ if( store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 	store.commit('checkCookie');
 	if(store.getters.auth.isLogin){
 
+		var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
+
 		axios.post( store.getters.modelProfile_basic , {
 			purpose : 'getProfileBasicInfoForAuth',
 			email : VueCookies.get('email') , 
-		})
+		} , headers )
 		.then(function(response){
 			console.log(response);
 			if(response.data.userInfo !=0 && response.data.userInfo.forgot_password_crypto == VueCookies.get('crypto'))

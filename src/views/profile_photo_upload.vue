@@ -128,11 +128,15 @@
           formData.append('user_id', this.$store.getters.getAllInfo.id);
           // formData.append('email', 'riyad298@gmail.com');
           // formData.append('user_id', 1);
+
+
+        
+
           this.$axios.post( this.$store.getters.modelProfile_photo_upload, 
             formData,
             { 
               headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data '
               }
             }
             ).then(function(response){

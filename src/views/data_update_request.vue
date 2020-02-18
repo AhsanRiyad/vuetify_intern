@@ -102,9 +102,14 @@
       },
       get_users: function(){
 
+
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post( this.$store.getters.modeldata_update_request , {
           purpose : 'get_change_req_user'
-        } ).then(function(response){
+        } , headers ).then(function(response){
 
         // console.log(JSON.parse(response.data));
 
@@ -127,11 +132,15 @@
       approve_id: function(email , user_id){
         //console.log(email);
 
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post(this.$store.getters.modeldata_update_request, {
           purpose : 'approve_user_change_request', 
           email: email,
           user_id: user_id,
-        } ).then(function(){
+        } , headers ).then(function(){
         //var obj = JSON.parse(data);
         // console.log(obj);
         //this.user_list = JSON.parse(data.bodyText);
@@ -151,11 +160,15 @@
       reject_id: function(email , user_id){
         //console.log(email);
 
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post(this.$store.getters.modeldata_update_request , {
           purpose : 'reject_user_user_request', 
           email: email,
           user_id: user_id,
-        })
+        }, headers )
         .then(function () {
 
           // console.log(response);
@@ -172,11 +185,14 @@
       }
     },
     created(){
-      
+        
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
 
       this.$axios.post(this.$store.getters.modeldata_update_request, {
         purpose : 'get_change_req_user'
-      })
+      } , headers)
       .then(function (response) {
         console.log(response);
 

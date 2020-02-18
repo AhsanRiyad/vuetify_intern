@@ -236,7 +236,9 @@ export default {
 			this.loading = true;
 			if(this.full_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
 				// alert('valid');
-
+var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
 				this.$axios.post(this.$store.getters.modelRegistration, {
 					full_name: this.full_name,
 					institution_id: this.institution_id,
@@ -244,7 +246,7 @@ export default {
 					mobile: this.mobile,
 					password: this.password,
 					who_is_doing_registration: 'user',
-				})
+				} , headers )
 				.then( function(response){
 					this.registratrion_status = response.data ; 
 					this.loading = false;
@@ -283,10 +285,12 @@ export default {
 		this.$cookies.set('email', '');
 		this.$cookies.set('crypto', '');
 
-
+var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
 		this.$axios.post(this.$store.getters.modeladmin_options, {
 			purpose: 'get_institution_id_label'
-		}).then( function(response){
+		} , headers ).then( function(response){
 			console.log(response);
 
 			this.$store.commit('setIInstitution_id_label' , response.data);

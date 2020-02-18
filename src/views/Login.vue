@@ -51,15 +51,15 @@
 				>
 				Registration
 			</v-btn>
-				
+
 
 			<v-btn 
-				router :to="{ name : 'profile_forgot_password' }"
-				color="warning"
-				class="mr-4 "
-				>
-				Registration
-			</v-btn>
+			router :to="{ name : 'profile_forgot_password' }"
+			color="warning"
+			class="mr-4 "
+			>
+			Registration
+		</v-btn>
 
 
 	</v-col>
@@ -134,10 +134,20 @@ export default {
 	methods: {
 		getUserDetails(){
 			//this.expires = this.date.setTime(this.date.getTime() + 7*24*60*60*1000).toGMTString();
+			var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
+
+
 			this.$axios.post( this.$store.getters.modelProfile_basic , {
 				purpose : 'getProfileBasicInfoForAuth',
 				email: this.email , 
-			})
+			} ,
+
+			headers
+
+
+				)
 			.then(function(response){
 
 				console.log(response);
@@ -162,18 +172,18 @@ export default {
 
 					}.bind(this))
 			.catch(function () {
-				alert('network error');
+
 			}.bind(this));
 
 		},
 		onChangeValidity(inputName){
 
-			
+
 
 			if(inputName == 'email'){ 
 
 				const errors = [];
-				
+
 				let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
 				let result_email = patt_email.test(this.email);
 

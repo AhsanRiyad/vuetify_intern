@@ -247,6 +247,11 @@ export default {
       this.onChangeValidity('permanent_country');
       if(this.present_line1_validity == 'valid' && this.present_district_validity == 'valid' && this.present_country_validity == 'valid' && this.present_post_code_validity == 'valid' &&  this.permanent_line1_validity == 'valid' &&  this.permanent_district_validity == 'valid' &&  this.permanent_country_validity == 'valid' &&  this.permanent_post_code_validity == 'valid' ){
 
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
+
         this.$axios.post( this.$store.getters.modelProfile_address ,
         {
           purpose: 'address1',
@@ -261,7 +266,7 @@ export default {
           permanent_post_code: this.permanent_post_code,
           permanent_country: this.permanent_country,
 
-        }
+        } , headers
         ).then(function(){
 
           this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';

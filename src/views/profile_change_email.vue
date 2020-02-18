@@ -130,6 +130,11 @@
         }
       },
       changeEmail(){
+
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post( this.$store.getters.modelProfile_change_email,
         {
           purpose: 'changeEmail',
@@ -137,7 +142,7 @@
           email_old: this.$store.getters.getAllInfo.email ,
           email: this.email,
           otp: this.otp,
-        }
+        } , headers
         ).then(function(response){
           console.log(response);
           if(response.data == 'success'){
@@ -178,13 +183,19 @@
         
         if(this.email_validity == 'valid' ){
           this.loading = true;
+          
+          var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
+
           this.$axios.post( this.$store.getters.modelProfile_change_email  ,
           {
             purpose: 'email',
             id: this.$store.getters.getAllInfo.id ,
             email_old: this.$store.getters.getAllInfo.email ,
             email: this.email,
-          }
+          } , headers
           ).then(function(response){
             console.log(response);
             if(response.data == 'success'){

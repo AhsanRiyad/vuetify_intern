@@ -146,13 +146,19 @@
         this.validityCheckInput('password');
         this.validityCheckInput('repassword');
         if(this.password_validity == 'valid' && this.password == this.repassword){
+
+
+          var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
           this.$axios.post( this.$store.getters.modelProfile_change_password ,
           {
             purpose: 'password',
             id: this.$store.getters.getAllInfo.id ,
             email: this.$store.getters.getAllInfo.email ,
             password: this.password,
-          }
+          } , headers
           ).then(function(){
             this.status_text = 'Password Updated successfully';
             this.loading = false;

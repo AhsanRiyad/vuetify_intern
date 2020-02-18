@@ -748,13 +748,18 @@
         }
       },
       change_info_database(purpose , value){
+        
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post(this.$store.getters.modelAdminChangeInfo , {
           purpose : purpose,
           main_purpose : 'search_other_option',
           email: this.email,
           user_id : this.user_id,
           value: value , 
-        })
+        } , headers)
         .then(function (response) {
           // console.log(response);
 
@@ -813,12 +818,17 @@
     ,
     reject_user(){
 
+
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post(this.$store.getters.modelSearch , {
         purpose : 'reject_user',
         main_purpose : 'search_other_option',
         email: this.email,
         user_id : this.user_id,
-      })
+      } , headers)
       .then(function () {
 
 
@@ -845,12 +855,17 @@
     },
     make_admin(){
 
+
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
       this.$axios.post(this.$store.getters.modelSearch , {
         purpose : 'make_admin',
         main_purpose : 'search_other_option',
         email: this.email,
         user_id: this.user_id,
-      })
+      } , headers)
       .then(function () {
 
         this.edit_info = false;
@@ -882,13 +897,15 @@
       this.dialog3_btn_disabled = false
     },
     make_user(){
-
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
       this.$axios.post(this.$store.getters.modelSearch , {
         purpose : 'make_user',
         main_purpose : 'search_other_option',
         email: this.email,
         user_id: this.user_id,
-      })
+      } , headers)
       .then(function () {
 
         this.dialog5_body = 'Made user successfully';
@@ -916,13 +933,17 @@
     },
     approve_user(){
 
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
 
       this.$axios.post(this.$store.getters.modelSearch , {
         purpose : 'approve_user',
         main_purpose : 'search_other_option',
         email: this.email,
         user_id: this.user_id,
-      })
+      } , headers)
       .then(function () {
 
         this.dialog4_body = 'User approved successfully';
@@ -952,13 +973,18 @@
         this.indeterminate = true;
         this.progress_color = 'red';
 
+
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post( this.$store.getters.modelSearch ,
         {
           purpose: 'get_profile_details_for_all',
           main_purpose : 'search_other_option',
           email: this.email,
           user_id: this.user_id, 
-        }).then(function(response){
+        } , headers ).then(function(response){
           this.users_info = response.data;
           // console.log(response);
           this.profile_user_status = this.users_info[23][1];
@@ -982,7 +1008,9 @@
       
       this.progress_color = 'red';
 
-
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
 
       this.$axios.post( this.$store.getters.modelSearch ,
       {
@@ -990,7 +1018,7 @@
         main_purpose : 'search_other_option',
         email: this.email,
         user_id: this.user_id,
-      }).then(function(response){
+      } , headers ).then(function(response){
         this.users_info = response.data;
         // console.log(response);
         this.profile_user_status = this.users_info[23][1];

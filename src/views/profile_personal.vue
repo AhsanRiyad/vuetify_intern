@@ -196,7 +196,9 @@ export default {
 
 
       if( this.fathers_name_validity == 'valid' &&  this.mothers_name_validity == 'valid' && this.spouse_name_validity == 'valid' && this.number_of_children_validity == 'valid' &&  this.profession_validity == 'valid' && this.workplace_or_institution_validity == 'valid' && this.designation_validity == 'valid' ){
-
+var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
         this.$axios.post( this.$store.getters.modelProfile_personal ,
         {
           purpose: 'personal',
@@ -209,7 +211,7 @@ export default {
           profession: this.profession,
           workplace_or_institution: this.workplace_or_institution,
           designation: this.designation,
-        }
+        } , headers
         ).then(function(){
 
           this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';

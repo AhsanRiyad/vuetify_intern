@@ -104,12 +104,16 @@ export default {
     methods: {
       change_label(){
 
+        var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
         this.$axios.post( this.$store.getters.modeladmin_options ,
         {
           purpose: 'change_institution_id_label',
           institution_id_label: this.institution_id_label,
 
-        }
+        } , headers
         ).then(function(response){
           console.log(response);
 

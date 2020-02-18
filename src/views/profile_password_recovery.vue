@@ -163,14 +163,16 @@
       }
 
       this.email = this.$route.query.e.trim();
-
+var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
       this.$axios.post( this.$store.getters.modelProfile_password_recovery ,
       {
         purpose: 'forgot_password_recovery',
         email: this.$route.query.e.trim(),
         forgot_password_crypto: this.$route.query.c.trim(),
 
-      }
+      } , headers
       ).then(function(response){
         console.log(response);
         if(response.data == 'allow'){
@@ -265,14 +267,16 @@
         this.validityCheckInput('repassword');
 
         if(this.password_validity == 'valid' && this.password == this.repassword){
-
+var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
           this.$axios.post( this.$store.getters.modelProfile_password_recovery ,
           {
             purpose: 'password_change',
             password: this.password,
             email: this.email ,
 
-          }
+          } , headers
           ).then(function(response){
             console.log(response);
             this.status_text = 'Password Updated successfully';
