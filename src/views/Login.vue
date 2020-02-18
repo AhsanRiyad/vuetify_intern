@@ -239,6 +239,8 @@ export default {
 	}
 },
 created(){
+
+	this.$store.commit('set_user_info' , '');
 	this.$store.commit('loginFalse');
 	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');
@@ -251,6 +253,9 @@ created(){
 
 },
 updated(){
+
+	this.$store.commit('set_user_info' , '');
+	
 	this.$store.commit('loginFalse');
 	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');
