@@ -288,7 +288,7 @@ var headers = {
 var headers = {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
-		this.$axios.post(this.$store.getters.modeladmin_options, {
+				this.$axios.post(this.$store.getters.modeladmin_options, {
 			purpose: 'get_institution_id_label'
 		} , headers ).then( function(response){
 			console.log(response);

@@ -1,112 +1,116 @@
 <template>
 
-    <v-app class="grey" > 
-      <v-container class="white" >
-        <v-row justify="center" align="center"> 
-          <v-col cols="8" xl="4" >
+  <v-app class="grey" > 
+    <v-container class="white" >
+      <v-row justify="center" align="center"> 
+        <v-col cols="8" xl="4" >
 
 
-            <h3> Dear Admin, You Can Add an User directly. </h3>
+          <h3> Dear Admin, You Can Add an User directly. </h3>
 
-            <v-text-field         
-            label="Name"
-            type="text"
-            v-model='full_name'
-            :error-messages="onChangeValidity('full_name')"
-            ></v-text-field>
+          <v-text-field         
+          label="Name"
+          type="text"
+          v-model='full_name'
+          :error-messages="onChangeValidity('full_name')"
+          ></v-text-field>
 
-            <v-text-field
-            v-model="institution_id"
-            :label="this.$store.getters.getIInstitution_id_label"
-            type="text"
-            :error-messages="onChangeValidity('institution_id')"
-            ></v-text-field>
+          <v-text-field
+          v-model="institution_id"
+          :label="this.$store.getters.getIInstitution_id_label"
+          type="text"
+          :error-messages="onChangeValidity('institution_id')"
+          ></v-text-field>
 
 
-            <v-text-field
-            v-model="mobile"
-            label="Mobile"
-            type="text"
-            :error-messages="onChangeValidity('mobile')"
-            ></v-text-field>
+          <v-text-field
+          v-model="mobile"
+          label="Mobile"
+          type="text"
+          :error-messages="onChangeValidity('mobile')"
+          ></v-text-field>
 
-            <v-text-field
-            v-model="email"
-            label="Email"
-            type="text"
-            :error-messages="onChangeValidity('email')"
-            ></v-text-field>
+          <v-text-field
+          v-model="email"
+          label="Email"
+          type="text"
+          :error-messages="onChangeValidity('email')"
+          ></v-text-field>
 
-            <v-text-field
-            v-model="password"
-            type="password"
-            label="password"
-            :error-messages="onChangeValidity('password')"
+          <v-text-field
+          v-model="password"
+          type="password"
+          label="password"
+          :error-messages="onChangeValidity('password')"
 
-            ></v-text-field>
+          ></v-text-field>
 
-            <v-btn 
+          <v-btn 
 
-            color="success"
-            class="my-4"
-            @click="submit()"
-            :loading="loading"
-            >
-            Registration
-          </v-btn>
+          color="success"
+          class="my-4"
+          @click="submit()"
+          :loading="loading"
+          >
+          Registration
+        </v-btn>
 
-          <br>
+        <br>
 
-        </v-col>
+      </v-col>
 
-      </v-row>
+    </v-row>
 
-     
-</v-container>
 
-<v-row justify="center">
-  <v-dialog
-  v-model="dialog"
-  max-width="290"
-  >
-  <v-card>
-    <v-card-title class="headline">Status</v-card-title>
+  </v-container>
 
-    <v-card-text>
-      {{ status_text }}
-    </v-card-text>
+  <v-row justify="center">
+    <v-dialog
+    v-model="dialog"
+    max-width="290"
+    >
+    <v-card>
+      <v-card-title class="headline">Status</v-card-title>
 
-    <v-card-actions>
-      <v-spacer></v-spacer>
+      <v-card-text>
+        {{ status_text }}
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+        color="green darken-1"
+        text
+        @click="dialog = false"
+        >
+        Disagree
+      </v-btn>
 
       <v-btn
       color="green darken-1"
       text
       @click="dialog = false"
       >
-      Disagree
+      Agree
     </v-btn>
-
-    <v-btn
-    color="green darken-1"
-    text
-    @click="dialog = false"
-    >
-    Agree
-  </v-btn>
-</v-card-actions>
+  </v-card-actions>
 </v-card>
 </v-dialog>
 </v-row>
+
+<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
 
 </v-app>
 </template>
 <script>
 // @ is an alias to /src
+import noInternetSnackBar from '@/views/noInternetSnackBar'
 
 export default {
   name: 'add_user',
+  components: { 'noInternetSnackBar': noInternetSnackBar },
   data: ()=>({
     name: 'riyad---vue',
     dialog: false,
@@ -130,8 +134,8 @@ export default {
 
     },
     methods: {
-    onChangeValidity(inputName){
-      if(inputName == 'full_name'){
+      onChangeValidity(inputName){
+        if(inputName == 'full_name'){
         // console.log(this.$refs.full_name.value);
         let patt= /[A-Za-z.\s]{5,}/g;
         let result = patt.test(this.full_name);
@@ -218,52 +222,54 @@ export default {
         // alert('valid');
 
         var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
 
 
-        this.$axios.post(this.$store.getters.modelRegistration, {
-          full_name: this.full_name,
-          institution_id: this.institution_id,
-          email: this.email,
-          mobile: this.mobile,
-          password: this.password,
-          who_is_doing_registration: 'admin',
-        } , headers)
-        .then( function(response){
-          this.registratrion_status = response.data ; 
-          this.loading = false;
-          console.log(response);
-          response.data == 'NO' ? this.status_text = 'Email already used' : this.status_text = 'registration successful';
+          this.$axios.post(this.$store.getters.modelRegistration, {
+            full_name: this.full_name,
+            institution_id: this.institution_id,
+            email: this.email,
+            mobile: this.mobile,
+            password: this.password,
+            who_is_doing_registration: 'admin',
+          } , headers)
+          .then( function(response){
+            this.registratrion_status = response.data ; 
+            this.loading = false;
+            console.log(response);
+            response.data == 'NO' ? this.status_text = 'Email already used' : this.status_text = 'registration successful';
         // this.status_text = 'success';
         this.dialog = true;
 
         
 
       }.bind(this))
-        .catch(function () {
+          .catch(function () {
           // console.log(error);
+          this.$refs.snackbar.startSnackBar();
+
           this.loading = false;
           this.status_text = 'failed';
           this.dialog = true;
 
         //return 'hi';
       }.bind(this));
-      }else{
+        }else{
 
-        this.loading = false;
-        this.status_text = 'invalid field detected';
-        this.dialog = true;
+          this.loading = false;
+          this.status_text = 'invalid field detected';
+          this.dialog = true;
 
-      }
+        }
 
 
 
-    },
+      },
+    }
+
+
   }
-
-
-}
 
 
 

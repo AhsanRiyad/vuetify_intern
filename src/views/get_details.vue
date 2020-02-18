@@ -3,7 +3,11 @@
 
 
   <v-row justify="center">
-    <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+
+
+
+
+    <v-dialog v-model="dialog" persistent  fullscreen hide-overlay transition="dialog-bottom-transition">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" dark v-on="on">Profile</v-btn>
       </template>
@@ -303,13 +307,18 @@
 </v-row>
 </template>
 
-</v-row>
 
+
+</v-row>
 
 </template>
 
 
+
 <script>
+
+
+
   export default {
     name: 'get_details',
     props: ['email' , 'user_id'  , 'category' , 'user_details'],
@@ -319,6 +328,8 @@
       progress_hidden: true,
       progress_color: 'red',
 
+      snackbar: false,
+      
 
       dialog: false,
       dialog2: false,
@@ -748,19 +759,19 @@
         }
       },
       change_info_database(purpose , value){
-        
-        var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
 
-        this.$axios.post(this.$store.getters.modelAdminChangeInfo , {
-          purpose : purpose,
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id : this.user_id,
-          value: value , 
-        } , headers)
-        .then(function (response) {
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
+
+          this.$axios.post(this.$store.getters.modelAdminChangeInfo , {
+            purpose : purpose,
+            main_purpose : 'search_other_option',
+            email: this.email,
+            user_id : this.user_id,
+            value: value , 
+          } , headers)
+          .then(function (response) {
           // console.log(response);
 
           if(response.data == 'email_updated'){
@@ -777,196 +788,201 @@
           return response.data;
 
         }.bind(this))
-        .catch(function () {
+          .catch(function () {
 
-        });
+            this.snackbar = true ; 
+          });
+
+        },
+        close_dialog(){
+
+         /* bus.$emit('categroy_from_get_details' , this.category);*/
+         this.$emit('update:search');
+         this.dialog = false;
+         this.get_updated_data();
+       },
+       reject_user_button(){
+
+        this.dialog2 = true
+        this.dialog2_body = 'Are you sure you want to block the user?';
+        this.dialog2_title = 'Block user?';
+        this.dialog2_btn_disabled = false;
 
       },
-      close_dialog(){
+      status_name_check(name){
 
-       /* bus.$emit('categroy_from_get_details' , this.category);*/
-       this.$emit('update:search');
-       this.dialog = false;
-       this.get_updated_data();
-     },
-     reject_user_button(){
+        if(name == 'email_verification_status' || name == 'status'){
+          return true;
+        }else{
+          return false;
+        }
 
-      this.dialog2 = true
-      this.dialog2_body = 'Are you sure you want to block the user?';
-      this.dialog2_title = 'Block user?';
-      this.dialog2_btn_disabled = false;
 
-    },
-    status_name_check(name){
+      },
+      approve_user_button(){
 
-      if(name == 'email_verification_status' || name == 'status'){
-        return true;
-      }else{
-        return false;
+        this.dialog4 = true
+        this.dialog4_body = 'Are you sure you want to block the user?';
+        this.dialog4_title = 'Block user?';
+        this.dialog4_btn_disabled = false;
+
       }
+      ,
+      reject_user(){
 
 
-    },
-    approve_user_button(){
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
 
-      this.dialog4 = true
-      this.dialog4_body = 'Are you sure you want to block the user?';
-      this.dialog4_title = 'Block user?';
-      this.dialog4_btn_disabled = false;
-
-    }
-    ,
-    reject_user(){
-
-
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-
-      this.$axios.post(this.$store.getters.modelSearch , {
-        purpose : 'reject_user',
-        main_purpose : 'search_other_option',
-        email: this.email,
-        user_id : this.user_id,
-      } , headers)
-      .then(function () {
+          this.$axios.post(this.$store.getters.modelSearch , {
+            purpose : 'reject_user',
+            main_purpose : 'search_other_option',
+            email: this.email,
+            user_id : this.user_id,
+          } , headers)
+          .then(function () {
 
 
-        this.dialog2_body = 'User blocked Successfully';
-        this.dialog2_title = 'Success';
-        this.dialog2_btn_disabled = true;
-        this.get_updated_data();
+            this.dialog2_body = 'User blocked Successfully';
+            this.dialog2_title = 'Success';
+            this.dialog2_btn_disabled = true;
+            this.get_updated_data();
 
 
 
-      }.bind(this))
-      .catch(function () {
-          // 
-        });
+          }.bind(this))
+          .catch(function () {
+
+            // this.snackbar = true;
+          });
 
 
 
 
 
-    },
-    dialog2_reject_user_no(){
-      this.dialog2 = false;
-      this.dialog2_btn_disabled = false
-    },
-    make_admin(){
+        },
+        dialog2_reject_user_no(){
+          this.dialog2 = false;
+          this.dialog2_btn_disabled = false
+        },
+        make_admin(){
 
 
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+          var headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'} ;
 
-      this.$axios.post(this.$store.getters.modelSearch , {
-        purpose : 'make_admin',
-        main_purpose : 'search_other_option',
-        email: this.email,
-        user_id: this.user_id,
-      } , headers)
-      .then(function () {
+            this.$axios.post(this.$store.getters.modelSearch , {
+              purpose : 'make_admin',
+              main_purpose : 'search_other_option',
+              email: this.email,
+              user_id: this.user_id,
+            } , headers)
+            .then(function () {
 
-        this.edit_info = false;
-        this.dialog3_body = 'Made admin successfully';
-        this.dialog3_title = 'Success';
-        this.dialog3_btn_disabled = true;
-        this.get_updated_data();
-
-
-
-
-      }.bind(this))
-      .catch(function () {
-
-      });
-
-
-    },
-    make_admin_button(){
-
-
-      this.dialog3 = true;
-      this.dialog3_btn_disabled = false;
-
-    },
-    dialog3_make_admin_no(){
-
-      this.dialog3 = false;
-      this.dialog3_btn_disabled = false
-    },
-    make_user(){
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-      this.$axios.post(this.$store.getters.modelSearch , {
-        purpose : 'make_user',
-        main_purpose : 'search_other_option',
-        email: this.email,
-        user_id: this.user_id,
-      } , headers)
-      .then(function () {
-
-        this.dialog5_body = 'Made user successfully';
-        this.dialog5_title = 'Success';
-        this.dialog5_btn_disabled = true;
-        this.get_updated_data();
-
-      }.bind(this))
-      .catch(function () {
-
-      });
+              this.edit_info = false;
+              this.dialog3_body = 'Made admin successfully';
+              this.dialog3_title = 'Success';
+              this.dialog3_btn_disabled = true;
+              this.get_updated_data();
 
 
 
-    },
-    make_user_button(){
 
-      this.dialog5 = true;
-      this.dialog5_btn_disabled = false;
-    },
-    make_user_no(){
+            }.bind(this))
+            .catch(function () {
 
-      this.dialog5 = false;
-      this.dialog5_btn_disabled = false
-    },
-    approve_user(){
-
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+              // this.snackbar = true;
+            });
 
 
-      this.$axios.post(this.$store.getters.modelSearch , {
-        purpose : 'approve_user',
-        main_purpose : 'search_other_option',
-        email: this.email,
-        user_id: this.user_id,
-      } , headers)
-      .then(function () {
-
-        this.dialog4_body = 'User approved successfully';
-        this.dialog4_title = 'Success';
-        this.dialog4_btn_disabled = true;
-        this.get_updated_data();
+          },
+          make_admin_button(){
 
 
+            this.dialog3 = true;
+            this.dialog3_btn_disabled = false;
 
-      }.bind(this))
-      .catch(function () {
+          },
+          dialog3_make_admin_no(){
 
-      });
+            this.dialog3 = false;
+            this.dialog3_btn_disabled = false
+          },
+          make_user(){
+            var headers = {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Accept': 'application/json'} ;
+              this.$axios.post(this.$store.getters.modelSearch , {
+                purpose : 'make_user',
+                main_purpose : 'search_other_option',
+                email: this.email,
+                user_id: this.user_id,
+              } , headers)
+              .then(function () {
+
+                this.dialog5_body = 'Made user successfully';
+                this.dialog5_title = 'Success';
+                this.dialog5_btn_disabled = true;
+                this.get_updated_data();
+
+              }.bind(this))
+              .catch(function () {
+
+                // this.snackbar = true;
+              });
 
 
 
-    },
-    dialog4_approve_user_no(){
+            },
+            make_user_button(){
 
-      this.dialog4 = false;
-      this.dialog4_btn_disabled = false
-    },
-    get_updated_data(){
+              this.dialog5 = true;
+              this.dialog5_btn_disabled = false;
+            },
+            make_user_no(){
+
+              this.dialog5 = false;
+              this.dialog5_btn_disabled = false
+            },
+            approve_user(){
+
+              var headers = {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json'} ;
+
+
+                this.$axios.post(this.$store.getters.modelSearch , {
+                  purpose : 'approve_user',
+                  main_purpose : 'search_other_option',
+                  email: this.email,
+                  user_id: this.user_id,
+                } , headers)
+                .then(function () {
+
+                  this.dialog4_body = 'User approved successfully';
+                  this.dialog4_title = 'Success';
+                  this.dialog4_btn_disabled = true;
+                  this.get_updated_data();
+
+
+
+                }.bind(this))
+                .catch(function () {
+
+                  // this.snackbar = true;
+                });
+
+
+
+              },
+              dialog4_approve_user_no(){
+
+                this.dialog4 = false;
+                this.dialog4_btn_disabled = false
+              },
+              get_updated_data(){
         // alert(this.user_id);
         //alert('this.user_id');
 
@@ -975,17 +991,17 @@
 
 
         var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
 
-        this.$axios.post( this.$store.getters.modelSearch ,
-        {
-          purpose: 'get_profile_details_for_all',
-          main_purpose : 'search_other_option',
-          email: this.email,
-          user_id: this.user_id, 
-        } , headers ).then(function(response){
-          this.users_info = response.data;
+          this.$axios.post( this.$store.getters.modelSearch ,
+          {
+            purpose: 'get_profile_details_for_all',
+            main_purpose : 'search_other_option',
+            email: this.email,
+            user_id: this.user_id, 
+          } , headers ).then(function(response){
+            this.users_info = response.data;
           // console.log(response);
           this.profile_user_status = this.users_info[23][1];
           this.profile_user_type = this.users_info[26][1];
@@ -995,31 +1011,34 @@
           this.progress_color = 'white';
 
         }.bind(this))
-        .catch(function(){
-         this.indeterminate = false;
-         this.progress_color = 'white';
+          .catch(function(){
 
-       }.bind(this));
-      }
-    },
-    created(){
 
-      this.indeterminate = true;
-      
-      this.progress_color = 'red';
+            // this.snackbar = true;
+            this.indeterminate = false;
+            this.progress_color = 'white';
 
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+          }.bind(this));
+        }
+      },
+      created(){
 
-      this.$axios.post( this.$store.getters.modelSearch ,
-      {
-        purpose: 'get_profile_details_for_all',
-        main_purpose : 'search_other_option',
-        email: this.email,
-        user_id: this.user_id,
-      } , headers ).then(function(response){
-        this.users_info = response.data;
+        this.indeterminate = true;
+
+        this.progress_color = 'red';
+
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
+
+          this.$axios.post( this.$store.getters.modelSearch ,
+          {
+            purpose: 'get_profile_details_for_all',
+            main_purpose : 'search_other_option',
+            email: this.email,
+            user_id: this.user_id,
+          } , headers ).then(function(response){
+            this.users_info = response.data;
         // console.log(response);
         this.profile_user_status = this.users_info[23][1];
         this.profile_user_type = this.users_info[26][1];
@@ -1030,19 +1049,20 @@
 
         // console.log(this.users_info[22][0]);
       }.bind(this))
-      .catch(function(){
+          .catch(function(){
 
-       this.indeterminate = false;
-       this.progress_color = 'white';
+// this.snackbar = true;
+           this.indeterminate = false;
+           this.progress_color = 'white';
 
-     }.bind(this));
+         }.bind(this));
 
-    }
-
-
-
-  }
+        }
 
 
 
-</script>
+      }
+
+
+
+    </script>

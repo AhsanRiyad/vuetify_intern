@@ -22,10 +22,9 @@
 
             </component>
           </keep-alive>
+
+
           
-
-
-
           <!-- <profile_basic></profile_basic> -->
         </v-col>
       </v-row>
@@ -35,6 +34,7 @@
 </template>
 <script>
 // @ is an alias to /src
+
 import buttons_for_profile from './buttons_for_profile.vue'
 import profile_basic from './profile_basic'
 import profile_personal from './profile_personal'
@@ -48,7 +48,7 @@ export default {
   components: { 'profile_basic': profile_basic  , 'buttons_for_profile': buttons_for_profile, 'profile_personal': profile_personal, 'profile_address': profile_address , 
   'profile_photo_upload': profile_photo_upload,
   'profile_change_password': profile_change_password,
-  'profile_change_email': profile_change_email,
+  'profile_change_email': profile_change_email
 }, 
 
 data: ()=>({}), 

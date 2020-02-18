@@ -37,7 +37,7 @@ export const store = new Vuex.Store({
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
 		search_result: [],
-		institution_id_label: '',
+		institution_id_label: ''
 	},
 	mutations: {
 		loginFalse: state => {
@@ -84,7 +84,7 @@ export const store = new Vuex.Store({
 		},
 		setChangeRequest: ( state , name ) =>{
 			state.countRequest.changeRequest = name ;
-		},
+		}
 	},
 	getters: {
 		auth: state=>{

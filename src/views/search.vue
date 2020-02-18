@@ -76,40 +76,40 @@
                   <user_gallery :email='user.email' :user_id='user.id' ></user_gallery>
                 </td>
 
-              
+                
 
 
-              <td>
-                <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
-              </td>
-
-
-
-
-            </tr>
-          </tbody>
-
-
-        </template>
-      </v-simple-table>
+                <td>
+                  <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
+                </td>
 
 
 
 
-    </v-col>
-  </v-row>
+              </tr>
+            </tbody>
+
+
+          </template>
+        </v-simple-table>
 
 
 
 
+      </v-col>
+    </v-row>
 
-</v-container>
+
+    <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+
+
+  </v-container>
 </v-app>
 </template>
 
 
 <script>
-
+  import noInternetSnackBar from '@/views/noInternetSnackBar'
   import get_details from '@/views/get_details.vue'
   import user_gallery from '@/views/user_gallery.vue'
   
@@ -120,6 +120,7 @@
     components: {
       'get_details': get_details,
       'user_gallery': user_gallery,
+      'noInternetSnackBar': noInternetSnackBar
     },
     data: ()=>({
       category: 'Full Name',
@@ -170,22 +171,22 @@
         
 
         var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-        this.$axios.post( this.$store.getters.modelSearch ,
-        {
-          purpose: this.category ,
-          search_text: this.search_text,
-          main_purpose : 'search',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
+          this.$axios.post( this.$store.getters.modelSearch ,
+          {
+            purpose: this.category ,
+            search_text: this.search_text,
+            main_purpose : 'search',
 
-        } , headers
-        ).then(function(response){
+          } , headers
+          ).then(function(response){
 
-          console.log(response);
+            console.log(response);
 
-          if(response.data.length == 1){
-            this.user_list = []; 
-            this.user_list[0] =  JSON.parse(response.data);
+            if(response.data.length == 1){
+              this.user_list = []; 
+              this.user_list[0] =  JSON.parse(response.data);
 
             // this.$store.commit('setSearchResult' , this.user_list[0]);
 
@@ -208,25 +209,27 @@
           this.progress_color = 'white';
 
         }.bind(this))
-        .catch(function(error){
+          .catch(function(error){
 
-          console.log(error);
+            console.log(error);
 
-          this.indeterminate = false;
-          this.progress_hidden=true;
-          this.progress_color = 'white';
+            this.$refs.snackbar.startSnackBar();
+
+            this.indeterminate = false;
+            this.progress_hidden=true;
+            this.progress_color = 'white';
           // 
         }.bind(this));
 
 
-      }
+        }
 
 
-    },
-    created(){
-      this.$store.getters.isAdmin  ? this.category_items.push("Rejected User" , "Newly Registered") : '';
+      },
+      created(){
+        this.$store.getters.isAdmin  ? this.category_items.push("Rejected User" , "Newly Registered") : '';
 
-      this.users_info_as_props = this.$store.getters.getAllInfo;
+        this.users_info_as_props = this.$store.getters.getAllInfo;
 /*
 
       bus.$on('categroy_from_get_details' , (data)=>{

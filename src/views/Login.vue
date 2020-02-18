@@ -60,7 +60,7 @@
 			>
 			Registration
 		</v-btn>
-
+		<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
 	</v-col>
 
@@ -104,6 +104,10 @@
 </v-row>
 
 
+
+
+
+
 </v-app>
 </template>
 
@@ -111,10 +115,12 @@
 // @ is an alias to /src
 // import { bus } from '@/main'
 import cookie_mixins from '@/mixins/cookie_mixins'
+import noInternetSnackBar from '@/views/noInternetSnackBar'
 const md5 = require('crypto-js/md5');
 export default {
 	name: 'login',
 	mixins: [cookie_mixins],
+	components: { 'noInternetSnackBar': noInternetSnackBar },
 	data: ()=>({
 		loading: false,
 		dialog: false,
@@ -127,7 +133,7 @@ export default {
 		greenText: false,
 		redText: false,
 		date : new Date(),
-		expires: '',
+		expires: ''
 	}), 
 
 
@@ -139,31 +145,32 @@ export default {
 				'Accept': 'application/json'} ;
 
 
-			this.$axios.post( this.$store.getters.modelProfile_basic , {
-				purpose : 'getProfileBasicInfoForAuth',
-				email: this.email , 
-			} ,
+				this.$axios.post( this.$store.getters.modelProfile_basic , {
+					purpose : 'getProfileBasicInfoForAuth',
+					email: this.email , 
+				} ,
 
-			headers
+				headers
 
 
 				)
-			.then(function(response){
+				.then(function(response){
 
-				console.log(response);
+					console.log(response);
+					
+					
+					if(response.data.userInfo !=0){
+						this.$store.commit('set_user_info' , response.data.userInfo);
 
-				if(response.data.userInfo !=0){
-					this.$store.commit('set_user_info' , response.data.userInfo);
+						response.data.userInfo.status == 'approved' ? this.$store.commit('verifiedTrue') :  this.$store.commit('verifiedFalse');
 
-					response.data.userInfo.status == 'approved' ? this.$store.commit('verifiedTrue') :  this.$store.commit('verifiedFalse');
+					}
 
-				}
+					this.$store.commit('setIInstitution_id_label' , response.data.institution_id_label);
 
-				this.$store.commit('setIInstitution_id_label' , response.data.institution_id_label);
+					this.$store.commit('setVerificationRequest' , response.data.countRequest.verificationRequest);
 
-				this.$store.commit('setVerificationRequest' , response.data.countRequest.verificationRequest);
-
-				this.$store.commit('setChangeRequest' , response.data.countRequest.changeRequest);
+					this.$store.commit('setChangeRequest' , response.data.countRequest.changeRequest);
 
 					// this.$store.commit('set_user_info' , response.data);
 						//this.$store.commit('loginTrue');
@@ -171,43 +178,46 @@ export default {
 						// this.$router.push({ name: 'profile' }) ;
 
 					}.bind(this))
-			.catch(function () {
+				.catch(function () {
+					
+				// this.$store.mutations('noInternetSnackBar');
+				this.$refs.snackbar.startSnackBar();
 
 			}.bind(this));
 
-		},
-		onChangeValidity(inputName){
+			},
+			onChangeValidity(inputName){
 
 
 
-			if(inputName == 'email'){ 
+				if(inputName == 'email'){ 
 
-				const errors = [];
+					const errors = [];
 
-				let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-				let result_email = patt_email.test(this.email);
+					let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
+					let result_email = patt_email.test(this.email);
 
-				if(!result_email){
-					this.email_validity = 'invalid'
-					errors.push('email error');
-				}else{
-					this.email_validity = 'valid';
+					if(!result_email){
+						this.email_validity = 'invalid'
+						errors.push('email error');
+					}else{
+						this.email_validity = 'valid';
+					}
+
+					return errors;
+
+				}else if(inputName == 'password'){
+
+
+					var patt= /[\S]{6,}/g;
+					var result = patt.test(this.password);
+					result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
 				}
-
-				return errors;
-
-			}else if(inputName == 'password'){
-
-
-				var patt= /[\S]{6,}/g;
-				var result = patt.test(this.password);
-				result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
-			}
-		},
-		submit(){
-			this.loading = true;
-			if(this.email_validity == 'valid' && this.password_validity == 'valid'){
-				if(md5(this.password) == this.$store.getters.getAllInfo.password){ 
+			},
+			submit(){
+				this.loading = true;
+				if(this.email_validity == 'valid' && this.password_validity == 'valid'){
+					if(md5(this.password) == this.$store.getters.getAllInfo.password){ 
 
 				/*this.setCookie('email' , this.email , 7);
 				this.setCookie('crypto' , this.$store.getters.getAllInfo.forgot_password_crypto , 7);*/
@@ -254,8 +264,8 @@ created(){
 },
 updated(){
 
-	this.$store.commit('set_user_info' , '');
-	
+	//this.$store.commit('set_user_info' , '');
+
 	this.$store.commit('loginFalse');
 	this.$store.commit('adminFalse');
 	this.$cookies.set('email', '');
