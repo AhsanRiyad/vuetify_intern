@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2020 at 10:09 AM
+-- Generation Time: Feb 19, 2020 at 09:03 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -180,7 +180,7 @@ END IF ;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_address` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `present_line11` VARCHAR(100), IN `present_district1` VARCHAR(100), IN `present_post_code1` INT(100), IN `present_country1` VARCHAR(200), IN `permanent_line11` VARCHAR(100), IN `permanent_district1` VARCHAR(100), IN `permanent_post_code1` INT(100), IN `permanent_country1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `update_profile_address` (IN `id1` INT(100), IN `last_verified_info1` VARCHAR(1000), IN `present_line11` VARCHAR(100), IN `present_district1` VARCHAR(100), IN `present_post_code1` INT(100), IN `present_country1` VARCHAR(200), IN `permanent_line11` VARCHAR(100), IN `permanent_district1` VARCHAR(100), IN `permanent_post_code1` INT(100), IN `permanent_country1` VARCHAR(200), IN `permanent_post_office_name1` VARCHAR(200), IN `permanent_police_station1` VARCHAR(100), IN `present_post_office_name1` VARCHAR(100), IN `present_police_station1` INT(100), IN `second_citizenship_country1` VARCHAR(200), OUT `result` VARCHAR(100))  BEGIN
 DECLARE count int(5);
 
 DECLARE verification_status varchar(100);
@@ -194,7 +194,7 @@ select change_request into change_req_status from all_info_together where id = i
 select type into user_type from all_info_together where id = id1;
 
 
-update all_info_together set  present_line1 = present_line11, present_district = present_district1, present_post_code = present_post_code1 , present_country = present_country1 , parmanent_line1 = permanent_line11 , parmanent_district = permanent_district1, parmanent_post_code = permanent_post_code1 , parmanent_country = permanent_country1 where id = id1 ;
+update all_info_together set  present_line1 = present_line11, present_district = present_district1, present_post_code = present_post_code1 , present_country = present_country1 , parmanent_line1 = permanent_line11 , parmanent_district = permanent_district1, parmanent_post_code = permanent_post_code1 , parmanent_country = permanent_country1, parmanent_post_office_name = permanent_post_office_name1, parmanent_police_station=permanent_police_station1, present_post_office_name=present_post_office_name1, present_police_station=present_police_station1, second_citizenship_country=second_citizenship_country1 where id = id1 ;
 
 
 
@@ -538,6 +538,23 @@ CREATE TABLE `form_fields_rule` (
   `rule` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `form_fields_rule`
+--
+
+INSERT INTO `form_fields_rule` (`id_form_field`, `field_name`, `rule`) VALUES
+(20, 'nid_or_passport_validity', 'optional'),
+(21, 'blood_group_validity', 'mandatory'),
+(22, 'religion_validity', 'mandatory'),
+(23, 'date_of_birth_validity', 'mandatory'),
+(24, 'fathers_name_validity', 'mandatory'),
+(25, 'spouses_name_validity', 'mandatory'),
+(26, 'number_of_children_validity', 'mandatory'),
+(27, 'profession_validity', 'mandatory'),
+(28, 'workplace_or_institution_validity', 'optional'),
+(30, 'profession_validity', 'mandatory'),
+(31, 'designation_validity', 'mandatory');
+
 -- --------------------------------------------------------
 
 --
@@ -595,9 +612,9 @@ CREATE TABLE `users_address` (
 --
 
 INSERT INTO `users_address` (`email`, `users_address_id`, `present_line1`, `present_line2`, `present_district`, `present_police_station`, `present_post_office_name`, `present_post_code`, `present_country`, `parmanent_line1`, `parmanent_line2`, `parmanent_police_station`, `parmanent_district`, `parmanent_post_office_name`, `parmanent_post_code`, `parmanent_country`, `second_citizenship_country`) VALUES
-('riyad298@gmail.com', 1, 'House: 04, Bazar Road', NULL, 'Kurigram', NULL, NULL, '5600', 'Bangladesh', 'Sarker Bari', NULL, NULL, 'Dhaka', NULL, '3900', 'Bangladesh', NULL),
+('riyad298@gmail.com', 1, 'House: 04, Bazar Road', NULL, 'Kurigram', '560000', 'Tograinah', '5600', 'Bangladesh', 'Sarker Bari', NULL, 'arfaerfaerfaerarfe', 'Dhaka', 'afreferf', '3900', 'Bangladesh', 'frence'),
 ('ahsan.riyad@outlook.com', 2, NULL, NULL, NULL, NULL, NULL, '3200', NULL, NULL, NULL, NULL, NULL, NULL, '3200', 'Bangladesh', NULL),
-('riyad298@yahoo.com', 3, 'arfaerferf', NULL, 'arferfer', NULL, NULL, '5600', 'arfarfe ref er', 'aerfearfe', NULL, NULL, 'arferferf', NULL, '111546', 'arfefaerfafaerf', NULL),
+('riyad298@yahoo.com', 3, 'arfaerferf', NULL, 'arferfer', '0', 'Tograihat', '5600', 'arfarfe ref er', 'aerfearfe', NULL, 'kurigram', 'arferferf', NULL, '111546', 'arfefaerfafaerf', NULL),
 ('riyad298@hotmail.com', 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('rimo@gmail.com', 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('abcd@abcd.com', 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -630,7 +647,7 @@ CREATE TABLE `users_info` (
 --
 
 INSERT INTO `users_info` (`email`, `gender`, `ui_id`, `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `religion`) VALUES
-('riyad298@gmail.com', NULL, 0, '12548756658', 'Barkat Alam Siddiki', 'Urmee', 'Maliha', 2, 'Student stgstrg afre', 'Student', 'American International University-Bangladesh', 'A-', '1971-05-28', 'Islam'),
+('riyad298@gmail.com', NULL, 0, '12548756', 'Barkat Alam Siddiki', 'Urmee', 'Maliha', 2, 'Student stgstrg afre', 'Student', 'Ame', 'A-', '1971-05-28', 'Islam'),
 ('ahsan.riyad@outlook.com', NULL, 0, '454655656646465', 'Barkat Alam', 'Urmee Kabir', NULL, NULL, NULL, NULL, NULL, NULL, '2020-02-13', NULL),
 ('riyad298@yahoo.com', NULL, 0, '55555555577', 'Romel agartg', 'Urmee Sultana', 'aferfaef rafer', 5, 'arfafrafeaf', 'afferfaref', 'arfefearffrae arferf', 'A-', '1992-11-01', NULL),
 ('riyad298@hotmail.com', NULL, 0, '01919448787', 'Romel', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-09-16', NULL),
@@ -662,9 +679,9 @@ CREATE TABLE `users_registration` (
 --
 
 INSERT INTO `users_registration` (`email`, `id`, `full_name`, `name_bangla`, `first_name`, `last_name`, `mobile`, `institution_id`, `password`, `registration_date`, `membership_number`) VALUES
-('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad', 'Ahsan', '01919448787', 'riyad ahsan', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-27 10:15:15.000000', 1001),
+('riyad298@gmail.com', 1, 'Ahsan Riyad', 'মোঃ এহসান ফেরদৌস রিয়াদ', 'Riyad', 'Ahsan', '01919448787', 'riyad ahsan are ', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-27 10:15:15.000000', 1001),
 ('ahsan.riyad@outlook.com', 2, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 02:22:46.000000', 1002),
-('riyad298@yahoo.com', 3, 'Ahsan Ferdous', '', NULL, NULL, '017192246822', '15-2804-2oioo', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 13:59:10.000000', 1003),
+('riyad298@yahoo.com', 3, 'Ahsan Ferdous', '', 'Riyad', 'Ahsan', '017192246822', '15-2804-2oioo', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 13:59:10.000000', 1003),
 ('riyad298@hotmail.com', 4, 'Md Ahsan Ferdous Riyad', '', NULL, NULL, '01919448787', 'riyad', '29cf2160ad1165db8dacdfd2eedcf5d0', '2019-11-29 19:52:40.000000', 1004),
 ('rimo@gmail.com', 5, 'rimo shahriar munem', '', NULL, NULL, '01919448787', 'afrerafarefaerarfaerf', '947a084ae67a0e57e0bf46a0d505e747', '2019-11-30 23:16:02.000000', 1005),
 ('abcd@abcd.com', 6, NULL, '', 'Ahsan', 'Riyad', '01719246822', '1566565', '29cf2160ad1165db8dacdfd2eedcf5d0', '2020-02-19 12:39:20.000000', 1000);
@@ -739,9 +756,9 @@ CREATE TABLE `verification_info` (
 --
 
 INSERT INTO `verification_info` (`id_v_info`, `email`, `otp`, `forgot_password_crypto`, `status`, `email_verification_status`, `change_request`, `change_request_time`, `type`, `visibility`, `completeness`, `last_verified_info`) VALUES
-(1, 'riyad298@gmail.com', '3038', 'ac627ab1ccbdb62ec96e702f07f6425b', 'approved', 'verified', 'rejected', '2019-11-29 01:45:23.000000', 'admin', 'full_name,mobile,institution_id,fathers_name,mother_name,spouse_name,profession,institution,blood_group,present_district,membership_number,status,email_verification_status,change_request,registration_date', 100, 'full_name,mobile,institution_id,nid_or_passport,fathers_name,mother_name,spouse_name,number_of_children,profession,designation,institution,blood_group,date_of_birth,present_line1,present_district,present_post_code,present_country,parmanent_line1,parmanent_district,parmanent_post_code,parmanent_country@#$riyad298@gmail.com,01719246822,riyad,riyad298@gmail.com,,,,,,,,B+,1990-11-20,arferferf,afreferf,2222,arfraefrae,aferff,arfarferf,44444,aferferf'),
-(2, 'ahsan.riyad@outlook.com', '4982', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'admin', 'full_name,institution_id,membership_number', 100, NULL),
-(3, 'riyad298@yahoo.com', '8456', NULL, 'rejected', 'verified', 'approved', '2020-02-18 18:25:07.000000', 'user', 'full_name,institution_id,membership_number', 80, 'full_name,mobile,institution_id,nid_or_passport,fathers_name,mother_name,spouse_name,number_of_children,profession,designation,institution,blood_group,date_of_birth,present_line1,present_district,present_post_code,present_country,parmanent_line1,parmanent_district,parmanent_post_code,parmanent_country@#$Ahsan Ferdous,017192246822,15-2804-2oioo,55555555577,Romel agartg,Urmee Sultana,aferfaef rafer,5,arfafrafeaf,afferfaref,arfefearffrae arferf,A-,1992-11-01,arfaerferf,arferfer,5600,arfarfe ref er,aerfearfe,arferferf,1111,arfefaerfafaerf'),
+(1, 'riyad298@gmail.com', '3038', 'ac627ab1ccbdb62ec96e702f07f6425b', 'approved', 'verified', 'rejected', '2019-11-29 01:45:23.000000', 'admin', 'full_name,email,institution_id,fathers_name,mother_name,spouse_name,profession,institution,blood_group,present_district,membership_number,status,email_verification_status,change_request,registration_date', 100, '\r\n'),
+(2, 'ahsan.riyad@outlook.com', '4982', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
+(3, 'riyad298@yahoo.com', '8456', NULL, 'approved', 'verified', 'approved', '2020-02-19 19:09:50.000000', 'user', 'full_name,institution_id,membership_number', 100, 'first_name,last_name,mobile,institution_id,nid_or_passport,fathers_name,mother_name,spouse_name,number_of_children,profession,designation,institution,blood_group,religion,date_of_birth,present_line1,present_district,present_police_station,present_post_code,present_post_office_name,present_country,parmanent_line1,parmanent_police_station,parmanent_district,parmanent_post_code,parmanent_post_office_name,parmanent_country,second_citizenship_country@#$Riyad,Ahsan,017192246822,15-2804-2oioo,55555555577,Romel agartg,Urmee Sultana,aferfaef rafer,5,arfafrafeaf,afferfaref,arfefearffrae arferf,A-,,1992-11-01,arfaerferf,arferfer,0,5600,Tograihat,arfarfe ref er,aerfearfe,,arferferf,111546,,arfefaerfafaerf,'),
 (4, 'riyad298@hotmail.com', '2591', NULL, 'approved', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 60, NULL),
 (5, 'rimo@gmail.com', '7680', NULL, 'approved', 'verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 100, NULL),
 (6, 'abcd@abcd.com', '6177', NULL, 'not_verified', 'not_verified', 'not_requested', NULL, 'user', 'full_name,institution_id,membership_number', 60, NULL);
@@ -839,7 +856,7 @@ ALTER TABLE `childrens_info`
 -- AUTO_INCREMENT for table `form_fields_rule`
 --
 ALTER TABLE `form_fields_rule`
-  MODIFY `id_form_field` int(200) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_form_field` int(200) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `log_table`

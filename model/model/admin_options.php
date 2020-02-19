@@ -61,4 +61,26 @@ if($purpose == 'change_institution_id_label'){
 	}
 	$conn->close();
 
+}else if($purpose == 'set_form_field_rules'){
+	echo 'ind the model';
+	$conn = get_mysqli_connection();
+
+	$sql;
+	switch ($d2->field_name) {
+		case 'nid_or_passport_validity':
+		$d2->rule == true ? $sql = "update form_fields_rule set rule = 'mandatory' where field_name = 'nid_or_passport_validity' "   : $sql ="update form_fields_rule set rule = 'optional' where field_name = 'nid_or_passport_validity' ";
+
+		break;
+		
+		default:
+			# code...
+		break;
+	}
+
+
+
+	$result = mysqli_query($conn , $sql);
+
+	$conn->close();
+
 }

@@ -35,6 +35,7 @@ export const store = new Vuex.Store({
 			changeRequest: 0,
 		},
 		component_name: 'profile_basic',
+		getComponentNameAdminOptions: 'institution_id_label',
 		page_title: 'Dashboard',
 		search_result: [],
 		institution_id_label: '',
@@ -88,6 +89,9 @@ export const store = new Vuex.Store({
 		},
 		setform_field_rules: ( state , name ) =>{
 			state.form_field_rules = name ;
+		},
+		setinstitution_id_labelComponent: ( state , name ) =>{
+			state.getComponentNameAdminOptions = name ;
 		}
 	},
 	getters: {
@@ -177,6 +181,9 @@ export const store = new Vuex.Store({
 		},
 		getform_field_rules: state => {
 			return state.form_field_rules;
+		},
+		getComponentNameAdminOptions: state => {
+			return state.getComponentNameAdminOptions;
 		}
 		
 	},
