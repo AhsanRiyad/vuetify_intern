@@ -11,6 +11,7 @@ session_start();
 $APP_ROOT = $_SERVER['DOCUMENT_ROOT']."/model/";
 
 $rootAdress = 'http://localhost/model/';
+$rootAdressDomain = 'http://localhost:8080/';
 
 
 
