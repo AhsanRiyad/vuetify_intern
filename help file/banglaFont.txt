@@ -1,0 +1,16 @@
+in the table
+
+set row 
+type -> varchar(200)
+collation -> utf8_general_ci
+
+
+
+
+
+in php script
+
+$conn = get_mysqli_connection();
+$conn->set_charset("utf8");
+
+

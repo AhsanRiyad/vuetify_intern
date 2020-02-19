@@ -7,12 +7,15 @@ $data =  file_get_contents('php://input');
 $d1 = json_decode($data);
 
 
-
+header('Content-Type: application/json; charset=utf-8');
 
 function verify_change_request($user_id){
 
   $conn = get_mysqli_connection();
-  $sql = "select `full_name`, `mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country`  from all_info_together where  id = ".$user_id." ";
+  $conn->set_charset("utf8");
+
+
+  $sql = "select `full_name`, `first_name` , `last_name` ,`mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `religion` ,`date_of_birth`, `present_line1`, `present_district`, `present_police_station` ,`present_post_code`,`present_post_office_name`, `present_country`, `parmanent_line1`, `parmanent_police_station` ,`parmanent_district`, `parmanent_post_code`,`parmanent_post_office_name`, `parmanent_country`,`second_citizenship_country`  from all_info_together where  id = ".$user_id." ";
 
   $result = mysqli_query($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
@@ -67,24 +70,24 @@ $conn->close();
 
 
 
-
-
-
 if($d1->purpose == 'basic'){
 
   $GLOBALS['id__'] = $d1->id;
   $email = $d1->email;
-  $full_name= $d1->full_name;
+  $first_name= $d1->first_name;
+  $last_name= $d1->last_name;
+  $name_bangla= $d1->name_bangla;
   $mobile= $d1->mobile;
   $institution_id= $d1->institution_id;
   $nid_or_passport= $d1->nid_or_passport;
   $blood_group= $d1->blood_group;
+  $religion= $d1->religion;
   $dob= $d1->dob;
 
   $conn = get_mysqli_connection();
+  $conn->set_charset("utf8");
 
-
-  $sql = "select `full_name`, `mobile`, `institution_id`,  `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country` from all_info_together where  id = ".$id__."";
+  $sql = "select `first_name`, `last_name`,  `mobile`, `institution_id`,  `nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `religion` ,`date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country` from all_info_together where  id = ".$id__."";
   $result = mysqli_query($conn, $sql);
   if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
@@ -95,9 +98,9 @@ if($d1->purpose == 'basic'){
   $verified_info = $arrayKeyString .'@#$'.$arrayValueString;
 
 
-  $sql = "call update_profile_basic(?,?,?,?,?,?,?,?,@result)";
+  $sql = "call update_profile_basic(?,?,?,?,?,?,?,?,?,?,?,@result)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param('isssssss' , $id__ , $verified_info , $full_name, $mobile , $institution_id , $blood_group , $nid_or_passport , $dob );
+  $stmt->bind_param('issssssssss' , $id__ , $verified_info , $first_name, $last_name, $name_bangla ,$mobile , $institution_id , $blood_group , $religion ,$nid_or_passport , $dob );
   $stmt->execute();
   $stmt->close();
 

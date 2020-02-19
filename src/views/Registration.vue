@@ -7,11 +7,19 @@
 
 					<h3> Dear User, We are glad you are here, please register </h3>
 
+
 					<v-text-field					
-					label="Name"
+					label="First Name"
 					type="text"
-					v-model='full_name'
-					:error-messages="onChangeValidity('full_name')"
+					v-model='first_name'
+					:error-messages="onChangeValidity('first_name')"
+					></v-text-field>
+
+					<v-text-field					
+					label="Last Name"
+					type="text"
+					v-model='last_name'
+					:error-messages="onChangeValidity('last_name')"
 					></v-text-field>
 
 					<v-text-field
@@ -99,8 +107,6 @@
 		<v-card-actions>
 			<v-spacer></v-spacer>
 
-	
-
 		<v-btn
 		color="green darken-1"
 		text
@@ -128,12 +134,19 @@ export default {
 		name: 'riyad---vue',
 		dialog: false,
 		status_text: '',
+		
+		first_name: '',
+		last_name: '',
+		name_bangla: '',
+
 		full_name : '',
 		email: '',
 		mobile: '',
 		institution_id: '',
 		password: '',
 		full_name_validity : 'green',
+		first_name_validity : '',
+		last_name_validity : '',
 		email_validity: '',
 		mobile_validity: '',
 		institution_id_validity: '',
@@ -145,18 +158,32 @@ export default {
 
 	methods: {
 		onChangeValidity(inputName){
-			if(inputName == 'full_name'){
+			if(inputName == 'first_name'){
 				// console.log(this.$refs.full_name.value);
 				let patt= /[A-Za-z.\s]{5,}/g;
-				let result = patt.test(this.full_name);
+				let result = patt.test(this.first_name);
 
 				if(!result){
 					let errors = [];
 					errors.push('Name at least 6 characters');
-					this.full_name_validity = 'invalid'
+					this.first_name_validity = 'invalid'
 					return errors;
 				}else{
-					this.full_name_validity = 'valid';
+					this.first_name_validity = 'valid';
+				}
+
+			}else if(inputName == 'last_name'){
+				// console.log(this.$refs.last_name.value);
+				let patt= /[A-Za-z.\s]{5,}/g;
+				let result = patt.test(this.last_name);
+
+				if(!result){
+					let errors = [];
+					errors.push('Name at least 6 characters');
+					this.last_name_validity = 'invalid'
+					return errors;
+				}else{
+					this.last_name_validity = 'valid';
 				}
 
 			}else if(inputName == 'institution_id'){
@@ -228,13 +255,14 @@ export default {
 
 
 			this.loading = true;
-			if(this.full_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
+			if(this.first_name_validity == 'valid' && this.last_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
 				// alert('valid');
-var headers = {
+				var headers = {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
 				this.$axios.post(this.$store.getters.modelRegistration, {
-					full_name: this.full_name,
+					first_name: this.first_name,
+					last_name: this.last_name,
 					institution_id: this.institution_id,
 					email: this.email,
 					mobile: this.mobile,
@@ -248,8 +276,6 @@ var headers = {
 					response.data == 'NO' ? this.status_text = 'Email already used' : this.status_text = 'registration successful';
 				// this.status_text = 'success';
 				this.dialog = true;
-
-				
 
 			}.bind(this))
 				.catch(function () {
@@ -267,9 +293,6 @@ var headers = {
 				this.dialog = true;
 
 			}
-
-
-
 		},
 	},
 	created(){

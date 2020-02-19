@@ -425,7 +425,7 @@ update users_registration set  email = email2 where email = email1 ;
 
 -- working_view starts all_info_together
 CREATE or REPLACE VIEW all_info_together AS
-select  ur.full_name,ur.mobile,ur.institution_id,ur.password,ur.registration_date, ur.membership_number, ui.gender,ui.nid_or_passport,ui.fathers_name,ui.mother_name,ui.spouse_name,ui.number_of_children,ui.profession,ui.designation,ui.institution,ui.blood_group,ui.date_of_birth ,
+select  ur.full_name,ur.first_name,ur.last_name,ur.name_bangla,ur.mobile,ur.institution_id,ur.password,ur.registration_date, ur.membership_number, ui.gender,ui.nid_or_passport,ui.fathers_name,ui.mother_name,ui.spouse_name,ui.number_of_children,ui.profession,ui.designation,ui.institution,ui.blood_group,ui.date_of_birth ,
 
 vi.id_v_info,vi.otp,vi.forgot_password_crypto,vi.status,vi.email_verification_status,vi.change_request, vi.change_request_time ,vi.type,vi.visibility,vi.completeness, vi.last_verified_info , ur.id , 
 

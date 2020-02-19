@@ -7,19 +7,32 @@
 
 					<slot name="verification_alert"></slot>
 
-					<v-text-field
+					
 
-					label="Name"
+					<v-text-field					
+					label="First Name"
 					type="text"
-					v-model="full_name"
-					:error-messages="validityCheckInput('full_name')"
+					v-model='first_name'
+					:error-messages="onChangeValidity('first_name')"
+					></v-text-field>
 
+					<v-text-field					
+					label="Last Name"
+					type="text"
+					v-model='last_name'
+					:error-messages="onChangeValidity('last_name')"
+					></v-text-field>
+
+
+					<v-text-field					
+					label="Bangla Name"
+					type="text"
+					v-model='name_bangla'
 					></v-text-field>
 
 
 					<v-text-field
 					v-model="institution_id"
-
 					:label="this.$store.getters.getIInstitution_id_label"
 					type="text"
 					:error-messages="validityCheckInput('institution_id')"
@@ -28,7 +41,6 @@
 
 					<v-text-field
 					v-model="mobile"
-
 					label="Mobile"
 					type="text"
 					:error-messages="validityCheckInput('mobile')"
@@ -47,6 +59,13 @@
 					:items="items"
 					label="Blood Group"
 					:error-messages="onChangeValidity('blood_group')"
+					></v-select>
+
+					<v-select
+					v-model = "religion"
+					:items="items_religion"
+					label="Religion"
+					:error-messages="onChangeValidity('religion')"
 					></v-select>
 
 					<v-menu
@@ -145,6 +164,19 @@ export default {
 		menu2: false,
 
 
+
+		first_name: '',
+		last_name: '',
+		name_bangla: '',
+		religion: 'Islam',
+
+
+		first_name_validity : '',
+		last_name_validity : '',
+		religion_validity : '',
+
+
+
 		name: 'riyad---vue',
 		dialog: false,
 		status_text: '',
@@ -166,7 +198,8 @@ export default {
 		password_validity: '',
 		registratrion_status: 'default',
 		loading: true,
-		items: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-']
+		items: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
+		items_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others']
 	}), 
 
 	created(){
@@ -183,6 +216,16 @@ this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.d
 
 
 this.full_name = this.$store.getters.getAllInfo.full_name;
+
+
+
+
+this.first_name = this.$store.getters.getAllInfo.first_name;
+this.last_name = this.$store.getters.getAllInfo.last_name;
+this.name_bangla = this.$store.getters.getAllInfo.name_bangla;
+this.religion = this.$store.getters.getAllInfo.religion;
+
+
 this.institution_id = this.$store.getters.getAllInfo.institution_id;
 this.mobile = this.$store.getters.getAllInfo.mobile;
 this.nid_or_passport = this.$store.getters.getAllInfo.nid_or_passport;
@@ -201,7 +244,9 @@ methods: {
 // console.log(this.$store.getters.getAllInfo.email);
 
 //alert(this.blood_group);
-this.validityCheckInput('full_name');
+this.validityCheckInput('first_name');
+this.validityCheckInput('last_name');
+this.validityCheckInput('religion');
 this.validityCheckInput('mobile');
 this.validityCheckInput('institution_id');
 this.validityCheckInput('nid_or_passport');
@@ -209,34 +254,44 @@ this.onChangeValidity('blood_group');
 this.onChangeValidity('date_of_birth');
 
 
-if(this.full_name_validity == 'valid' && this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.dob_validity == 'valid' ){
+if(this.first_name_validity == 'valid' && this.last_name_validity == 'valid'&&  this.religion_validity == 'valid'&& this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.dob_validity == 'valid' ){
 
 
 	var headers = {
 		'Content-Type': 'application/x-www-form-urlencoded',
-		'Accept': 'application/json'} ;
+		'Accept': 'application/json' , 'charset':'utf-8'} ;
 
 		this.$axios.post( this.$store.getters.modelProfile_basic ,
 		{
 			id: this.$store.getters.getAllInfo.id ,
 			email: this.$store.getters.getAllInfo.email ,
 			purpose: 'basic',
-			full_name: this.full_name,
+			first_name: this.first_name,
+			last_name: this.last_name,
+			name_bangla: this.name_bangla,
 			mobile: this.mobile,
 			institution_id: this.institution_id,
 			nid_or_passport: this.nid_or_passport,
 			blood_group: this.blood_group,
+			religion: this.religion,
 			dob: this.date_of_birth,
 		} , headers
-		).then(function(result){
+		).then(function(response){
 
-			console.log(result);
+			console.log(response);
 			this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
 			this.dialog = true;
 
 
-
 			this.$store.getters.getAllInfo.full_name = this.full_name;
+			
+
+			this.$store.getters.getAllInfo.first_name = this.first_name;
+			this.$store.getters.getAllInfo.last_name = this.last_name;
+			this.$store.getters.getAllInfo.name_bangla = this.name_bangla;
+			this.$store.getters.getAllInfo.religion = this.religion;
+
+
 			this.$store.getters.getAllInfo.mobile = this.mobile;
 			this.$store.getters.getAllInfo.institution_id = this.institution_id;
 			this.$store.getters.getAllInfo.nid_or_passport = this.nid_or_passport;
@@ -264,48 +319,96 @@ console.log( this.$store.getters.getAllInfo);
 },*/
 onChangeValidity(inputName){
 
-	if(inputName == 'blood_group'){
+	if(inputName == 'first_name'){
+				// console.log(this.$refs.full_name.value);
+				let patt= /[A-Za-z.\s]{5,}/g;
+				let result = patt.test(this.first_name);
 
-		const errors = [];
+				if(!result){
+					let errors = [];
+					errors.push('Name at least 6 characters');
+					this.first_name_validity = 'invalid'
+					return errors;
+				}else{
+					this.first_name_validity = 'valid';
+				}
 
-		let patt= /[+-A-O]{1,3}/g;
-		let result = patt.test(this.blood_group);
+			}else if(inputName == 'last_name'){
+				// console.log(this.$refs.last_name.value);
+				let patt= /[A-Za-z.\s]{5,}/g;
+				let result = patt.test(this.last_name);
 
-		result == false ? ( this.blood_group_validity = 'invalid' , errors.push('DOB is Not Valid') )   : this.blood_group_validity = 'valid';
+				if(!result){
+					let errors = [];
+					errors.push('Name at least 6 characters');
+					this.last_name_validity = 'invalid'
+					return errors;
+				}else{
+					this.last_name_validity = 'valid';
+				}
 
-		return errors;
+			}else if(inputName == 'blood_group'){
 
-	}else if(inputName == 'date_of_birth'){
+				const errors = [];
 
-		const errors = [];
-		let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
-		let result = patt.test(this.date_of_birth);
+				let patt= /[+-A-O]{1,3}/g;
+				let result = patt.test(this.blood_group);
 
-		patt = /^([0-9]{4})/g;
-		const matches = this.date_of_birth.match(patt);
+				result == false ? ( this.blood_group_validity = 'invalid' , errors.push('DOB is Not Valid') )   : this.blood_group_validity = 'valid';
+
+				return errors;
+
+			}else if(inputName == 'religion'){
+
+				const errors = [];
+
+				let patt= /[a-zA-Z]{3,20}/g;
+				let result = patt.test(this.religion);
+
+				result == false ? ( this.religion_validity = 'invalid' , errors.push('Religion is Not Valid') )   : this.religion_validity = 'valid';
+
+				return errors;
+
+			}else if(inputName == 'date_of_birth'){
+
+				const errors = [];
+				let patt= /^([0-9]{4})([-]{1}[0-9]{2}[-]{1}[0-9]{2}$)/igm;
+				let result = patt.test(this.date_of_birth);
+
+				patt = /^([0-9]{4})/g;
+				const matches = this.date_of_birth.match(patt);
 
 
 
-		if(result == true && matches[0]>1950 && matches[0] <2000){
-			this.dob_validity = 'valid';
-		}else{
-			this.dob_validity = 'invalid';
-			errors.push('DOB is Not Valid')
-		}
+				if(result == true && matches[0]>1950 && matches[0] <2000){
+					this.dob_validity = 'valid';
+				}else{
+					this.dob_validity = 'invalid';
+					errors.push('DOB is Not Valid')
+				}
 
-		return errors;
+				return errors;
 
 //result == false ? this.dob_validity = 'invalid' : this.dob_validity = 'valid';
 }
 },
 validityCheckInput( inputName  ){
 
-	if(inputName == 'full_name'){
+	if(inputName == 'first_name'){
 		const errors = [];
 		let patt= /[A-Za-z.\s]{5,}/g;
-		let result = patt.test(this.full_name);
+		let result = patt.test(this.first_name);
 
-		result == false ? ( this.full_name_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.full_name_validity = 'valid';
+		result == false ? ( this.first_name_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.first_name_validity = 'valid';
+
+		return errors;
+
+	}else if(inputName == 'last_name'){
+		const errors = [];
+		let patt= /[A-Za-z.\s]{5,}/g;
+		let result = patt.test(this.first_name);
+
+		result == false ? ( this.first_name_validity = 'invalid' , errors.push('Name is Not Valid') ) : this.first_name_validity = 'valid';
 
 		return errors;
 
