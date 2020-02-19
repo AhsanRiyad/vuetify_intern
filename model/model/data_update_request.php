@@ -49,7 +49,7 @@ if($d2->purpose=='get_change_req_user'){
 
 	$conn = get_mysqli_connection();
 	$user_id = $d2->user_id;
-	$sql = "select `full_name`, `mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `date_of_birth`, `present_line1`, `present_district`, `present_post_code`, `present_country`, `parmanent_line1`,  `parmanent_district`, `parmanent_post_code`, `parmanent_country`  from all_info_together where  id = ".$user_id." ";
+	$sql = "select `first_name` , `last_name` ,`mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `religion` ,`date_of_birth`, `present_line1`, `present_district`, `present_police_station` ,`present_post_code`,`present_post_office_name`, `present_country`, `parmanent_line1`, `parmanent_police_station` ,`parmanent_district`, `parmanent_post_code`,`parmanent_post_office_name`, `parmanent_country`,`second_citizenship_country`  from all_info_together where  id =".$user_id." ";
 
 	$result = mysqli_query($conn, $sql);
 	if (mysqli_num_rows($result) > 0) {
@@ -81,7 +81,7 @@ if($d2->purpose=='get_change_req_user'){
 
 	$array =  explode('@#$' , $row['last_verified_info']);
 //desired array
-	
+	// print_r($array);
 	$arrayKey_from_database =  $stringToArrayKey_from_verified_info = explode(',' , $array[0] );
 	$arrayValue_from_database = $stringToArrayValue_from_verified_info = explode(',' , $array[1] );
 	$arrayNew = [];
@@ -118,8 +118,6 @@ if($d2->purpose=='get_change_req_user'){
 
 }else if($d2->purpose=='approve_user_change_request'){
 
-
-
 	//echo 'hi';
 	$email = $d2->email;
 	$user_id = $d2->user_id;
@@ -133,15 +131,8 @@ if($d2->purpose=='get_change_req_user'){
 	
 	$conn->close();
 
-
-
-
-
-
 }else if($d2->purpose=='reject_user_user_request'){
 
-
-	
 	$email = $d2->email;
 	$user_id = $d2->user_id;
 
@@ -165,9 +156,7 @@ $arrayKey_from_database = $stringToArrayValue_from_verified_info = explode(',' ,
 
 
 
-
-
-$update_sql_users_registration = "update users_registration set `full_name`='".$arrayValue_from_database[0]."', `mobile`='".$arrayValue_from_database[1]."', `institution_id`='".$arrayValue_from_database[2]."'  where  email = '".$email."'";
+$update_sql_users_registration = "update users_registration set `first_name`='".$arrayValue_from_database[0]."', `last_name`='".$arrayValue_from_database[1]."', ,`mobile`='".$arrayValue_from_database[2]."', `institution_id`='".$arrayValue_from_database[3]."'  where  email = '".$email."'";
 mysqli_query($conn , $update_sql_users_registration);
 
 
@@ -178,7 +167,7 @@ if($arrayValue_from_database[7] == NULL || $arrayValue_from_database[7] == ''){
 
 
 
-$update_sql_users_info = "update users_info set `nid_or_passport`='".$arrayValue_from_database[3]."', `fathers_name`='".$arrayValue_from_database[4]."', `mother_name`='".$arrayValue_from_database[5]."', `spouse_name`='".$arrayValue_from_database[6]."', `number_of_children`=".$arrayValue_from_database[7].", `profession`='".$arrayValue_from_database[8]."', `designation`='".$arrayValue_from_database[9]."', `institution`='".$arrayValue_from_database[10]."', `blood_group`='".$arrayValue_from_database[11]."', `date_of_birth`='".$arrayValue_from_database[12]."'  where  email = '".$email."'";
+$update_sql_users_info = "update users_info set `nid_or_passport`='".$arrayValue_from_database[4]."', `fathers_name`='".$arrayValue_from_database[5]."', `mother_name`='".$arrayValue_from_database[6]."', `spouse_name`='".$arrayValue_from_database[7]."', `number_of_children`=".$arrayValue_from_database[8].", `profession`='".$arrayValue_from_database[9]."', `designation`='".$arrayValue_from_database[10]."', `institution`='".$arrayValue_from_database[11]."', `blood_group`='".$arrayValue_from_database[12]."', `religion`='".$arrayValue_from_database[12]."'  where  email = '".$email."'";
 mysqli_query($conn , $update_sql_users_info);
 
 
@@ -194,7 +183,7 @@ if($arrayValue_from_database[19] == NULL or $arrayValue_from_database[19] == '')
 
 
 
-$update_sql_users_address = "update users_address set `present_line1`='".$arrayValue_from_database[13]."', `present_district`='".$arrayValue_from_database[14]."', `present_post_code`='".$arrayValue_from_database[15]."', `present_country`='".$arrayValue_from_database[16]."', `parmanent_line1`='".$arrayValue_from_database[17]."',  `parmanent_district`='".$arrayValue_from_database[18]."', `parmanent_post_code`='".$arrayValue_from_database[19]."', `parmanent_country`='".$arrayValue_from_database[20]."'  where  email = '".$email."'";
+$update_sql_users_address = "update users_address set `date_of_birth`='".$arrayValue_from_database[13]."', `present_line1`='".$arrayValue_from_database[14]."', `present_district`='".$arrayValue_from_database[15]."', `present_police_station`='".$arrayValue_from_database[16]."', `present_post_code`='".$arrayValue_from_database[17]."',  `present_post_office_name`='".$arrayValue_from_database[18]."', `present_country`='".$arrayValue_from_database[19]."', `parmanent_line1`='".$arrayValue_from_database[20]."', `parmanent_police_station`='".$arrayValue_from_database[21]."', `parmanent_district`='".$arrayValue_from_database[22]."', `parmanent_post_code`='".$arrayValue_from_database[23]."', `parmanent_post_office_name`='".$arrayValue_from_database[24]."' , `parmanent_country`='".$arrayValue_from_database[25]."'  , `second_citizenship_country`='".$arrayValue_from_database[26]."'  where  email = '".$email."'";
 mysqli_query($conn , $update_sql_users_address);
 
 

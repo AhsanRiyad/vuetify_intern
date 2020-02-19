@@ -104,16 +104,16 @@
     <v-card-actions>
       <v-spacer></v-spacer>
 
-     
 
-    <v-btn
-    color="green darken-1"
-    text
-    @click="dialog = false"
-    >
-    Close
-  </v-btn>
-</v-card-actions>
+
+      <v-btn
+      color="green darken-1"
+      text
+      @click="dialog = false"
+      >
+      Close
+    </v-btn>
+  </v-card-actions>
 </v-card>
 </v-dialog>
 </v-row>
@@ -194,57 +194,81 @@ export default {
       this.onChangeValidity('workplace_or_institution');
       this.onChangeValidity('designation');
 
+      this.$store.getters.getform_field_rules.forEach((item)=>{
+
+
+        if(item.rule == 'optional'){
+          switch(item.field_name) {
+            case 'number_of_children_validity':
+            this.number_of_children_validity = 'valid';
+            break;
+            case 'profession_validity':
+            this.profession_validity = 'valid';
+            break;
+            case 'workplace_or_institution_validity':
+            this.workplace_or_institution_validity = 'valid';
+            break;
+            case 'designation_validity':
+            this.designation_validity = 'valid';
+            break;
+          }
+
+        }})
+
+
+
+
 
       if( this.fathers_name_validity == 'valid' &&  this.mothers_name_validity == 'valid' && this.spouse_name_validity == 'valid' && this.number_of_children_validity == 'valid' &&  this.profession_validity == 'valid' && this.workplace_or_institution_validity == 'valid' && this.designation_validity == 'valid' ){
-var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-        this.$axios.post( this.$store.getters.modelProfile_personal ,
-        {
-          purpose: 'personal',
-          id: this.$store.getters.getAllInfo.id ,
-          email: this.$store.getters.getAllInfo.email ,
-          fathers_name: this.fathers_name,
-          mothers_name: this.mothers_name,
-          spouse_name: this.spouse_name,
-          number_of_children: this.number_of_children,
-          profession: this.profession,
-          workplace_or_institution: this.workplace_or_institution,
-          designation: this.designation,
-        } , headers
-        ).then(function(){
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
+          this.$axios.post( this.$store.getters.modelProfile_personal ,
+          {
+            purpose: 'personal',
+            id: this.$store.getters.getAllInfo.id ,
+            email: this.$store.getters.getAllInfo.email ,
+            fathers_name: this.fathers_name,
+            mothers_name: this.mothers_name,
+            spouse_name: this.spouse_name,
+            number_of_children: this.number_of_children,
+            profession: this.profession,
+            workplace_or_institution: this.workplace_or_institution,
+            designation: this.designation,
+          } , headers
+          ).then(function(){
 
-          this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
+            this.$store.getters.getAllInfo.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
 
-          this.dialog = true;
-          
+            this.dialog = true;
 
 
-          this.$store.getters.getAllInfo.fathers_name = this.fathers_name ;
-          this.$store.getters.getAllInfo.mother_name = this.mothers_name ;
-          this.$store.getters.getAllInfo.spouse_name = this.spouse_name ;
-          this.$store.getters.getAllInfo.number_of_children = this.number_of_children ;
-          this.$store.getters.getAllInfo.profession = this.profession ;
-          this.$store.getters.getAllInfo.institution = this.workplace_or_institution ;
-          this.$store.getters.getAllInfo.designation = this.designation ;
 
-          
+            this.$store.getters.getAllInfo.fathers_name = this.fathers_name ;
+            this.$store.getters.getAllInfo.mother_name = this.mothers_name ;
+            this.$store.getters.getAllInfo.spouse_name = this.spouse_name ;
+            this.$store.getters.getAllInfo.number_of_children = this.number_of_children ;
+            this.$store.getters.getAllInfo.profession = this.profession ;
+            this.$store.getters.getAllInfo.institution = this.workplace_or_institution ;
+            this.$store.getters.getAllInfo.designation = this.designation ;
 
-        }.bind(this))
-        .catch(function(){
+
+
+          }.bind(this))
+          .catch(function(){
         //console.log(error);
       }.bind(this));
 
 
-        this.status_text = 'All fields are valid';
-        this.dialog = true ;
-      }else{
-        this.status_text = 'invalid fields detected';
-        this.dialog = true ;
-      }
+          this.status_text = 'All fields are valid';
+          this.dialog = true ;
+        }else{
+          this.status_text = 'invalid fields detected';
+          this.dialog = true ;
+        }
 
 
-    },
+      },
 
 
 

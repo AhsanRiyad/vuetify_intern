@@ -58,7 +58,7 @@
 			color="warning"
 			class="mr-4 "
 			>
-			Registration
+			Forgot Password
 		</v-btn>
 		<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
@@ -85,14 +85,14 @@
 
 			
 
-		<v-btn
-		color="green darken-1"
-		text
-		@click="dialog = false"
-		>
-		Close
-	</v-btn>
-</v-card-actions>
+			<v-btn
+			color="green darken-1"
+			text
+			@click="dialog = false"
+			>
+			Close
+		</v-btn>
+	</v-card-actions>
 </v-card>
 </v-dialog>
 </v-row>
@@ -251,11 +251,17 @@ created(){
 	this.$cookies.set('crypto', '');
 
 
+
+
+
+
+
 	// this.getCommonInfo();
 
 
 
 },
+mounted(){},
 updated(){
 
 	//this.$store.commit('set_user_info' , '');

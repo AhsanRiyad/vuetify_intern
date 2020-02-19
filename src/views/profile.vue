@@ -5,7 +5,7 @@
     <component v-bind:is="$store.getters.getComponentName"> <buttons_for_profile></buttons_for_profile> </component> -->
     
     <v-container>
-      
+
       <v-row>
         <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
           <keep-alive>
@@ -52,7 +52,28 @@ export default {
 }, 
 
 data: ()=>({}), 
-created(){},
+created(){
+
+  var headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Accept': 'application/json' , 'charset':'utf-8'} ;
+
+    this.$axios.post( this.$store.getters.modeladmin_options ,
+    {
+      purpose: 'get_form_field_rules'
+    } , headers
+    ).then(function(response){
+
+      console.log(response);
+      this.$store.commit('setform_field_rules' , response.data);
+    }.bind(this))
+    .catch(function(){
+//console.log(error);
+}.bind(this));
+
+
+
+},
 methods: {},
 submit(){},
 

@@ -8,27 +8,37 @@ include $APP_ROOT.'assets/linker/db.php' ;
 
 $conn = get_mysqli_connection();
 
-$conn->set_charset("utf8");
+// $conn->set_charset("utf8");
 
 
-/*mysqli_query($conn,'SET CHARACTER SET utf8'); 
-
-
-mysqli_query($conn,"SET SESSION collation_connection ='utf8_general_ci'");
-*/
-$sql = "update users_registration set name_bangla = 'আরফেরফ' where email='riyad298@gmail.com'";
-
+$sql = "insert into form_fields_rule ( field_name, rule) values('first_name' , 'mandatory')";
 
 mysqli_query($conn , $sql);
 
 
-$sql = "select name_bangla from users_registration where email = 'riyad298@gmail.com'";
 
-$result = mysqli_query($conn, $sql);
-  if (mysqli_num_rows($result) > 0) {
-    $row = mysqli_fetch_assoc($result);
-  }
-print_r($row);
+$sql = "SELECT * FROM form_fields_rule";
+
+$result = mysqli_query($conn , $sql);
+
+
+
+if (mysqli_num_rows($result) > 0) {
+	// $row = mysqli_fetch_assoc($result);
+
+	$i = 0;
+	$arrryData ;
+	while($row = mysqli_fetch_assoc($result)){
+		// print_r($row);
+		$arrayData[$i] = $row;
+		$i++;
+	}
+	//print_r($arrayData);
+	echo json_encode($arrayData);
+
+
+}
+
 
 $conn->close();
 

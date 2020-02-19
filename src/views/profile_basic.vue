@@ -4,11 +4,8 @@
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
 
-
 					<slot name="verification_alert"></slot>
-
 					
-
 					<v-text-field					
 					label="First Name"
 					type="text"
@@ -51,7 +48,7 @@
 
 					label="nid_or_passport"
 					type="text"
-					:error-messages="onChangeValidity('nid_or_passport')"
+					:error-messages="validityCheckInput('nid_or_passport')"
 					></v-text-field> 
 
 					<v-select
@@ -80,7 +77,7 @@
 					<template v-slot:activator="{ on }">
 						<v-text-field
 						v-model="date_of_birth"
-						label="Picker in menu"
+						label="Date of birth"
 						readonly
 						v-on="on"
 						:error-messages="onChangeValidity('date_of_birth')"
@@ -199,10 +196,42 @@ export default {
 		registratrion_status: 'default',
 		loading: true,
 		items: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
-		items_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others']
+		items_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others'],
+		form_items:['first_name_validity' , 'last_name_validity' ]
 	}), 
+	mounted(){
 
-	created(){
+		// console.log('beforeMount');
+		// console.log(this.$store.getters.getform_field_rules);
+
+
+
+
+
+
+
+	/*		
+
+			if(item.rule == 'mandatory'){
+				switch(item.name) {
+					case 'first_name':
+					this.first_name_validity = 'valid';
+
+					break;
+					case 'last_name':
+					this.last_name_validity = 'valid';
+					break;
+				}
+
+			}*/
+
+
+
+
+
+		},
+		created(){
+
 
 // this.setAllInfo();
 // this.full_name = this.$store.getters.getAllInfo.full_name;
@@ -212,11 +241,7 @@ this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.d
 
 
 
-
-
-
 this.full_name = this.$store.getters.getAllInfo.full_name;
-
 
 
 
@@ -246,12 +271,39 @@ methods: {
 //alert(this.blood_group);
 this.validityCheckInput('first_name');
 this.validityCheckInput('last_name');
-this.validityCheckInput('religion');
 this.validityCheckInput('mobile');
 this.validityCheckInput('institution_id');
+
+
+
 this.validityCheckInput('nid_or_passport');
 this.onChangeValidity('blood_group');
 this.onChangeValidity('date_of_birth');
+this.validityCheckInput('religion');
+
+
+this.$store.getters.getform_field_rules.forEach((item)=>{
+
+
+    if(item.rule == 'optional'){
+          switch(item.field_name) {
+            case 'nid_or_passport_validity':
+            this.nid_or_passport_validity = 'valid';
+            break;
+            case 'blood_group_validity':
+            this.blood_group_validity = 'valid';
+            break;
+            case 'date_of_birth_validity':
+            this.date_of_birth_validity = 'valid';
+            break;
+            case 'religion_validity':
+            this.religion_validity = 'valid';
+            break;
+          }
+
+        }})
+
+
 
 
 if(this.first_name_validity == 'valid' && this.last_name_validity == 'valid'&&  this.religion_validity == 'valid'&& this.mobile_validity == 'valid' && this.institution_id_validity == 'valid' && this.nid_or_passport_validity == 'valid' && this.blood_group_validity == 'valid' && this.dob_validity == 'valid' ){

@@ -113,6 +113,16 @@
           return "Account Created at";
         }else if(name == 'institution'){
           return "Workplace/Institution";
+        }else if(name == 'parmanent_police_station'){
+          return "Permanent Police Station";
+        }else if(name == 'parmanent_post_office_name'){
+          return "Permanent post office name";
+        }else if(name == 'present_police_station'){
+          return "Present Police Station";
+        }else if(name == 'present_post_office_name'){
+          return "Present post office name";
+        }else if(name == 'second_citizenship_country'){
+          return "Second Citizenship Country";
         }
 
       }

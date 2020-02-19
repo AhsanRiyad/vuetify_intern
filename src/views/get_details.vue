@@ -822,7 +822,7 @@
       approve_user_button(){
 
         this.dialog4 = true
-        this.dialog4_body = 'Are you sure you want to block the user?';
+        this.dialog4_body = 'Are you sure you want to approve the user?';
         this.dialog4_title = 'Block user?';
         this.dialog4_btn_disabled = false;
 

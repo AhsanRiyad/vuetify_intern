@@ -37,7 +37,8 @@ export const store = new Vuex.Store({
 		component_name: 'profile_basic',
 		page_title: 'Dashboard',
 		search_result: [],
-		institution_id_label: ''
+		institution_id_label: '',
+		form_field_rules: {},
 	},
 	mutations: {
 		loginFalse: state => {
@@ -84,6 +85,9 @@ export const store = new Vuex.Store({
 		},
 		setChangeRequest: ( state , name ) =>{
 			state.countRequest.changeRequest = name ;
+		},
+		setform_field_rules: ( state , name ) =>{
+			state.form_field_rules = name ;
 		}
 	},
 	getters: {
@@ -170,6 +174,9 @@ export const store = new Vuex.Store({
 		},
 		getCountRequest: state => {
 			return state.countRequest;
+		},
+		getform_field_rules: state => {
+			return state.form_field_rules;
 		}
 		
 	},
