@@ -35,3 +35,31 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### Server Side
+```
+in the model->address.php
+
+edit
+-> rootAdress, rootAdressDomain
+-> database info
+
+in the model->model->email_config.php
+
+edit
+email configuration info
+
+```
+
+### Client Side Vuejs
+```
+in the src->store->store.js
+
+edit
+-> rootAdress as domain name
+
+```
+
+
+
