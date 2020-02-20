@@ -91,7 +91,6 @@
     watch: {
       dialog (val) {
         if (!val) return
-
           setTimeout(() => (this.dialog = false), 2000);
       },
     },

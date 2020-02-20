@@ -37,6 +37,13 @@
           label="number_of_children"
           type="text"
           :error-messages="onChangeValidity('number_of_children')"
+          ></v-text-field>   
+
+          <v-text-field
+          
+          label="Children Details"
+          type="text"
+          @click="children_details()"
           ></v-text-field>      
 
 
@@ -184,6 +191,9 @@ export default {
   },
   methods: {
 
+    children_details(){
+    alert('children_details clicked');
+    },
     submit(){
 
       this.onChangeValidity('fathers_name');

@@ -10,13 +10,13 @@
 
       <v-row>
         <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
-
+        <keep-alive>
           <component v-bind:is="$store.getters.getComponentNameAdminOptions"> 
 
             <buttons_for_admin_options slot="buttons"></buttons_for_admin_options>
 
           </component>
-          
+          </keep-alive>
 
 
           
