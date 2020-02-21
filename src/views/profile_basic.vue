@@ -204,15 +204,8 @@ export default {
 		// console.log('beforeMount');
 		// console.log(this.$store.getters.getform_field_rules);
 
-
-
-
-
-
-
 	/*		
-
-			if(item.rule == 'mandatory'){
+				if(item.rule == 'mandatory'){
 				switch(item.name) {
 					case 'first_name':
 					this.first_name_validity = 'valid';

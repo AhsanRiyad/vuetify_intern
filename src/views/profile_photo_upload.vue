@@ -16,7 +16,7 @@
           color="success"
           class="my-4"
           @click="uploadPhoto_recent()"
-
+          :loading="loading_recent_photo"
           >
           Upload
         </v-btn>  
@@ -27,6 +27,7 @@
         color="success"
         class="my-4"
         @click="uploadPhoto_old()"
+        :loading="loading_old_photo"
 
         >
         Upload
@@ -38,7 +39,7 @@
       color="success"
       class="my-4"
       @click="uploadPhoto_group()"
-
+      :loading="loading_group_photo" 
       >
       Upload
     </v-btn>
@@ -112,6 +113,7 @@
       loading_group_photo:false,
       file_type: false,
       profile_photo: '',
+      loading: false,
     }),
 
     methods: {
@@ -128,7 +130,7 @@
           formData.append('user_id', this.$store.getters.getAllInfo.id);
           // formData.append('email', 'riyad298@gmail.com');
           // formData.append('user_id', 1);
-
+          this.loading = true;
 
         
 
@@ -144,7 +146,7 @@
               response.data == 'success' ? this.status = 'upload successful' : this.status = 'problem uploading your photo, try again';
               
               console.log(response);
-
+              this.loading = false;
               this.dialog = true;
               this.recent_photo_name = 'choose file';
               
@@ -154,7 +156,6 @@
               this.status = 'You are not authorized';
               this.dialog = true;
               this.recent_photo_name = 'choose file';
-              
             }.bind(this));
             
             this.file_type = false;

@@ -6,7 +6,7 @@ import axios from 'axios'
 
 var authMixins = {
 
-	requireAuthLoginCheck (to, from, next) {
+requireAuthLoginCheck (to, from, next) {
 
 // alert(to.meta.title);
 

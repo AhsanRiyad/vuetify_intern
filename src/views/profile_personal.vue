@@ -4,9 +4,6 @@
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
 
-
-
-
           <slot name="verification_alert"></slot>
 
           <v-text-field

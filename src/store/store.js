@@ -21,14 +21,14 @@ export const store = new Vuex.Store({
 		},
 		user_info: '',
 		model:{
-			modelAddress1: 'http://ndc92spa.riyadahsan.xyz/model/model/',
-			modelAddress: 'http://localhost/model/model/',
+			modelAddress1: 'http://ndc92new.forumspace.xyz/model/model/',
+			modelAddress: 'http://ndc92new.forumspace.xyz/model/model/',
 		},
 		upload_directory: {
-			rootDirectory: 'http://localhost/model/',
-			recentPhoto_directory: 'http://localhost/model/assets/img/uploads/recent_photos/',
-			oldPhoto_directory: 'http://localhost/model/assets/img/uploads/old_photos/',
-			groupPhoto_directory: 'http://localhost/model/assets/img/uploads/group_photos/',
+			rootDirectory: 'http://ndc92new.forumspace.xyz/model/',
+			recentPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/recent_photos/',
+			oldPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/old_photos/',
+			groupPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/group_photos/',
 		},
 		countRequest: {
 			verificationRequest: 0,
