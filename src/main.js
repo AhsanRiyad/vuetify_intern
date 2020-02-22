@@ -6,6 +6,7 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import { store } from './store/store'
 import VueCookies from 'vue-cookies'
+import './registerServiceWorker'
 Vue.use(VueCookies);
 
 // set default config
