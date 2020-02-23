@@ -9,10 +9,15 @@ $d1 = json_decode($data);
 
 header('Content-Type: application/json; charset=utf-8');
 
+
+
+
 function verify_change_request($user_id){
 
   $conn = get_mysqli_connection();
   $conn->set_charset("utf8");
+
+
 
 
   $sql = "select  `first_name` , `last_name` ,`mobile`, `institution_id`,`nid_or_passport`, `fathers_name`, `mother_name`, `spouse_name`, `number_of_children`, `profession`, `designation`, `institution`, `blood_group`, `religion` ,`date_of_birth`, `present_line1`, `present_district`, `present_police_station` ,`present_post_code`,`present_post_office_name`, `present_country`, `parmanent_line1`, `parmanent_police_station` ,`parmanent_district`, `parmanent_post_code`,`parmanent_post_office_name`, `parmanent_country`,`second_citizenship_country`  from all_info_together where  id = ".$user_id." ";
@@ -138,6 +143,7 @@ if($d1->purpose == 'basic'){
 // $id__ = 1;
   $email = $d1->email;
   $conn = get_mysqli_connection();
+  $conn->set_charset("utf8");
   $sql = "select * from all_info_together where email = '".$email."' ";
   $dataArray; 
 

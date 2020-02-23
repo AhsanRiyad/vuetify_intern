@@ -17,6 +17,7 @@ if($d1->purpose == 'verify_email_otp'){
 
   $verify_email_otp = $d1->verify_email_otp;
   $purpose = $d1->purpose;
+  $email__  = $d1->email;
 	// $otp = $d1->verify_email_otp;
 	// $otp = rand(1000,9999);
 
@@ -44,6 +45,7 @@ if($d1->purpose == 'verify_email_otp'){
   $purpose = $d1->purpose;
 	// $otp = $d1->verify_email_otp;
   $otp = rand(1000,9999);
+  $email__  = $d1->email;
 
 	//echo $email1;
   $conn = get_mysqli_connection();

@@ -5,7 +5,9 @@
 				<v-col cols="8" xl="4" >
 
 					<slot name="verification_alert"></slot>
+					<slot name="email_verification_alert"></slot>
 					
+
 					<v-text-field					
 					label="First Name"
 					type="text"
@@ -278,23 +280,23 @@ this.validityCheckInput('religion');
 this.$store.getters.getform_field_rules.forEach((item)=>{
 
 
-    if(item.rule == 'optional'){
-          switch(item.field_name) {
-            case 'nid_or_passport_validity':
-            this.nid_or_passport_validity = 'valid';
-            break;
-            case 'blood_group_validity':
-            this.blood_group_validity = 'valid';
-            break;
-            case 'date_of_birth_validity':
-            this.date_of_birth_validity = 'valid';
-            break;
-            case 'religion_validity':
-            this.religion_validity = 'valid';
-            break;
-          }
+	if(item.rule == 'optional'){
+		switch(item.field_name) {
+			case 'nid_or_passport_validity':
+			this.nid_or_passport_validity = 'valid';
+			break;
+			case 'blood_group_validity':
+			this.blood_group_validity = 'valid';
+			break;
+			case 'date_of_birth_validity':
+			this.date_of_birth_validity = 'valid';
+			break;
+			case 'religion_validity':
+			this.religion_validity = 'valid';
+			break;
+		}
 
-        }})
+	}})
 
 
 

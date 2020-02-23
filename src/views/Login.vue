@@ -222,6 +222,8 @@ export default {
 				
 				this.$store.getters.getAllInfo.type == 'admin' ? this.$store.commit('adminTrue') :  '';
 
+				this.$store.getters.getAllInfo.email_verification_status == 'verified' ? this.$store.commit('emailVerifiedTrue') :  this.$store.commit('emailVerifiedFalse')   ;
+
 
 
 

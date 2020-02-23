@@ -5,6 +5,9 @@
         <v-col cols="8" xl="4" >
 
           <slot name="verification_alert"></slot>
+        <slot name="email_verification_alert"></slot>
+          
+
 
           <v-text-field
           label="Father's Name"

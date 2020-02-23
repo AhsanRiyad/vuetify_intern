@@ -7,71 +7,67 @@
 
 
           <slot name="verification_alert"></slot>
+          <slot name="email_verification_alert"></slot>
+          
+
+          <v-text-field
+          v-model="email"
+          v-on:keyup.enter="submit()"
+          label="New Email"
+          type="text"
+          :error-messages="validityCheckInput('email')"
+          ></v-text-field>
 
 
-         <v-text-field
-         v-model="email"
-         v-on:keyup.enter="submit()"
-         label="New Email"
-         type="text"
-         :error-messages="validityCheckInput('email')"
-         ></v-text-field>
+          <v-btn 
+          color="success"
+          class="my-4"
+          @click="submit()"
+          :loading="loading"
 
-
-         <v-btn 
-         color="success"
-         class="my-4"
-         @click="submit()"
-         :loading="loading"
-
-         >
-         Update
-       </v-btn>
-
-       <slot name="buttons"></slot>
-
-
-     </v-col>
-   </v-row>
-
-   <v-row justify="center">
-    <v-dialog persistent 
-    v-model="dialog"
-    max-width="290"
-    >
-    <v-card>
-      <v-card-title class="headline">Status</v-card-title>
-      <v-card-text class="black--text">
-        {{ status_text }}
-      </v-card-text>
-      <v-col v-if="otp_text_box_show" col="12" class="mt-n8">
-        <v-text-field
-        label="OTP sent to your email" v-model="otp"
-        ></v-text-field>
-        <v-btn @click="changeEmail()" :loading="loading" color="success">
-          Validate
+          >
+          Update
         </v-btn>
+
+        <slot name="buttons"></slot>
+
+
       </v-col>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-        color="green darken-1"
-        text
-        @click="email_change_logout()"
-        >
-        Okay
-      </v-btn>
-    </v-card-actions>
-  </v-card>
-</v-dialog>
+    </v-row>
+
+    <v-row justify="center">
+      <v-dialog persistent 
+      v-model="dialog"
+      max-width="290"
+      >
+      <v-card>
+        <v-card-title class="headline">Status</v-card-title>
+        <v-card-text class="black--text">
+          {{ status_text }}
+        </v-card-text>
+        <v-col v-if="otp_text_box_show" col="12" class="mt-n8">
+          <v-text-field
+          label="OTP sent to your email" v-model="otp"
+          ></v-text-field>
+          <v-btn @click="changeEmail()" :loading="loading" color="success">
+            Validate
+          </v-btn>
+        </v-col>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+          color="green darken-1"
+          text
+          @click="email_change_logout()"
+          >
+          Okay
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </v-row>
 
-
-
 </v-container>
-
-
-
 
 </v-app>
 </template>
@@ -132,52 +128,52 @@
       changeEmail(){
 
         var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'} ;
 
-        this.$axios.post( this.$store.getters.modelProfile_change_email,
-        {
-          purpose: 'changeEmail',
-          id: this.$store.getters.getAllInfo.id ,
-          email_old: this.$store.getters.getAllInfo.email ,
-          email: this.email,
-          otp: this.otp,
-        } , headers
-        ).then(function(response){
-          console.log(response);
-          if(response.data == 'success'){
-            this.otp_text_box_show = true;
-            this.status_text = 'email changed successfully';
+          this.$axios.post( this.$store.getters.modelProfile_change_email,
+          {
+            purpose: 'changeEmail',
+            id: this.$store.getters.getAllInfo.id ,
+            email_old: this.$store.getters.getAllInfo.email ,
+            email: this.email,
+            otp: this.otp,
+          } , headers
+          ).then(function(response){
+            console.log(response);
+            if(response.data == 'success'){
+              this.otp_text_box_show = true;
+              this.status_text = 'email changed successfully';
 
-            this.email_change_status = true;
+              this.email_change_status = true;
+              
+              this.$store.commit('loginFalse');
+              this.$cookies.set('email', '');
+              this.$cookies.set('crypto', '');
+
+
+            }else{
+              this.otp_text_box_show = false;
+              this.status_text = 'invalid otp';
+              this.email_change_status = false;
+            }
+            this.loading = false;
+            this.dialog = true;
+            this.email_validity = 'invalid';
+
+          }.bind(this))
+          .catch(function(){
+            this.loading = false;
             
-            this.$store.commit('loginFalse');
-            this.$cookies.set('email', '');
-            this.$cookies.set('crypto', '');
-
-
-          }else{
-            this.otp_text_box_show = false;
-            this.status_text = 'invalid otp';
-            this.email_change_status = false;
+          }.bind(this));
+        },
+        email_change_logout(){
+          this.dialog = false;
+          if(this.email_change_status == true){
+            this.$router.push({ name: 'login' }) ;
           }
-          this.loading = false;
-          this.dialog = true;
-          this.email_validity = 'invalid';
-
-        }.bind(this))
-        .catch(function(){
-          this.loading = false;
-          
-        }.bind(this));
-      },
-      email_change_logout(){
-        this.dialog = false;
-        if(this.email_change_status == true){
-          this.$router.push({ name: 'login' }) ;
-        }
-      },
-      submit(){
+        },
+        submit(){
         //alert(this.blood_group);
         this.validityCheckInput('email');
         
@@ -185,38 +181,38 @@
           this.loading = true;
           
           var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'} ;
 
 
-          this.$axios.post( this.$store.getters.modelProfile_change_email  ,
-          {
-            purpose: 'email',
-            id: this.$store.getters.getAllInfo.id ,
-            email_old: this.$store.getters.getAllInfo.email ,
-            email: this.email,
-          } , headers
-          ).then(function(response){
-            console.log(response);
-            if(response.data == 'success'){
-              this.otp_text_box_show = true;
-              this.status_text = '';
-            }else{
-              this.otp_text_box_show = false;
-              this.status_text = 'email already used';
-            }
-            this.loading = false;
-            this.dialog = true;
-          }.bind(this))
-          .catch(function(){
-            this.loading = false;
+            this.$axios.post( this.$store.getters.modelProfile_change_email  ,
+            {
+              purpose: 'email',
+              id: this.$store.getters.getAllInfo.id ,
+              email_old: this.$store.getters.getAllInfo.email ,
+              email: this.email,
+            } , headers
+            ).then(function(response){
+              console.log(response);
+              if(response.data == 'success'){
+                this.otp_text_box_show = true;
+                this.status_text = '';
+              }else{
+                this.otp_text_box_show = false;
+                this.status_text = 'email already used';
+              }
+              this.loading = false;
+              this.dialog = true;
+            }.bind(this))
+            .catch(function(){
+              this.loading = false;
+              
+            }.bind(this));
+
             
-          }.bind(this));
-
-          
-        }else{
-          this.status_text = 'email is not valid';
-          this.dialog = true;
+          }else{
+            this.status_text = 'email is not valid';
+            this.dialog = true;
           //alert('all filed are not valid');
         }
       }

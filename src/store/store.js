@@ -21,14 +21,14 @@ export const store = new Vuex.Store({
 		},
 		user_info: '',
 		model:{
-			modelAddress1: 'http://ndc92new.forumspace.xyz/model/model/',
-			modelAddress: 'http://ndc92new.forumspace.xyz/model/model/',
+			modelAddress1: 'http://ndc92spa.riyadahsan.xyz/model/model/',
+			modelAddress: 'http://localhost/model/model/',
 		},
 		upload_directory: {
-			rootDirectory: 'http://ndc92new.forumspace.xyz/model/',
-			recentPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/recent_photos/',
-			oldPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/old_photos/',
-			groupPhoto_directory: 'http://ndc92new.forumspace.xyz/model/assets/img/uploads/group_photos/',
+			rootDirectory: 'http://localhost/model/',
+			recentPhoto_directory: 'http://localhost/model/assets/img/uploads/recent_photos/',
+			oldPhoto_directory: 'http://localhost/model/assets/img/uploads/old_photos/',
+			groupPhoto_directory: 'http://localhost/model/assets/img/uploads/group_photos/',
 		},
 		countRequest: {
 			verificationRequest: 0,
@@ -59,6 +59,12 @@ export const store = new Vuex.Store({
 		},
 		adminFalse: state => {
 			state.user.isAdmin = false;
+		},
+		emailVerifiedTrue: state => {
+			state.user.isEmailVerified = true;
+		},
+		emailVerifiedFalse: state => {
+			state.user.isEmailVerified = false;
 		},
 		set_user_info: (state , user_info ) => {
 			
@@ -155,6 +161,9 @@ export const store = new Vuex.Store({
 		modeladmin_options: state => {
 			return state.model.modelAddress+'admin_options.php';
 		},
+		modelProfile_verify_email: state => {
+			return state.model.modelAddress+'profile_verify_email.php';
+		},
 		getAllInfo: state => {
 			return state.user_info;
 		},
@@ -184,11 +193,12 @@ export const store = new Vuex.Store({
 		},
 		getComponentNameAdminOptions: state => {
 			return state.getComponentNameAdminOptions;
+		},
+		isEmailVerified: state => {
+			return state.user.isEmailVerified;
 		}
-		
 	},
 	actions: {
-
 		getAllDataFromDB : (context, url , email) => {
 			
 			axios.post( url , {
@@ -196,18 +206,13 @@ export const store = new Vuex.Store({
 				email : email , 
 			})
 			.then( function(response){
-				
 					//console.log(response);
 					context.commit('set_user_info' , response.data);
 				}.bind(this))
 			.catch(function () {
 				
 			}.bind(this)); 
-
-
 		}
-
-
 	}
 	
 });

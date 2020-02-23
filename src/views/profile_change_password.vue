@@ -7,7 +7,10 @@
 
         
           <slot name="verification_alert"></slot>
-
+        <slot name="email_verification_alert"></slot>
+          
+          
+          
          <v-text-field
          v-model="password"
          v-on:keyup.enter="submit()"

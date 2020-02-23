@@ -1,4 +1,3 @@
-
 <template>
   <v-app class="grey"> 
 
@@ -6,7 +5,6 @@
     <component v-bind:is="$store.getters.getComponentName"> <buttons_for_profile></buttons_for_profile> </component> -->
     
     <v-container>
-
       <v-row>
         <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
           <keep-alive>
@@ -20,17 +18,15 @@
               </v-alert>
 
 
-
+              
             </component>
           </keep-alive>
-
 
           
           <!-- <profile_basic></profile_basic> -->
         </v-col>
       </v-row>
     </v-container>
-
   </v-app>
 </template>
 <script>
@@ -43,6 +39,7 @@ import profile_address from './profile_address'
 import profile_photo_upload from './profile_photo_upload'
 import profile_change_password from './profile_change_password'
 import profile_change_email from './profile_change_email'
+import profile_verify_email from './profile_verify_email'
 
 export default {
   name: 'basic',
@@ -50,6 +47,7 @@ export default {
   'profile_photo_upload': profile_photo_upload,
   'profile_change_password': profile_change_password,
   'profile_change_email': profile_change_email
+  ,'profile_verify_email': profile_verify_email
 }, 
 
 data: ()=>({}), 
@@ -74,9 +72,20 @@ created(){
 
 
 
-},
-methods: {},
-submit(){},
+  },
+  methods: {
+    changeComponent(){
+
+      alert('hellow');
+
+      //this.$store.commit('setComponentName' , name);
+
+      //this.$store.commit('setPageTitle' , "Verify Email");
+      
+    }
+
+  },
+  submit(){},
 
 }
 </script>
