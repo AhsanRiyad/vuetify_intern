@@ -4,14 +4,7 @@
 
 
 			
-			<v-row justify="center" >
-				<v-col cols="12" align="center">
-
-					<v-btn v-if="!$store.getters.isEmailVerified"  block class=" px-4 white--text" @click="changeComponent('profile_verify_email' , 'Profile Verify Email')" color="red" 
-					> Verify Email </v-btn>
-					
-				</v-col>
-			</v-row>
+			
 
 			
 
@@ -20,6 +13,14 @@
 			<v-row justify="center">
 				<v-col cols="auto" v-for="n in numbers1" :key="n">
 					
+
+					
+					<v-btn v-if="!$store.getters.isEmailVerified"  block class=" px-4 white--text" @click="changeComponent('profile_verify_email' , 'Profile Verify Email')" color="red" 
+					> Verify Email </v-btn>
+					
+					
+
+
 					<v-btn
 					:disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , items[n].title)"
 					> {{items[n].title }} </v-btn>
