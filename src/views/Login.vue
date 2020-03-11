@@ -4,6 +4,16 @@
 			<v-row justify="center" align="center" class="my-auto"> 
 				<v-col cols="8" xl="4" >
 					
+					
+					<v-form
+					ref="form"
+					v-model="valid"
+					:lazy-validation="lazy"
+					v-on:submit.prevent
+					>
+
+
+
 					<h3> Welcome, Please Login! </h3>
 
 					<v-text-field
@@ -11,7 +21,10 @@
 					v-model="email"
 					label="Email"
 					type="text"
-					:error-messages="onChangeValidity('email')"
+					:rules="[ 
+					v => !!v || 'required',
+					v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide quantity'
+					]"
 					@change="getUserDetails()"
 					></v-text-field>
 
@@ -21,8 +34,7 @@
 					v-model="password"
 					type="password"
 					label="password"
-					@keyup="onChangeValidity('password')"
-					
+					:rules="[ v => !!v || 'required' ]"
 					></v-text-field>
 
 					<v-btn
@@ -35,34 +47,34 @@
 				</v-btn>
 
 
+			</v-form>
 
 
+		</v-col>
+	</v-row>
 
-			</v-col>
-		</v-row>
+	<v-row justify="center" align="center">
 
-		<v-row justify="center" align="center">
-
-			<v-col cols="8" xl="4" >
-				<v-btn 
-				router :to="{ name : 'registration' }"
-				color="primary"
-				class="mr-4 mb-2 mb-sm-0"
-				>
-				Registration
-			</v-btn>
-
-
+		<v-col cols="8" xl="4" >
 			<v-btn 
-			router :to="{ name : 'profile_forgot_password' }"
-			color="warning"
-			class="mr-4 "
+			router :to="{ name : 'registration' }"
+			color="primary"
+			class="mr-4 mb-2 mb-sm-0"
 			>
-			Forgot Password
+			Registration
 		</v-btn>
-		<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
-	</v-col>
+
+		<v-btn 
+		router :to="{ name : 'profile_forgot_password' }"
+		color="warning"
+		class="mr-4 "
+		>
+		Forgot Password
+	</v-btn>
+	<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+
+</v-col>
 
 </v-row>
 
@@ -121,13 +133,14 @@ export default {
 		status_text: '',
 		email: '',
 		password: '',
-		email_validity:'',
-		password_validity: '',
 		login_status: '',
 		greenText: false,
 		redText: false,
 		date : new Date(),
-		expires: ''
+		expires: '',
+		lazy:false,
+		valid:false,
+
 	}), 
 
 
@@ -180,37 +193,9 @@ export default {
 			}.bind(this));
 
 			},
-			onChangeValidity(inputName){
-
-
-
-				if(inputName == 'email'){ 
-
-					const errors = [];
-
-					let patt_email= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-					let result_email = patt_email.test(this.email);
-
-					if(!result_email){
-						this.email_validity = 'invalid'
-						errors.push('email error');
-					}else{
-						this.email_validity = 'valid';
-					}
-
-					return errors;
-
-				}else if(inputName == 'password'){
-
-
-					var patt= /[\S]{6,}/g;
-					var result = patt.test(this.password);
-					result == false ? this.password_validity = 'invalid' : this.password_validity = 'valid';
-				}
-			},
 			submit(){
 				this.loading = true;
-				if(this.email_validity == 'valid' && this.password_validity == 'valid'){
+				if( this.$refs.form.validate() ){
 					if(md5(this.password) == this.$store.getters.getAllInfo.password){ 
 
 				/*this.setCookie('email' , this.email , 7);

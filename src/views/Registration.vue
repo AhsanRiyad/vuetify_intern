@@ -4,7 +4,12 @@
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
 					
-
+					<v-form
+					ref="form"
+					v-model="valid"
+					:lazy-validation="lazy"
+					v-on:submit.prevent
+					>
 					<h3> Dear User, We are glad you are here, please register </h3>
 
 
@@ -12,21 +17,21 @@
 					label="First Name"
 					type="text"
 					v-model='first_name'
-					:error-messages="onChangeValidity('first_name')"
+					:rules="[ v => !!v || 'required' ]"
 					></v-text-field>
 
 					<v-text-field					
 					label="Last Name"
 					type="text"
 					v-model='last_name'
-					:error-messages="onChangeValidity('last_name')"
+					:rules="[ v => !!v || 'required' ]"
 					></v-text-field>
 
 					<v-text-field
 					v-model="institution_id"
-					:label="this.$store.getters.getIInstitution_id_label"
+					:label="$store.getters.getIInstitution_id_label"
 					type="text"
-					:error-messages="onChangeValidity('institution_id')"
+					:rules="[ v => !!v || 'required' ]"
 					></v-text-field>
 
 
@@ -34,22 +39,27 @@
 					v-model="mobile"
 					label="Mobile"
 					type="text"
-					:error-messages="onChangeValidity('mobile')"
+					:rules="[ 
+					v => !!v || 'required',
+					v => /[+]{0,1}[\d]{11,}/g.test(v) || 'invalide quantity'
+					]"
 					></v-text-field>
 
 					<v-text-field
 					v-model="email"
 					label="Email"
 					type="text"
-					:error-messages="onChangeValidity('email')"
+					:rules="[ 
+					v => !!v || 'required',
+					v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide quantity'
+					]"
 					></v-text-field>
 
 					<v-text-field
 					v-model="password"
 					type="password"
 					label="password"
-					:error-messages="onChangeValidity('password')"
-					
+					:rules="[ v => !!v || 'required' ]"
 					></v-text-field>
 
 					<v-btn 
@@ -63,6 +73,8 @@
 				</v-btn>
 				
 				<br>
+
+			</v-form>
 			</v-col>
 		</v-row>
 
@@ -86,7 +98,7 @@
 			>
 			Forgot Password
 		</v-btn>
-
+	
 	</v-col>
 
 </v-row>
@@ -107,14 +119,14 @@
 		<v-card-actions>
 			<v-spacer></v-spacer>
 
-		<v-btn
-		color="green darken-1"
-		text
-		@click="dialog = false"
-		>
-		Close
-	</v-btn>
-</v-card-actions>
+			<v-btn
+			color="green darken-1"
+			text
+			@click="dialog = false"
+			>
+			Close
+		</v-btn>
+	</v-card-actions>
 </v-card>
 </v-dialog>
 </v-row>
@@ -144,141 +156,44 @@ export default {
 		mobile: '',
 		institution_id: '',
 		password: '',
-		full_name_validity : 'green',
-		first_name_validity : '',
-		last_name_validity : '',
-		email_validity: '',
-		mobile_validity: '',
-		institution_id_validity: '',
-		password_validity: '',
+		
 		registratrion_status: 'default',
 		loading: false,
+
+		lazy:false,
+		valid: false,
 	}), 
 
 
 	methods: {
-		onChangeValidity(inputName){
-			if(inputName == 'first_name'){
-				// console.log(this.$refs.full_name.value);
-				let patt= /[A-Za-z.\s]{5,}/g;
-				let result = patt.test(this.first_name);
-
-				if(!result){
-					let errors = [];
-					errors.push('Name at least 6 characters');
-					this.first_name_validity = 'invalid'
-					return errors;
-				}else{
-					this.first_name_validity = 'valid';
-				}
-
-			}else if(inputName == 'last_name'){
-				// console.log(this.$refs.last_name.value);
-				let patt= /[A-Za-z.\s]{5,}/g;
-				let result = patt.test(this.last_name);
-
-				if(!result){
-					let errors = [];
-					errors.push('Name at least 6 characters');
-					this.last_name_validity = 'invalid'
-					return errors;
-				}else{
-					this.last_name_validity = 'valid';
-				}
-
-			}else if(inputName == 'institution_id'){
-				// console.log(this.institution_id);
-				let patt= /[A-Za-z\S]{5,}/g;
-				let result = patt.test(this.institution_id);
-
-
-
-				if(!result){
-					let errors = [];
-					errors.push('id atleast 5 characters');
-					this.institution_id_validity = 'invalid'
-					return errors;
-				}else{
-					this.institution_id_validity = 'valid';
-				}
-
-
-
-			}else if(inputName == 'mobile'){
-				// console.log(this.mobile);
-				let patt= /[+]{0,1}[\d]{11,}/g;
-				let result = patt.test(this.mobile);
-
-				if(!result){
-					let errors = [];
-					errors.push('mobile number must be alteast 11 digit');
-					this.mobile_validity = 'invalid'
-					return errors;
-				}else{
-					this.mobile_validity = 'valid';
-				}
-
-			}else if(inputName == 'email'){
-				// console.log(this.email);
-				let patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-				let result = patt.test(this.email);
-
-
-
-				if(!result){
-					let errors = [];
-					errors.push('invalid email');
-					this.email_validity = 'invalid'
-					return errors;
-				}else{
-					this.email_validity = 'valid';
-				}
-
-			}else if(inputName == 'password'){
-				// console.log(this.password);
-				let patt= /[\S]{6,}/g;
-				let result = patt.test(this.password);
-
-
-				if(!result){
-					let errors = [];
-					errors.push('atleast 6 characters');
-					this.password_validity = 'invalid'
-					return errors;
-				}else{
-					this.password_validity = 'valid';
-				}
-
-			}
-		},
 		submit(){
 
 
 			this.loading = true;
-			if(this.first_name_validity == 'valid' && this.last_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
+			if(this.$refs.form.validate()){
 				// alert('valid');
 				var headers = {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Accept': 'application/json'} ;
-				this.$axios.post(this.$store.getters.modelRegistration, {
-					first_name: this.first_name,
-					last_name: this.last_name,
-					institution_id: this.institution_id,
-					email: this.email,
-					mobile: this.mobile,
-					password: this.password,
-					who_is_doing_registration: 'user',
-				} , headers )
-				.then( function(response){
-					this.registratrion_status = response.data ; 
-					this.loading = false;
-					console.log(response);
-					response.data == 'NO' ? this.status_text = 'Email already used' : this.status_text = 'registration successful';
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json'} ;
+					this.$axios.post(this.$store.getters.modelRegistration, {
+						first_name: this.first_name,
+						last_name: this.last_name,
+						institution_id: this.institution_id,
+						email: this.email,
+						mobile: this.mobile,
+						password: this.password,
+						who_is_doing_registration: 'user',
+					} , headers )
+					.then( function(response){
+						this.registratrion_status = response.data ; 
+						this.loading = false;
+						console.log(response);
+						response.data == 'NO' ? this.status_text = 'Email already used' : this.status_text = 'registration successful';
 				// this.status_text = 'success';
 				this.dialog = true;
 
 			}.bind(this))
-				.catch(function () {
+					.catch(function () {
 					// console.log(error);
 					this.loading = false;
 					this.status_text = 'failed';
@@ -286,39 +201,39 @@ export default {
 
 				//return 'hi';
 			}.bind(this));
-			}else{
+				}else{
 
-				this.loading = false;
-				this.status_text = 'invalid field detected';
-				this.dialog = true;
+					this.loading = false;
+					this.status_text = 'invalid field detected';
+					this.dialog = true;
 
-			}
+				}
+			},
 		},
-	},
-	created(){
-		
-		this.$store.commit('loginFalse');
-		this.$store.commit('adminFalse');
-		this.$cookies.set('email', '');
-		this.$cookies.set('crypto', '');
+		created(){
 
-var headers = {
+			this.$store.commit('loginFalse');
+			this.$store.commit('adminFalse');
+			this.$cookies.set('email', '');
+			this.$cookies.set('crypto', '');
+
+			var headers = {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
 				this.$axios.post(this.$store.getters.modeladmin_options, {
-			purpose: 'get_institution_id_label'
-		} , headers ).then( function(response){
-			console.log(response);
+					purpose: 'get_institution_id_label'
+				} , headers ).then( function(response){
+					console.log(response);
 
-			this.$store.commit('setIInstitution_id_label' , response.data);
+					this.$store.commit('setIInstitution_id_label' , response.data);
 
-		}.bind(this))
-		.catch(function () {
-		}.bind(this));
+				}.bind(this))
+				.catch(function () {
+				}.bind(this));
 
 
-	}
+			}
 
-}
+		}
 
-</script>
+	</script>

@@ -10,12 +10,22 @@
           <slot name="email_verification_alert"></slot>
           
 
+          <v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="lazy"
+          v-on:submit.prevent
+          >
+
           <v-text-field
           v-model="email"
           v-on:keyup.enter="submit()"
           label="New Email"
           type="text"
-          :error-messages="validityCheckInput('email')"
+          :rules="[ 
+          v => !!v || 'required',
+          v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide quantity'
+          ]"
           ></v-text-field>
 
 
@@ -28,6 +38,8 @@
           >
           Update
         </v-btn>
+        
+      </v-form>
 
         <slot name="buttons"></slot>
 
@@ -82,9 +94,12 @@
       email_change_status: false,
       dialog: false,
       status_text: '',
-      email_input: true,
+     
       email: '',
-      email_validity: '',
+      
+      lazy: true,
+      valid: true,
+
       status_text_show: false,
       otp_text_box_show: false,
       loading: false,
@@ -113,19 +128,9 @@
           //alert(this.email_input);
         }
       },
-      validityCheckInput( inputName  ){
-        if(inputName == 'email'){
-
-
-          const errors = [];
-          var patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-          var result = patt.test(this.email);
-          result == false ? ( this.email_validity = 'invalid' , errors.push('DOB is Not Valid') )   : this.email_validity = 'valid';
-          return errors;
-
-        }
-      },
       changeEmail(){
+
+
 
         var headers = {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -175,9 +180,8 @@
         },
         submit(){
         //alert(this.blood_group);
-        this.validityCheckInput('email');
         
-        if(this.email_validity == 'valid' ){
+        if( this.$refs.form.validate() ){
           this.loading = true;
           
           var headers = {

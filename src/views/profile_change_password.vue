@@ -9,14 +9,20 @@
           <slot name="verification_alert"></slot>
         <slot name="email_verification_alert"></slot>
           
-          
+          <v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="lazy"
+          v-on:submit.prevent
+          >
+
           
          <v-text-field
          v-model="password"
          v-on:keyup.enter="submit()"
          label="New Password"
          type="password"
-         :error-messages="validityCheckInput('password')"
+         :rules="[ v => !!v || 'required' ]"
          ></v-text-field>
 
          <v-text-field
@@ -24,7 +30,10 @@
          v-on:keyup.enter="submit()"
          label="Re-Enter New Password"
          type="password"
-         :error-messages="validityCheckInput('repassword')"
+         :rules="[ 
+         v => !!v || 'required',
+         v => password==v || 'password does not match'
+          ]"
          ></v-text-field>
 
          <v-btn 
@@ -36,7 +45,7 @@
          >
          Update
        </v-btn>
-
+</v-form>
     <slot name="buttons"></slot>
 
 
@@ -89,66 +98,22 @@
       loading: false,
       status: '',
       status_text: '',
-      password_input: true,
+      
       password: '',
-      password_validity: '',
-      repassword_input: true,
+           
       repassword: '',
-      repassword_validity: '',
-      recent_photo: '',
-      changes:{
-        password:{
-          smallText: {
-            color: '#2196f3'          
-          },
-          smallButton: {
-            color: 'white',
-            backgroundColor: '#2196f3' 
-          }
-        },
-        repassword:{
-          smallText: {
-            color: '#2196f3'          
-          },
-          smallButton: {
-            color: 'white',
-            backgroundColor: '#2196f3' 
-          }
-        },
-      } 
+
+      valid: true,
+      lazy: true,
+        
     }),
 
     methods: {
-      validityCheckInput( inputName  ){
-        if(inputName == 'password'){
-
-          const errors = [];
-
-          let patt= /[\S]{6,}/g;
-          let result = patt.test(this.password);
-
-          result == false ? ( this.password_validity = 'invalid' , errors.push('min 6 chars') )   : this.password_validity = 'valid';
-
-          return errors;
-
-        }else if(inputName == 'repassword'){
-
-          const errors = [];
-
-          let patt= /[\S]{6,}/g;
-          let result = patt.test(this.repassword);
-
-          result == false ? ( this.repassword_validity = 'invalid' , errors.push('min 6 chars') )   : this.repassword_validity = 'valid';
-
-          return errors;
-        }
-      },
       submit(){
         //alert(this.blood_group);
         this.loading = true;
-        this.validityCheckInput('password');
-        this.validityCheckInput('repassword');
-        if(this.password_validity == 'valid' && this.password == this.repassword){
+        
+        if(this.$refs.form.validate()){
 
 
           var headers = {

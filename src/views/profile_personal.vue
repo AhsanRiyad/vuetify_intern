@@ -4,23 +4,31 @@
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
 
-          <slot name="verification_alert"></slot>
-        <slot name="email_verification_alert"></slot>
-          
 
+          <v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="lazy"
+          v-on:submit.prevent
+          >
+
+          <slot name="verification_alert"></slot>
+          <slot name="email_verification_alert"></slot>
+          
 
           <v-text-field
           label="Father's Name"
           type="text"
           v-model="fathers_name"
-          :error-messages="onChangeValidity('fathers_name')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
+
 
           <v-text-field
           v-model="mothers_name"    
           label="mothers_name"
           type="text"
-          :error-messages="onChangeValidity('mothers_name')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
           
 
@@ -29,14 +37,18 @@
           v-model="spouse_name"
           label="spouse_name"
           type="text"
-          :error-messages="onChangeValidity('spouse_name')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
           
           <v-text-field
           v-model="number_of_children"
           label="number_of_children"
           type="text"
-          :error-messages="onChangeValidity('number_of_children')"
+          :rules="[ 
+          v => !!v || 'required' ,
+          v => /^[\d]{1,2}$/g.test(v) || 'invalid number'
+          ]"
+
           ></v-text-field>   
 
           <v-text-field
@@ -51,21 +63,21 @@
           v-model="profession"
           label="profession"
           type="text"
-          :error-messages="onChangeValidity('profession')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>  
 
           <v-text-field
           v-model="workplace_or_institution"
           label="workplace_or_institution"
           type="text"
-          :error-messages="onChangeValidity('workplace_or_institution')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>      
 
           <v-text-field
           v-model="designation"
           label="designation"
           type="text"
-          :error-messages="onChangeValidity('designation')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field> 
 
 
@@ -82,7 +94,7 @@
 
         <slot name="buttons"></slot>
 
-
+      </v-form>
 <!-- 
   <v-btn @click="getData()"
   color="success"
@@ -153,14 +165,12 @@ export default {
     profession: '',
     workplace_or_institution: '',
     designation: '',
-    designation_validity: 'invalid',
-    fathers_name_validity: 'invalid',
-    mothers_name_validity: 'invalid',
-    spouse_name_validity: 'invalid',
-    number_of_children_validity: 'invalid',
-    dob_validity: 'invalid',
-    profession_validity: 'invalid',
-    workplace_or_institution_validity: 'invalid',
+    
+    lazy: true, 
+    valid: true, 
+
+
+
     users_info: '',
     submit_disabled: false,
     type: '',
@@ -192,7 +202,7 @@ export default {
   methods: {
 
     children_details(){
-    alert('children_details clicked');
+      alert('children_details clicked');
     },
     submit(){
 

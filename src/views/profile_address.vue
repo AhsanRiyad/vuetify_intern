@@ -8,13 +8,20 @@
 <slot name="email_verification_alert"></slot>
 
 
+<v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="lazy"
+          v-on:submit.prevent
+          >
+
+
 <v-text-field
 
 label="Present Address Line 1"
 type="text"
 v-model="present_line1"
-
-:error-messages="onChangeValidity('present_line1')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -27,7 +34,7 @@ type="text"
 
 v-model="present_post_office_name"
 
-:error-messages="onChangeValidity('present_post_office_name')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -39,8 +46,7 @@ type="text"
 
 
 v-model="present_post_code"
-
-:error-messages="onChangeValidity('present_post_code')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -51,8 +57,7 @@ type="text"
 
 
 v-model="present_police_station"
-
-:error-messages="onChangeValidity('present_police_station')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -64,7 +69,7 @@ type="text"
 
 v-model="present_district"
 
-:error-messages="onChangeValidity('present_district')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -77,7 +82,7 @@ type="text"
 
 v-model="present_country"
 
-:error-messages="onChangeValidity('present_country')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -90,7 +95,7 @@ type="text"
 
 v-model="permanent_line1"
 
-:error-messages="onChangeValidity('permanent_line1')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -102,7 +107,7 @@ type="text"
 
 v-model="permanent_post_office_name"
 
-:error-messages="onChangeValidity('permanent_post_office_name')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 <v-text-field
@@ -112,8 +117,7 @@ type="text"
 
 
 v-model="permanent_post_code"
-
-:error-messages="onChangeValidity('permanent_post_code')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -125,8 +129,7 @@ type="text"
 
 
 v-model="permanent_police_station"
-
-:error-messages="onChangeValidity('permanent_police_station')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -136,8 +139,7 @@ v-model="permanent_police_station"
 label="permanent district"
 type="text"
 v-model="permanent_district"
-
-:error-messages="onChangeValidity('permanent_district')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 
@@ -150,7 +152,7 @@ type="text"
 
 v-model="permanent_country"
 
-:error-messages="onChangeValidity('permanent_country')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 <v-text-field
@@ -160,8 +162,7 @@ type="text"
 
 
 v-model="second_citizenship_country"
-
-:error-messages="onChangeValidity('second_citizenship_country')"
+:rules="[ v => !!v || 'required' ]"
 ></v-text-field>
 
 <v-btn 
@@ -185,7 +186,7 @@ class="mr-4"
 getData
 </v-btn> -->
 
-
+</v-form>
 </v-col>
 </v-row>
 </v-container>
@@ -241,37 +242,14 @@ permanent_police_station: '',
 
 second_citizenship_country:'' ,  
 
-present_post_office_name_validity:'',
-present_police_station_validity: '',
+valid: true, 
+lazy: true, 
 
-permanent_post_office_name_validity:'',
-permanent_police_station_validity: '',
-
-second_citizenship_country_validity:'' ,  
 
 name: 'riyad---vue',
 dialog: false,
 status_text: '' ,
-present_line1_input: true,
-present_line2_input: true,
-present_district_input: true,
-present_post_code_input: true,
-present_country_input: true,
-permanent_line1_input: true,
-permanent_line2_input: true,
-permanent_district_input: true,
-permanent_post_code_input: true,
-permanent_country_input: true,
-present_line1_validity: false,
-present_line2_validity: false,
-present_district_validity: false,
-present_post_code_validity: false,
-present_country_validity: false,
-permanent_line1_validity: false,
-permanent_line2_validity: false,
-permanent_district_validity: false,
-permanent_post_code_validity: false,
-permanent_country_validity: false,
+
 present_line1: '',
 recent_photo: '',
 present_line2: '',
@@ -327,24 +305,8 @@ submit(){
 
 
 
-this.onChangeValidity('present_line1');
-this.onChangeValidity('present_district');
-this.onChangeValidity('present_post_code');
-this.onChangeValidity('present_country');
-this.onChangeValidity('permanent_line1');
-this.onChangeValidity('permanent_district');
-this.onChangeValidity('permanent_post_code');
-this.onChangeValidity('permanent_country');
 
-
-this.onChangeValidity('present_post_office_name');
-this.onChangeValidity('present_police_station');
-this.onChangeValidity('permanent_post_office_name');
-this.onChangeValidity('permanent_police_station');
-this.onChangeValidity('second_citizenship_country');
-
-
-if(this.present_line1_validity == 'valid' && this.present_district_validity == 'valid' && this.present_country_validity == 'valid' && this.present_post_code_validity == 'valid' &&  this.permanent_line1_validity == 'valid' &&  this.permanent_district_validity == 'valid' &&  this.permanent_country_validity == 'valid' &&  this.permanent_post_code_validity == 'valid' ){
+if( this.$refs.form.validate() ){
 
 var headers = {
 'Content-Type': 'application/x-www-form-urlencoded',
@@ -413,191 +375,6 @@ this.dialog = true;
 },
 
 
-onChangeValidity(inputName){
-
-if(inputName == 'present_line1'){
-
-
-const errors = [];
-
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.present_line1);
-
-result == false ? ( this.present_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_line1_validity = 'valid';
-
-
-return errors;
-
-
-
-
-}else if(inputName == 'present_district'){
-//console.log(this.present_district);
-
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.present_district);
-result == false ? ( this.present_district_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_district_validity = 'valid';
-
-
-return errors;
-
-
-
-}else if(inputName == 'present_country'){
-//console.log(this.present_country);
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.present_country);
-result == false ? ( this.present_country_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_country_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'present_post_code'){
-//console.log(this.present_post_code);
-
-
-const errors = [];
-let patt= /[+]{0,1}[\d]{4,}/g;
-let result = patt.test(this.present_post_code);
-result == false ? ( this.present_post_code_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_post_code_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'permanent_line1'){
-
-
-const errors = [];
-
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.permanent_line1);
-
-result == false ? ( this.permanent_line1_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_line1_validity = 'valid';
-
-
-return errors;
-
-
-
-
-}else if(inputName == 'permanent_police_station'){
-
-
-const errors = [];
-
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.permanent_police_station);
-
-result == false ? ( this.permanent_police_station_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_police_station_validity = 'valid';
-
-
-return errors;
-
-
-
-
-}else if(inputName == 'present_police_station'){
-
-
-const errors = [];
-
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.present_police_station);
-
-result == false ? ( this.present_police_station_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.present_police_station_validity = 'valid';
-
-
-return errors;
-
-
-
-
-}else if(inputName == 'permanent_district'){
-//console.log(this.permanent_district);
-
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.permanent_district);
-result == false ? ( this.permanent_district_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_district_validity = 'valid';
-
-
-return errors;
-
-
-
-}else if(inputName == 'permanent_country'){
-//console.log(this.permanent_country);
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.permanent_country);
-result == false ? ( this.permanent_country_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_country_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'permanent_post_office_name'){
-//console.log(this.permanent_post_office_name);
-
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.permanent_post_office_name);
-result == false ? ( this.permanent_post_office_name_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_post_office_name_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'present_post_office_name'){
-//console.log(this.present_post_office_name);
-
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.present_post_office_name);
-result == false ? ( this.present_post_office_name_validity = 'invalid' , errors.push('name is Not Valid' )) : this.present_post_office_name_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'permanent_post_code'){
-//console.log(this.permanent_post_code);
-
-
-const errors = [];
-let patt= /[+]{0,1}[\d]{4,}/g;
-let result = patt.test(this.permanent_post_code);
-result == false ? ( this.permanent_post_code_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.permanent_post_code_validity = 'valid';
-
-
-return errors;
-
-
-}else if(inputName == 'second_citizenship_country'){
-//console.log(this.second_citizenship_country);
-
-
-const errors = [];
-let patt= /[A-Za-z.\S]{5,}/g;
-let result = patt.test(this.second_citizenship_country);
-result == false ? ( this.second_citizenship_country_validity = 'invalid' , errors.push('Fathers name is Not Valid' )) : this.second_citizenship_country_validity = 'valid';
-
-
-return errors;
-
-
-}
-}
 },
 }
 

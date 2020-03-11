@@ -3,21 +3,22 @@
 		<v-container class="cyan lighten-2">
 
 
-			
-			
-
-			
-
-
-
 			<v-row justify="center">
+
+				
+					<v-col cols="12">
+						
+					<v-btn  v-if="$store.getters.getAllInfo.email_verification_status != 'verified'"  block class="px-4 white--text" @click="changeComponent('profile_verify_email' , 'Profile Verify Email')" color="red" 
+					> Verify Email </v-btn>
+					
+				
+
+
+					</v-col>
+
 				<v-col cols="auto" v-for="n in numbers1" :key="n">
 					
 
-					
-					<v-btn v-if="!$store.getters.isEmailVerified"  block class=" px-4 white--text" @click="changeComponent('profile_verify_email' , 'Profile Verify Email')" color="red" 
-					> Verify Email </v-btn>
-					
 					
 
 

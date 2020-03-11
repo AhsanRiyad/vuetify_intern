@@ -5,93 +5,111 @@
       <v-row justify="center" align="center"> 
         <v-col cols="8" xl="4" >
 
+          <v-form
+          ref="form"
+          v-model="valid"
+          :lazy-validation="lazy"
+          v-on:submit.prevent
+          >
+          <h3> Dear User, We are glad you are here, please register </h3>
 
-          <h3> Dear Admin, You Can Add an User directly. </h3>
 
-          
           <v-text-field         
           label="First Name"
           type="text"
           v-model='first_name'
-          :error-messages="onChangeValidity('first_name')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
 
           <v-text-field         
           label="Last Name"
           type="text"
           v-model='last_name'
-          :error-messages="onChangeValidity('last_name')"
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
 
+          <v-text-field
+          v-model="institution_id"
+          :label="this.$store.getters.getIInstitution_id_label"
+          type="text"
+          :rules="[ v => !!v || 'required' ]"
+          ></v-text-field>
 
 
           <v-text-field
           v-model="mobile"
           label="Mobile"
           type="text"
-          :error-messages="onChangeValidity('mobile')"
+          :rules="[ 
+          v => !!v || 'required',
+          v => /[+]{0,1}[\d]{11,}/g.test(v) || 'invalide quantity'
+          ]"
           ></v-text-field>
 
           <v-text-field
           v-model="email"
           label="Email"
           type="text"
-          :error-messages="onChangeValidity('email')"
+          :rules="[ 
+          v => !!v || 'required',
+          v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide quantity'
+          ]"
           ></v-text-field>
 
           <v-text-field
           v-model="password"
           type="password"
           label="password"
-          :error-messages="onChangeValidity('password')"
-
+          :rules="[ v => !!v || 'required' ]"
           ></v-text-field>
 
           <v-btn 
-
+          
           color="success"
           class="my-4"
           @click="submit()"
           :loading="loading"
           >
-          Registration
+          Register
         </v-btn>
-
+        
         <br>
 
-      </v-col>
+      </v-form>
 
-    </v-row>
+    </v-col>
 
-
-  </v-container>
-
-  <v-row justify="center">
-    <v-dialog
-    v-model="dialog"
-    max-width="290"
-    >
-    <v-card>
-      <v-card-title class="headline">Status</v-card-title>
-
-      <v-card-text>
-        {{ status_text }}
-      </v-card-text>
-
-      <v-card-actions>
-        <v-spacer></v-spacer>
+  </v-row>
 
 
+</v-container>
 
-        <v-btn
-        color="green darken-1"
-        text
-        @click="dialog = false"
-        >
-        Close
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+<v-row justify="center">
+  <v-dialog
+  v-model="dialog"
+  max-width="290"
+  >
+  <v-card>
+    <v-card-title class="headline">Status</v-card-title>
+
+    <v-card-text>
+      {{ status_text }}
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+
+
+
+      <v-btn
+      color="green darken-1"
+      text
+      @click="dialog = false"
+      >
+      Close
+    </v-btn>
+  </v-card-actions>
+</v-card>
 </v-dialog>
 </v-row>
 
@@ -121,122 +139,20 @@ export default {
     mobile: '',
     institution_id: '',
     password: '',
-    full_name_validity : 'green',
-    first_name_validity : '',
-    last_name_validity : '',
-    email_validity: '',
-    mobile_validity: '',
-    institution_id_validity: '',
-    password_validity: '',
+    
+    lazy: true,
+    valid: true,
+
     registratrion_status: 'default',
     loading: false,
   }), 
 
-  created(){
-      // this.institution_id_label = this.institution_id_label__;
-
-    },
-    methods: {
-      onChangeValidity(inputName){
-
-        if(inputName == 'first_name'){
-        // console.log(this.$refs.full_name.value);
-        let patt= /[A-Za-z.\s]{5,}/g;
-        let result = patt.test(this.first_name);
-
-        if(!result){
-          let errors = [];
-          errors.push('Name at least 6 characters');
-          this.first_name_validity = 'invalid'
-          return errors;
-        }else{
-          this.first_name_validity = 'valid';
-        }
-
-      }else if(inputName == 'last_name'){
-        // console.log(this.$refs.last_name.value);
-        let patt= /[A-Za-z.\s]{5,}/g;
-        let result = patt.test(this.last_name);
-
-        if(!result){
-          let errors = [];
-          errors.push('Name at least 6 characters');
-          this.last_name_validity = 'invalid'
-          return errors;
-        }else{
-          this.last_name_validity = 'valid';
-        }
-
-      }else if(inputName == 'institution_id'){
-        // console.log(this.institution_id);
-        let patt= /[A-Za-z\S]{5,}/g;
-        let result = patt.test(this.institution_id);
-
-
-
-        if(!result){
-          let errors = [];
-          errors.push('id atleast 5 characters');
-          this.institution_id_validity = 'invalid'
-          return errors;
-        }else{
-          this.institution_id_validity = 'valid';
-        }
-
-
-
-      }else if(inputName == 'mobile'){
-        // console.log(this.mobile);
-        let patt= /[+]{0,1}[\d]{11,}/g;
-        let result = patt.test(this.mobile);
-
-        if(!result){
-          let errors = [];
-          errors.push('mobile number must be alteast 11 digit');
-          this.mobile_validity = 'invalid'
-          return errors;
-        }else{
-          this.mobile_validity = 'valid';
-        }
-
-      }else if(inputName == 'email'){
-        // console.log(this.email);
-        let patt= /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g;
-        let result = patt.test(this.email);
-
-
-
-        if(!result){
-          let errors = [];
-          errors.push('invalid email');
-          this.email_validity = 'invalid'
-          return errors;
-        }else{
-          this.email_validity = 'valid';
-        }
-
-      }else if(inputName == 'password'){
-        // console.log(this.password);
-        let patt= /[\S]{6,}/g;
-        let result = patt.test(this.password);
-
-
-        if(!result){
-          let errors = [];
-          errors.push('atleast 6 characters');
-          this.password_validity = 'invalid'
-          return errors;
-        }else{
-          this.password_validity = 'valid';
-        }
-
-      }
-    },
+  methods: {
     submit(){
 
 
       this.loading = true;
-      if(this.first_name_validity == 'valid' && this.last_name_validity == 'valid' && this.institution_id_validity == 'valid' && this.mobile_validity == 'valid' && this.email_validity == 'valid' && this.password_validity == 'valid'){
+      if( this.$refs.form.validate() ){
         // alert('valid');
 
         var headers = {

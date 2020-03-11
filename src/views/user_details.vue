@@ -51,7 +51,7 @@
 
   
   <v-col cols="6">
-  <p>{{ institution_id_label__ }}</p>
+  <p>{{ this.$store.getters.getIInstitution_id_label}}</p>
   </v-col>
   <v-col  cols="6" >
   <p> {{ user_details.institution_id }} </p>
@@ -237,7 +237,7 @@
         dialogm1: '',
         dialog: false,
         user_details: {},
-        institution_id_label__:'institution_id'
+        
       }),
 
     mounted() {
