@@ -1,235 +1,110 @@
 <template>
-  <v-app class="grey" > 
-    <v-container class="white" >
+  <v-container>
+<v-card>
+
+    <v-card-title>
+     Search People
+      <v-spacer></v-spacer>
+
+      <v-text-field
+      v-model="search"
+      append-icon="mdi-magnify"
+      label="Search"
+      single-line
+      hide-details
+      ></v-text-field>
+    </v-card-title>
 
 
-      <v-row align="center">
-        <v-col offset="1" cols="5" md="4">
+    <v-data-table
+    :headers=" headers_search "
+    :items="$store.getters.getPeopleSearchList"
+    class="elevation-1"
+    :search="search"
+    :loading="table_loading" loading-text="Loading... Please wait"
+    >
 
-          <v-text-field
-          v-model="search_text"
-          label="Search"
-          @keyup="search()"
-          required
-          ></v-text-field>
-
-        </v-col>
-        
-        <v-col offset-md="1" cols="5" md="4">
+    <template v-slot:item.gallery="{ item }">
 
 
-          <v-select @change="search()"
-          v-model="category"
-          :items="category_items"
-          label="Category"
-          value="true"
-          required
-          ></v-select>
+       <user_gallery :email='item.email' :user_id='item.id' ></user_gallery>
+
+      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+    </template>
+
+    <template v-slot:item.profile="{ item }">
 
 
-        </v-col>
-        
-        
+       <get_details  :email='item.email' :user_id='item.id' ></get_details>
+
+      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+    </template>
 
 
-        <v-col cols="12">
+    <template  v-slot:item.status="{ item }">
 
-
-          <v-progress-linear 
-          :indeterminate="indeterminate"
-          :color="progress_color"
-          ></v-progress-linear>
-
-
-        </v-col>
-
-
-
-      </v-row>
-
-
-
-      <v-row>
-        <v-col>
-          <h1 align="center"  class="green darken-1 white--text py-6"> Search Result </h1>
-          <v-simple-table >
-           <template v-slot:default>
-            <thead >
-              <tr >
-                <th class="text-left">Name</th>
-                <th class="text-left">Membership No</th>
-                <th class="text-left">Instituion ID</th>
-                <th class="text-left">Gallery</th>
-                <th class="text-left">Details</th>
-              </tr>
-            </thead>
-            
-            <tbody >
-              <tr  id="tbody"  v-for="user in getFilteredArray"    :key='user.id'>
-
-                <td> {{ user.full_name }} </td>
-                <td> {{ user.membership_number }} </td>
-                <td> {{ user.institution_id }} </td>
-                
-                <td>
-
-                  <user_gallery :email='user.email' :user_id='user.id' ></user_gallery>
-                </td>
-
-                
-
-
-                <td>
-                  <get_details  v-on:update:search="search()" :email='user.email' :user_id='user.id'  :category="category" :search_text="search_text" ></get_details>
-                </td>
+      <v-chip dark class="white--text"
+      :color=" item.status == 'rejected' ? 'red' : item.status == 'approved' ? 'green' : 'warning' ">
+        {{ item.status  }}
+      </v-chip>
+      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+    </template>
 
 
 
 
-              </tr>
-            </tbody>
 
 
-          </template>
-        </v-simple-table>
+</v-data-table>
+
+</v-card>
 
 
+<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
 
-      </v-col>
-    </v-row>
+</v-container>
 
-
-    <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
-
-
-  </v-container>
-</v-app>
 </template>
-
 
 <script>
   import noInternetSnackBar from '@/views/noInternetSnackBar'
   import get_details from '@/views/get_details.vue'
   import user_gallery from '@/views/user_gallery.vue'
+  // import data_privacy from '@/views/data_privacy.vue'
+  import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
   
 
 
   export default {
     name: 'search',
+    mixins: [ profile_info_and_privacy_Mixins ] ,
     components: {
       'get_details': get_details,
       'user_gallery': user_gallery,
+      // 'data_privacy': data_privacy,
       'noInternetSnackBar': noInternetSnackBar
     },
-    data: ()=>({
-      category: 'Full Name',
-      category_items: [
-      'Full Name',
-      'Institution ID',
-      'Membership Number',
-      ],
-      indeterminate: false,
-      progress_hidden: true,
-      progress_color: 'white',
-      search_text: '',
-      user_list : [], 
-      array_size: true ,
-      users_info_as_props: {},
-    }),
+    data: ()=>({}),
     computed:{
 
-      getFilteredArray(){
-
-        let arrayNew =  this.user_list.filter( (value) => {
-
-         return this.$store.getters.getAllInfo.id != value.id && value.email != 'admin@admin.com' ;
-
-       });
-
-        // this.user_list = arrayNew;
-        return arrayNew;
-
-
-      }
 
 
     },
-    methods: {
-      institution_id_item(){
-        this.category_items = ['Full Name',
-        'Membership Number'];
+    methods: {},
+    created(){
+      console.log('search created');
 
-        return this.category_items;
-      },
-      search(){
-        //console.log(this.search_text);
-        //console.log(this.category);
-        this.indeterminate = true;
-        this.progress_hidden=false;
-        this.progress_color = 'red';
-        
-
-        var headers = {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'} ;
-          this.$axios.post( this.$store.getters.modelSearch ,
-          {
-            purpose: this.category ,
-            search_text: this.search_text,
-            main_purpose : 'search',
-
-          } , headers
-          ).then(function(response){
-
-            console.log(response);
-
-            if(response.data.length == 1){
-              this.user_list = []; 
-              this.user_list[0] =  JSON.parse(response.data);
-
-            // this.$store.commit('setSearchResult' , this.user_list[0]);
-
-            // console.log(this.user_list[0]);
-          }else if(response.data.length > 1){
-            this.user_list =  response.data;
-            // console.log(this.user_list[0].email);
-
-            // this.$store.commit('setSearchResult' , this.user_list);
-
-          }else if(response.data == 0){
-            this.user_list =  [];
-            // this.$store.commit('setSearchResult' , this.user_list);
-          }
-          console.log(this.user_list);
+      this.$store.commit('setComponentName' , 'search');
 
 
-          this.progress_hidden=true;
-          this.indeterminate = false;
-          this.progress_color = 'white';
+      console.log(this.$store.getters.getAllInfo.email);
 
-        }.bind(this))
-          .catch(function(error){
+      this.getSearchInfo();
 
-            console.log(error);
+      // this.$store.getters.isAdmin  ? this.category_items.push("Rejected User" , "Newly Registered") : '';
 
-            this.$refs.snackbar.startSnackBar();
-
-            this.indeterminate = false;
-            this.progress_hidden=true;
-            this.progress_color = 'white';
-          // 
-        }.bind(this));
-
-
-        }
-
-
-      },
-      created(){
-        this.$store.getters.isAdmin  ? this.category_items.push("Rejected User" , "Newly Registered") : '';
-
-        this.users_info_as_props = this.$store.getters.getAllInfo;
+      // this.users_info_as_props = this.$store.getters.getAllInfo;
 /*
 
       bus.$on('categroy_from_get_details' , (data)=>{
@@ -260,6 +135,12 @@
       }.bind(this));*/
 
 
+
+    },
+    mounted(){
+      console.log('search upadated');
+
+      this.$store.commit('setComponentName' , 'search');
 
     }
 

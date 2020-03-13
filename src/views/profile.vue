@@ -53,6 +53,10 @@ export default {
 data: ()=>({}), 
 created(){
 
+
+  this.$store.commit('setComponentName' , 'profile_basic');
+
+
   var headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Accept': 'application/json' , 'charset':'utf-8'} ;

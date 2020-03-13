@@ -23,9 +23,11 @@ export const store = new Vuex.Store({
 		model:{
 			modelAddress1: 'http://ndc92spa.riyadahsan.xyz/backend_all/model_sir/model/',
 			modelAddress: 'http://localhost/backend_all/model_sir/model/',
+			modelAddress_laravel: 'http://localhost/backend_all/laravel_intern_project/public/',
 		},
 		upload_directory: {
 			rootDirectory: 'http://localhost/backend_all/model_sir/',
+			rootDirectory_assets: 'http://localhost/backend_all/model_sir/assets/',
 			recentPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/recent_photos/',
 			oldPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/old_photos/',
 			groupPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/group_photos/',
@@ -40,8 +42,23 @@ export const store = new Vuex.Store({
 		search_result: [],
 		institution_id_label: '',
 		form_field_rules: {},
+
+		people_search_list: [],
+
 	},
 	mutations: {
+
+		//latest for interne project for sir... essential
+		setPeopleSearchList: ( state , name ) =>{
+			state.people_search_list = name ;
+		},
+
+
+
+
+
+
+
 		loginFalse: state => {
 			state.user.isLogin = false;
 		},
@@ -101,6 +118,14 @@ export const store = new Vuex.Store({
 		}
 	},
 	getters: {
+
+		//used in search page
+		getPeopleSearchList: state =>{
+			return state.people_search_list;
+		},
+
+
+
 		auth: state=>{
 			return state.user;
 		},
@@ -112,6 +137,9 @@ export const store = new Vuex.Store({
 		},
 		modelAddress: state => {
 			return state.upload_directory.rootDirectory;
+		},
+		assetsRootDirectory: state => {
+			return state.upload_directory.rootDirectory_assets;
 		},
 		modelRegistration: state => {
 			return state.model.modelAddress+'registration.php';
@@ -164,6 +192,15 @@ export const store = new Vuex.Store({
 		modelProfile_verify_email: state => {
 			return state.model.modelAddress+'profile_verify_email.php';
 		},
+
+
+		getModelAddress_laravel: state => {
+			return state.model.modelAddress_laravel;
+		},
+
+
+
+
 		getAllInfo: state => {
 			return state.user_info;
 		},

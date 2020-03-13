@@ -30,7 +30,7 @@
 
 
 					<v-text-field
-					@keyup.enter="submit()"
+					@keyup.enter="submit"
 					v-model="password"
 					type="password"
 					label="password"
@@ -40,7 +40,7 @@
 					<v-btn
 					color="success"
 					class="mr-4"
-					@click="submit()"
+					@click="submit"
 					:loading="loading"
 					>
 					Login

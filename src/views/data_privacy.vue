@@ -1,212 +1,53 @@
 <template>
+
   <v-container>
-    <v-row  justify="center">
-      <v-col md="8" class="text-center success white--text" >
-        <h1>
-          Privacy
-        </h1>
-      </v-col>
-    </v-row>
+
+  <base_privacy :user_id="this.$store.getters.getAllInfo.id" :email="this.$store.getters.getAllInfo.email" ></base_privacy>
 
 
-    <v-row justify="center" >
-      <v-col md="8" >
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left title">Name</th>
-                <th class="text-left title">Privacy</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item ) in users_info" :key="item.key">
-                <td class="body-1"> {{ takeName(item[0])  }} <br> {{ item[1] }}</td>
-                <td>
-
-
-                  <v-radio-group :disabled='item[0] == "institution_id" || item[0]=="membership_number" || item[0]=="full_name"' @change="updatePrivacy()" v-model="item[2] ">
-                    <v-radio
-                    label="private"
-                    value="private"
-                    ></v-radio>
-                    <v-radio
-                    label="public"
-                    value="public"
-                    ></v-radio>
-                  </v-radio-group>
-
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col >
-    </v-row>
-
-
-
-
-    <v-dialog
-    v-model="dialog"
-    hide-overlay
-    persistent
-    width="300"
-    >
-    <v-card
-    color="primary"
-    dark
-    >
-    <v-card-text>
-      Updating Privacy
-      <v-progress-linear
-      indeterminate
-      color="white"
-      class="mb-0"
-      ></v-progress-linear>
-    </v-card-text>
-  </v-card>
-</v-dialog>
-
-
-
-</v-container>
+  </v-container>
 
 </template>
 
 
 <script>
 
+  // import user_gallery from '@/views/user_gallery.vue'
+  import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
+
+  import base_privacy from '@/views/base_privacy.vue'
 
 
   export default {
     name: 'data_privacy',
+    mixins: [ profile_info_and_privacy_Mixins ] ,
+    
+
+    components: {
+      // 'get_details': get_details,
+      'base_privacy': base_privacy,
+      // 'data_privacy': data_privacy,
+    },
+
     data: ()=>({
-      users_info: [],
-      radioGroup: [],
-      disabled: false,
-      dialog: false,
+
+
+
     }),
-    computed:{},
-    watch: {
-      dialog (val) {
-        if (!val) return
-          setTimeout(() => (this.dialog = false), 2000);
-      },
+    computed:{
+
     },
     methods: {
-      updatePrivacy(){
-      //alert('upadate privacy');
-      this.dialog = true;
-
-      var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-
-      this.$axios.post( this.$store.getters.modeldata_privacy ,
-      {
-        users_info: this.users_info,
-        purpose: 'updatePrivacy',
-        id: this.$store.getters.getAllInfo.id ,
-        email: this.$store.getters.getAllInfo.email ,
-      } , headers
-      ).then(function(response){
-        //this.users_info = response.data;
-        // this.dialog = false;
-        console.log(response);
-      }.bind(this))
-      .catch(function(){
-
-
-      }.bind(this));
-
-
-
     },
-    takeName(name){
-      if(name=='full_name'){ 
-        return 'Full Name';
-      }else if(name == 'email'){
-        return 'Email';
-      }else if(name == 'mobile'){
-        return 'Mobile';
-      }else if(name == 'institution_id'){
-        return this.$store.getters.getIInstitution_id_label;
-      }else if(name == 'nid_or_passport'){
-        return 'NID/Passport';
-      }else if(name == 'fathers_name'){
-        return "Father's Name";
-      }else if(name == 'mother_name'){
-        return "Mother's Name";
-      }else if(name == 'spouse_name'){
-        return "Spouse's Name";
-      }else if(name == 'number_of_children'){
-        return "Number Of Children";
-      }else if(name == 'profession'){
-        return "Profession";
-      }else if(name == 'designation'){
-        return "Designation";
-      }else if(name == 'blood_group'){
-        return "Blood Group";
-      }else if(name == 'date_of_birth'){
-        return "Date Of Birth";
-      }else if(name == 'present_line1'){
-        return "Present Adress Line1";
-      }else if(name == 'present_post_code'){
-        return "Present Post Code";
-      }else if(name == 'present_district'){
-        return "Present District";
-      }else if(name == 'present_country'){
-        return "Present Country";
-      }else if(name == 'parmanent_line1'){
-        return "Permanent Adress Line1";
-      }else if(name == 'parmanent_post_code'){
-        return "Permanent Post Code";
-      }else if(name == 'parmanent_district'){
-        return "Permanent District";
-      }else if(name == 'parmanent_country'){
-        return "Permanent Country";
-      }else if(name == 'membership_number'){
-        return "Membership Number";
-      }else if(name == 'type'){
-        return "User Type";
-      }else if(name == 'status'){
-        return "Verfication Status";
-      }else if(name == 'registration_date'){
-        return "Account Created at";
-      }else if(name == 'institution'){
-        return "Workplace/Institution";
-      }else if(name == 'email_verification_status'){
-        return "Email Verification Status";
-      }else if(name == 'change_request'){
-        return "Information Update Request";
-      }
+    created(){
+
+      console.log('user_id '+ this.user_id);
+      console.log('email '+ this.email);
+      this.getPhotosForAll(this.user_id , this.email);
+
+
     }
-
-
-  },
-  created(){
-    var headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json'} ;
-
-    this.$axios.post( this.$store.getters.modeldata_privacy ,
-    {
-      purpose: 'getPrivacy',
-      id: this.$store.getters.getAllInfo.id ,
-      email: this.$store.getters.getAllInfo.email ,
-    }, headers
-    ).then(function(response){
-
-      console.log(response);
-      this.users_info = response.data;
-      
-    }.bind(this))
-    .catch(function(){
-    }.bind(this));
-
   }
-}
 
 
 

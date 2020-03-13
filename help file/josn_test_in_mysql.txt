@@ -1,0 +1,1 @@
+INSERT INTO `users_info`(`json_test`) VALUES ( '{ "name" : "riyad" }' )
