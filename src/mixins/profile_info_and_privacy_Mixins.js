@@ -14,6 +14,18 @@ users_info:[],
 search:'',
 table_loading: false,
 
+
+date: new Date().toISOString().substr(0, 10),
+menu: false,
+modal: false,
+menu2: false,
+
+item_gender: [],
+item_religion: [],
+item_blood_group: [],
+
+
+
 headers: [
 {
 	text: 'User Profile',
@@ -32,7 +44,7 @@ headers_privacy: [
 	text: 'Field Name',
 	align: 'left',
 	sortable: false,
-	value: 'field_name',
+	value: 'alias_field_name',
 },
 { 
 	text: 'Privacy', value: 'privacy_value',
@@ -49,7 +61,7 @@ headers_get_details: [
 	text: 'Field Name',
 	align: 'left',
 	sortable: false,
-	value: 'field_name',
+	value: 'alias_field_name',
 },
 { 
 	text: 'Value', value: 'field_value',
@@ -62,7 +74,7 @@ headers_get_details_edit_admin: [
 	text: 'Field Name',
 	align: 'left',
 	sortable: false,
-	value: 'field_name',
+	value: 'alias_field_name',
 },
 { 
 	text: 'Value', value: 'field_value',
@@ -339,9 +351,9 @@ let finalObject =  chunkArray.map((value , index )=>{ //array to object conversi
 	console.log(value[3]);
 	
 	return {
-		field_name : value[0],
+		alias_field_name : value[0],
 		privacy_value : value[3],
-		alias_field_name : value[2],
+		field_name : value[2],
 		field_value : value[1],
 		index_number: index,
 	}
@@ -388,6 +400,14 @@ this.progress_color = 'white';
 
 					}, 
 					updatePrivacy(table_name, field_name , privacy_value , email){
+
+
+						console.log(table_name);
+						console.log(field_name);
+						console.log(privacy_value);
+						console.log(email);
+
+
 //alert('upadate privacy');
 this.dialog = true;
 
@@ -408,6 +428,9 @@ var headers = {
 // this.dialog = false;
 console.log(response);
 
+this.$store.getters.getComponentName == 'get_details' ? ( (this.dialog_update_text = 'upadated'),
+	(this.dialog_update_status = true) ) : '';
+
 this.getPrivacyInfo(this.user_id , email);
 
 
@@ -418,6 +441,10 @@ this.getPrivacyInfo(this.user_id , email);
 
 		this.$refs.snackbar.startSnackBar();
 	}.bind(this));
+
+
+
+
 
 
 

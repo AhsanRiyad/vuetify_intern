@@ -137,9 +137,11 @@
 
 
        <v-data-table
-       :headers=" this.$store.getters.getComponentName == 'get_details' ? headers_get_details_edit_admin : headers_privacy  "
+       :headers=" 
+        this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
+       this.$store.getters.getComponentName == 'get_details' ? headers_get_details : headers_privacy  "
        :items="users_info"
-       item-key="alias_field_name"
+       item-key="field_name"
        class="elevation-1"
        :search="search"
        :loading="table_loading" loading-text="Loading... Please wait"
@@ -156,7 +158,7 @@
 
       <template v-slot:item.options="{ item }">
 
-        <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="(item.privacy_value = !item.privacy_value ) , updatePrivacy( 'privacy' , item.alias_field_name , item.privacy_value , email , $event )" dark>
+        <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="(item.privacy_value = !item.privacy_value ) , updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email , $event )" dark>
           {{  item.privacy_value == 0 ? 'Private': 'Public'   }}
         </v-btn>
 
@@ -165,18 +167,65 @@
 
       <template v-slot:item.edit="{ item }">
 
+  
+    
+        <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        min-width="290px"
+        v-if="item.field_name == 'date_of_birth' "
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="date"
+            label="item.alias_field_name"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="date" no-title scrollable>
+          <v-spacer></v-spacer>
+          <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+          <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+  
+
+  
+  
+
+      
+
+          <v-select
+          v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
+          v-model = "item.field_value"
+          :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+          @change="updateData( item.field_name , item.index_number )"
+          :ref = " item.field_name"
+          :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
+          :label="item.alias_field_name"
+          ></v-select>
 
 
-
-        <v-text-field 
-        :label="item.field_name"
+        <v-text-field
+        v-else
+        :label="item.alias_field_name"
         v-model="item.field_value"
-        :rules=" field_rules_prop(  item.alias_field_name , item.index_number  ) "
-        @change="updateData( item.alias_field_name , item.alias_field_name ,  item.index_number )"
-        :ref = 'item.alias_field_name'
+        :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+        @change="updateData( item.field_name , item.index_number )"
+        :ref = 'item.field_name'
+        :id="item.field_name"
+        :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
         >
-
       </v-text-field>
+
+
+
+
     </template>
   </v-data-table>
 </v-card>
@@ -187,6 +236,9 @@
 
 
 <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+
+
+
 <v-dialog
 v-model="dialog"
 hide-overlay
@@ -210,16 +262,18 @@ dark
 
 
 
+
+<!-- second dialog -->
 <v-row justify="center">
-  <v-dialog v-model="dialog_update_status" persistent max-width="290">
-    
+  <v-dialog v-model="dialog_update_status"  max-width="290">
+
     <v-card>
-      <v-card-title class="headline">Use Google's location service?</v-card-title>
-      <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+      <v-card-title class="headline"> Status </v-card-title>
+      <v-card-text> {{ dialog_update_text }} </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="dialog_update_status = false">Disagree</v-btn>
-        <v-btn color="green darken-1" text @click="dialog_update_status = false">Agree</v-btn>
+        <v-btn color="green darken-1" text @click="dialog_update_status = false">Close</v-btn>
+
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -254,15 +308,20 @@ dark
       radioGroup: [],
       disabled: false,
       dialog: false,
+
+
       dialog_update_status: false,
+      dialog_update_text: '',
+
+
     }),
     computed:{},
     
     methods: {
 
-      field_rules_prop( alias_field_name ){
+      field_rules_prop( field_name ){
 
-        if(alias_field_name == 'first_name')
+        if(field_name == 'first_name')
         {
 
           return ([
@@ -275,7 +334,7 @@ dark
 
 
       },
-      updateData(field_name, alias_field_name , index_number){
+      updateData(field_name , index_number){
 
 
         console.log(field_name);
@@ -284,10 +343,19 @@ dark
 
         // console.log(this.$refs.form.validate());
 
-        // console.log(this.$refs);
-        this.$refs[alias_field_name].hasError ? this.dialog_update_status = true : '' ;
+        console.log(this.$refs[field_name]);
+        !this.$refs[field_name].hasError ?
+        
+        this.updatePrivacy(
+         'all_info_together' ,
+         field_name ,
+         this.$refs[field_name].value ,
+         this.email ) 
+
+        : '' ;
 
         // console.log(this.$refs.)
+
 
 
       }
