@@ -46,6 +46,15 @@
       this.getPhotosForAll(this.user_id , this.email);
 
 
+      
+
+
+
+
+
+
+
+
     }
   }
 

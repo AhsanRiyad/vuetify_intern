@@ -163,7 +163,6 @@ getData
 </template>
 <script>
 // @ is an alias to /src
-
 export default {
 	name: 'profile_basic',
 	data: ()=>({
@@ -171,15 +170,10 @@ export default {
 		menu: false,
 		modal: false,
 		menu2: false,
-
-
-
 		first_name: '',
 		last_name: '',
 		name_bangla: '',
 		religion: 'Islam',
-
-
 		name: 'riyad---vue',
 		dialog: false,
 		status_text: '',
@@ -191,10 +185,8 @@ export default {
 		dob: '',
 		nid_or_passport:'',
 		
-
 		lazy: true,
 		valid: true,
-
 		registratrion_status: 'default',
 		loading: true,
 		items: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
@@ -202,49 +194,28 @@ export default {
 		form_items:['first_name_validity' , 'last_name_validity' ]
 	}), 
 	created(){
-
-
 // this.setAllInfo();
 // this.full_name = this.$store.getters.getAllInfo.full_name;
-
-
 this.$store.getters.getAllInfo.date_of_birth.toString() == "0000-00-00" ? this.date_of_birth = '1949-08-02' : this.date_of_birth = this.$store.getters.getAllInfo.date_of_birth.toString(); 
-
-
-
 this.full_name = this.$store.getters.getAllInfo.full_name;
-
-
-
 this.first_name = this.$store.getters.getAllInfo.first_name;
 this.last_name = this.$store.getters.getAllInfo.last_name;
 this.name_bangla = this.$store.getters.getAllInfo.name_bangla;
 this.religion = this.$store.getters.getAllInfo.religion;
-
-
 this.institution_id = this.$store.getters.getAllInfo.institution_id;
 this.mobile = this.$store.getters.getAllInfo.mobile;
 this.nid_or_passport = this.$store.getters.getAllInfo.nid_or_passport;
 this.blood_group = this.$store.getters.getAllInfo.blood_group;
-
-
-
 // this.date_of_birth = new Date(this.$store.getters.getAllInfo.date_of_birth);
-
 // alert(this.$store.getters.getAllInfo.date_of_birth);
-
 },
 methods: {  
 	submit(){
 // alert(this.blood_group);
 // console.log(this.$store.getters.getAllInfo.email);
-
 //alert(this.blood_group);
-
 /*
 this.$store.getters.getform_field_rules.forEach((item)=>{
-
-
 	if(item.rule == 'optional'){
 		switch(item.field_name) {
 			case 'nid_or_passport_validity':
@@ -260,19 +231,12 @@ this.$store.getters.getform_field_rules.forEach((item)=>{
 			this.religion_validity = 'valid';
 			break;
 		}
-
 	}})
 	*/
-
-
-
 	if( this.$refs.form.validate() ){
-
-
 		var headers = {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Accept': 'application/json' , 'charset':'utf-8'} ;
-
 			this.$axios.post( this.$store.getters.modelProfile_basic ,
 			{
 				id: this.$store.getters.getAllInfo.id ,
@@ -289,51 +253,31 @@ this.$store.getters.getform_field_rules.forEach((item)=>{
 				dob: this.date_of_birth,
 			} , headers
 			).then(function(response){
-
 				console.log(response);
 				this.type == 'admin' ? this.status_text = 'Updated, Thank You' : this.status_text = 'Update requested successfully! wait for admin approval';
 				this.dialog = true;
-
-
 				this.$store.getters.getAllInfo.full_name = this.full_name;
-
-
 				this.$store.getters.getAllInfo.first_name = this.first_name;
 				this.$store.getters.getAllInfo.last_name = this.last_name;
 				this.$store.getters.getAllInfo.name_bangla = this.name_bangla;
 				this.$store.getters.getAllInfo.religion = this.religion;
-
-
 				this.$store.getters.getAllInfo.mobile = this.mobile;
 				this.$store.getters.getAllInfo.institution_id = this.institution_id;
 				this.$store.getters.getAllInfo.nid_or_passport = this.nid_or_passport;
 				this.$store.getters.getAllInfo.blood_group = this.blood_group;
 				this.$store.getters.getAllInfo.date_of_birth = this.date_of_birth;
-
-
-
 			}.bind(this))
 			.catch(function(){
 //console.log(error);
 }.bind(this));
-
 		}else{
 			this.status_text = 'all field are not valid';
 			this.dialog = true;
-
 		}
-
 	},
-
 /*getData(){
 console.log( this.$store.getters.getAllInfo);
-
 },*/
 }
-
-
 }
-
-
-
 </script>

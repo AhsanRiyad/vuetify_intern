@@ -7,7 +7,7 @@ export default {
 
 		return {
 			status_text: '',
-			
+
 
 //data table
 users_info:[],
@@ -20,9 +20,9 @@ menu: false,
 modal: false,
 menu2: false,
 
-item_gender: [],
-item_religion: [],
-item_blood_group: [],
+item_gender: ['Male' , 'Female', 'Others'],
+item_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others'],
+item_blood_group: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
 
 
 
@@ -167,10 +167,89 @@ all_info: [],
 },
 
 methods: {
+	field_rules_prop( field_name ){
 
-	deletePhoto(photo_name){
+		if(field_name == 'first_name')
+		{
 
-		
+			return ([
+				v => !!v || 'required',
+				]);
+
+		}
+	},
+	updateData(field_name , index_number){
+
+		console.log(field_name);
+		console.log(index_number);
+		console.log('form validate');
+
+// console.log(this.$refs.form.validate());
+console.log(this.$refs);
+!this.$refs[field_name].hasError ?
+
+this.updatePrivacy(
+	'all_info_together' ,
+	field_name ,
+	this.$refs[field_name].value ,
+	this.email ) 
+
+: '' ;
+// console.log(this.$refs.)
+},
+updateData_profile(field_name , index_number){
+
+		console.log(field_name);
+		console.log(index_number);
+		console.log('form validate');
+
+// console.log(this.$refs.form.validate());
+console.log(this.$refs);
+!this.$refs[field_name][0].hasError ?
+
+this.updatePrivacy(
+	'all_info_together' ,
+	field_name ,
+	this.$refs[field_name][0].value ,
+	this.email ) 
+
+: '' ;
+// console.log(this.$refs.)
+},
+deletePhoto(photo_name){
+	var headers = {
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Accept': 'application/json'} ;
+
+		this.$axios.post( this.$store.getters.getModelAddress_laravel+'deletePhoto' ,
+		{
+			email: this.$store.getters.getAllInfo.email ,
+			user_id: this.$store.getters.getAllInfo.id ,
+			photo_name: photo_name
+		} , headers
+		).then(function(response){
+			console.log(response);
+
+			this.getPhotosForAll(this.user_id, this.email);
+			this.photo_delete_status = 'Photo Deleted Successfully';
+
+
+
+
+		}.bind(this))
+		.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+	},
+	getPhotosForAll(user_id , email){
+
+
 
 
 
@@ -178,200 +257,266 @@ methods: {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Accept': 'application/json'} ;
 
-			this.$axios.post( this.$store.getters.getModelAddress_laravel+'deletePhoto' ,
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPhotosForAll' ,
 			{
-				email: this.$store.getters.getAllInfo.email ,
-				user_id: this.$store.getters.getAllInfo.id ,
-				photo_name: photo_name
+
+				purpose: 'getPhotos_for_all_users',
+				main_purpose : 'search_other_option',
+				email: email ,
+				user_id: user_id ,
 			} , headers
 			).then(function(response){
-				console.log(response);
+//this.users_info = response.data;
+// alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);
 
-				this.getPhotosForAll(this.user_id, this.email);
-				this.photo_delete_status = 'Photo Deleted Successfully';
+console.log(response);
+
+this.photos = response.data ;
+// this.recent_photo = this.photos.recent_and_old[0].recent_photo;
 
 
 
 
-			}.bind(this))
+this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.assetsRootDirectory+'img/uploads/recent_photos/'+this.photos.recent_and_old[0].recent_photo;
+
+
+
+this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.assetsRootDirectory+'img/uploads/old_photos/'+this.photos.recent_and_old[0].old_photo;
+
+
+
+
+
+this.group_photos = response.data.group_photos ;
+
+
+console.log('group photo');
+
+console.log(this.group_photos);
+
+// this.recent_photo = response.data.recent_photo;
+// this.old_photo = response.data.old_photo;
+// this.group_photo = response.data.group_photo;
+
+//alert(this.rootAdress+'assets/img/uploads/recent_photos/'+this.recent_photo);
+//alert(this.rootAdress+'assets/img/uploads/group_photos/'+this.group_photo[0]);
+
+}.bind(this))
 			.catch(function(){
 
-		// this.$refs.snackbar.startSnackBar();
+// this.$refs.snackbar.startSnackBar();
 
-        //
-    }.bind(this));
+//
+}.bind(this));
+
+
+
+
+
+
+
 
 
 
 		},
-		getPhotosForAll(user_id , email){
+		getSearchInfo(){
+			this.table_loading = true;
 
-
-
-
-
-			var headers = {
+			var headers = 
+			{
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
 
-				this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPhotosForAll' ,
+				this.$axios.post( this.$store.getters.getModelAddress_laravel+'getAllPeopleList',
 				{
+					purpose: 'getPrivacy',
 
-					purpose: 'getPhotos_for_all_users',
-					main_purpose : 'search_other_option',
-					email: email ,
-					user_id: user_id ,
-				} , headers
+				}, headers
 				).then(function(response){
-        //this.users_info = response.data;
-        // alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);
+					this.table_loading = false;
+					console.log(response);
 
-        console.log(response);
-
-        this.photos = response.data ;
-        // this.recent_photo = this.photos.recent_and_old[0].recent_photo;
-
+					let people_excluding_searcher =  response.data.filter(( item )=>{
+						return item.email != this.$store.getters.getAllInfo.email;
+					})
 
 
-
-        this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.assetsRootDirectory+'img/uploads/recent_photos/'+this.photos.recent_and_old[0].recent_photo;
-
+					this.$store.commit('setPeopleSearchList' , people_excluding_searcher);
 
 
-        this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.assetsRootDirectory+'img/uploads/old_photos/'+this.photos.recent_and_old[0].old_photo;
-
-
-
-        
-
-        this.group_photos = response.data.group_photos ;
-
-
-        console.log('group photo');
-
-        console.log(this.group_photos);
-
-        // this.recent_photo = response.data.recent_photo;
-        // this.old_photo = response.data.old_photo;
-        // this.group_photo = response.data.group_photo;
-
-        //alert(this.rootAdress+'assets/img/uploads/recent_photos/'+this.recent_photo);
-        //alert(this.rootAdress+'assets/img/uploads/group_photos/'+this.group_photo[0]);
-
-    }.bind(this))
+				}.bind(this))
 				.catch(function(){
+					this.table_loading = false;
 
-		// this.$refs.snackbar.startSnackBar();
-
-        //
-    }.bind(this));
-
+					this.$refs.snackbar.startSnackBar();
+					this.table_loading = false;
 
 
-
-
-
-
-
-
+				}.bind(this));
 
 			},
-			getSearchInfo(){
-				this.table_loading = true;
-
-				var headers = 
-				{
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'Accept': 'application/json'} ;
-
-					this.$axios.post( this.$store.getters.getModelAddress_laravel+'getAllPeopleList',
-					{
-						purpose: 'getPrivacy',
-
-					}, headers
-					).then(function(response){
-						this.table_loading = false;
-						console.log(response);
-
-						let people_excluding_searcher =  response.data.filter(( item )=>{
-							return item.email != this.$store.getters.getAllInfo.email;
-						})
-
-
-						this.$store.commit('setPeopleSearchList' , people_excluding_searcher);
-
-
-					}.bind(this))
-					.catch(function(){
-						this.table_loading = false;
-
-						this.$refs.snackbar.startSnackBar();
-						this.table_loading = false;
-
-
-					}.bind(this));
-
-				},
-				getPrivacyInfo( id , email){
-
-					this.table_loading = true;
-					this.indeterminate = true;
-					this.progress_color='red';
-
-
-					var headers = 
-					{
-						'Content-Type': 'application/x-www-form-urlencoded',
-						'Accept': 'application/json'} ;
-
-						this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
-						{
-							purpose: 'getPrivacy',
-							id: id ,
-							email: email ,
-						}, headers
-						).then(function(response){
-
-							this.table_loading = false;
-
-							console.log(response);
-							this.users_info = response.data.privacy_info;
-							this.all_info = response.data.all_info;
-							console.log(this.users_info);
-// let p = Object.entries(this.users_info[0]);
-
-let obj2array = _.entries(this.users_info[0]); // makes object to array
-console.log(obj2array);
-let flatArray =  _.flatten(obj2array); //flat array [individual element]
-
-let chunkArray =  _.chunk(flatArray, 4);  //group by 4 element of the array
-
-
-let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
-	console.log(value[3]);
-	
-	return {
-		alias_field_name : value[0],
-		privacy_value : value[3],
-		field_name : value[2],
-		field_value : value[1],
-		index_number: index,
-	}
-});
 
 
 
-if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
 
-	finalObject =  finalObject.filter((item)=>{
-		return item.privacy_value == 1 ;
 
-	})
+//get general info_promise by email
+
+
+getGeneralInfo(id , email , resolve){
+
+	this.table_loading = true;
+	this.indeterminate = true;
+	this.progress_color='red';
+
+
+	var headers = 
+	{
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Accept': 'application/json'} ;
+
+		this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
+		{
+			purpose: 'getPrivacy',
+			id: id ,
+			email: email ,
+		}, headers
+		).then(function(response){
+
+			this.table_loading = false;
+
+			console.log(response);
+			this.users_info = response.data.privacy_info;
+			this.all_info = response.data.all_info;
+			console.log(this.users_info);
+	// let p = Object.entries(this.users_info[0]);
+
+	let obj2array = _.entries(this.users_info[0]); // makes object to array
+	console.log(obj2array);
+	let flatArray =  _.flatten(obj2array); //flat array [individual element]
+
+	let chunkArray =  _.chunk(flatArray, 4);  //group by 4 element of the array
+
+
+	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
+		console.log(value[3]);
+
+
+
+
+
+		return {
+			alias_field_name : value[0],
+			privacy_value : value[3],
+			field_name : value[2],
+			field_value : value[1],
+			index_number: index,
+		}
+	});
+
+
+
+
+	this.users_info = [...finalObject] ;
+
+	this.profile_user_status = this.all_info[0].status;
+	this.change_request_status = this.all_info[0].change_request;
+	this.profile_user_type = this.all_info[0].type;
+
+
+
+	this.indeterminate = false;
+// console.log(this.all_info[0]);
+this.progress_color = 'white';
+
+let obj ={
+	privacy_info: finalObject,
+	all_info: this.all_info,
 }
 
-console.log(finalObject);
+resolve(obj);
 
-console.log(finalObject); 
+
+//return r;
+
+}.bind(this))
+		.catch(function(){
+			this.indeterminate = false;
+			this.progress_color = 'white';
+
+			this.$refs.snackbar.startSnackBar();
+			this.table_loading = false;
+
+
+		}.bind(this));
+
+
+	},
+
+	getPrivacyInfo( id , email  ){
+
+		this.table_loading = true;
+		this.indeterminate = true;
+		this.progress_color='red';
+
+
+		var headers = 
+		{
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json'} ;
+
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
+			{
+				purpose: 'getPrivacy',
+				id: id ,
+				email: email ,
+			}, headers
+			).then(function(response){
+
+				this.table_loading = false;
+
+				console.log(response);
+				this.users_info = response.data.privacy_info;
+				this.all_info = response.data.all_info;
+				console.log(this.users_info);
+	// let p = Object.entries(this.users_info[0]);
+
+	let obj2array = _.entries(this.users_info[0]); // makes object to array
+	console.log(obj2array);
+	let flatArray =  _.flatten(obj2array); //flat array [individual element]
+
+	let chunkArray =  _.chunk(flatArray, 4);  //group by 4 element of the array
+
+
+	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
+		console.log(value[3]);
+
+
+
+
+
+		return {
+			alias_field_name : value[0],
+			privacy_value : value[3],
+			field_name : value[2],
+			field_value : value[1],
+			index_number: index,
+		}
+	});
+
+
+
+	if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
+
+		finalObject =  finalObject.filter((item)=>{
+			return item.privacy_value == 1 ;
+
+		})
+	}
+
+// console.log(finalObject);
+
+// console.log(finalObject); 
 
 // console.log(_.fromPairs(r));
 
@@ -385,27 +530,29 @@ this.indeterminate = false;
 console.log(this.all_info[0]);
 this.progress_color = 'white';
 
+
+
 //return r;
 
 }.bind(this))
-						.catch(function(){
-							this.indeterminate = false;
-							this.progress_color = 'white';
+			.catch(function(){
+				this.indeterminate = false;
+				this.progress_color = 'white';
 
-							this.$refs.snackbar.startSnackBar();
-							this.table_loading = false;
-
-
-						}.bind(this));
-
-					}, 
-					updatePrivacy(table_name, field_name , privacy_value , email){
+				this.$refs.snackbar.startSnackBar();
+				this.table_loading = false;
 
 
-						console.log(table_name);
-						console.log(field_name);
-						console.log(privacy_value);
-						console.log(email);
+			}.bind(this));
+
+		}, 
+		updatePrivacy(table_name, field_name , privacy_value , email){
+
+
+			console.log(table_name);
+			console.log(field_name);
+			console.log(privacy_value);
+			console.log(email);
 
 
 //alert('upadate privacy');

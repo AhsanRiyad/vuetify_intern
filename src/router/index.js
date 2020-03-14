@@ -12,11 +12,17 @@ import data_privacy from '../views/data_privacy.vue'
 import gallery from '../views/gallery.vue'
 import admin_options from '../views/admin_options.vue'
 import add_user from '../views/add_user.vue'
-import test from '../views/test.vue'
 // import VueCookies from 'vue-cookies'
 // import { store } from '@/store/store.js'
 // import axios from 'axios'
 import authMixins from '@/mixins/authMixin'
+
+
+import test from '../views/test.vue'
+import base_form from '../views/base_component/base_form.vue'
+
+
+
 
 
 Vue.use(VueRouter)
@@ -138,6 +144,15 @@ const routes = [
   component: test,
   meta: {
     title: 'test'
+  }
+},
+{
+  path: '/base_form',
+  name: 'base_form',
+  component: base_form,
+  beforeEnter: authMixins.requireAuthLoginCheck,
+  meta: {
+    title: 'base_form'
   }
 },
 {

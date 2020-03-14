@@ -138,7 +138,7 @@
 
        <v-data-table
        :headers=" 
-        this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
+       this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
        this.$store.getters.getComponentName == 'get_details' ? headers_get_details : headers_privacy  "
        :items="users_info"
        item-key="field_name"
@@ -167,8 +167,8 @@
 
       <template v-slot:item.edit="{ item }">
 
-  
-    
+
+
         <v-menu
         ref="menu"
         v-model="menu"
@@ -178,13 +178,15 @@
         offset-y
         min-width="290px"
         v-if="item.field_name == 'date_of_birth' "
-      >
+        >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date"
-            label="item.alias_field_name"
-            readonly
-            v-on="on"
+          v-model="date"
+          label="item.alias_field_name"
+          readonly
+          v-on="on"
+          ref="item.field_name"
+          @change="updateData( item.field_name , item.index_number )"
           ></v-text-field>
         </template>
         <v-date-picker v-model="date" no-title scrollable>
@@ -193,41 +195,41 @@
           <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
         </v-date-picker>
       </v-menu>
-  
 
-  
-  
+
+
+
 
       
 
-          <v-select
-          v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
-          v-model = "item.field_value"
-          :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-          @change="updateData( item.field_name , item.index_number )"
-          :ref = " item.field_name"
-          :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
-          :label="item.alias_field_name"
-          ></v-select>
+      <v-select
+      v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
+      v-model = "item.field_value"
+      :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+      @change="updateData( item.field_name , item.index_number )"
+      :ref = " item.field_name"
+      :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
+      :label="item.alias_field_name"
+      ></v-select>
 
 
-        <v-text-field
-        v-else
-        :label="item.alias_field_name"
-        v-model="item.field_value"
-        :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-        @change="updateData( item.field_name , item.index_number )"
-        :ref = 'item.field_name'
-        :id="item.field_name"
-        :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
-        >
-      </v-text-field>
+      <v-text-field
+      v-else
+      :label="item.alias_field_name"
+      v-model="item.field_value"
+      :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+      @change="updateData( item.field_name , item.index_number )"
+      :ref = 'item.field_name'
+      :id="item.field_name"
+      :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
+      >
+    </v-text-field>
 
 
 
 
-    </template>
-  </v-data-table>
+  </template>
+</v-data-table>
 </v-card>
 </v-col>
 </v-row>
@@ -317,55 +319,17 @@ dark
     }),
     computed:{},
     
-    methods: {
-
-      field_rules_prop( field_name ){
-
-        if(field_name == 'first_name')
-        {
-
-          return ([
-            v => !!v || 'required',
-            ]);
-
-        }
-
-
-
-
-      },
-      updateData(field_name , index_number){
-
-
-        console.log(field_name);
-        console.log(index_number);
-        console.log('form validate');
-
-        // console.log(this.$refs.form.validate());
-
-        console.log(this.$refs[field_name]);
-        !this.$refs[field_name].hasError ?
-        
-        this.updatePrivacy(
-         'all_info_together' ,
-         field_name ,
-         this.$refs[field_name].value ,
-         this.email ) 
-
-        : '' ;
-
-        // console.log(this.$refs.)
-
-
-
-      }
-
-
-
-    },
+    methods: {},
     created(){
       this.$store.commit('setComponentName' , 'privacy');
-      this.getPrivacyInfo( this.user_id ,  this.email  );
+      // this.getPrivacyInfo( this.user_id ,  this.email  );
+
+        this.getPrivacyInfo( this.user_id , this.email);
+
+
+     
+
+
 
     },
 
