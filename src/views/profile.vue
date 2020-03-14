@@ -54,6 +54,9 @@ data: ()=>({}),
 created(){
 
 
+  this.$store.commit('set_email_for_other_user' , this.$store.getters.getAllInfo.email);
+
+
   this.$store.commit('setComponentName' , 'profile_basic');
 
 

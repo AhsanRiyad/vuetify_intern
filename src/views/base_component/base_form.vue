@@ -3,8 +3,6 @@
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
-					
-
 
 
 					<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
@@ -13,10 +11,8 @@
 					<slot name="verification_alert"></slot>
 					<slot name="email_verification_alert"></slot>
 					
-
-
 					<div 
-					v-for="item in items"
+					v-for="item in items_form_field"
 					:key="item.field_name"	
 					>
 
@@ -82,8 +78,7 @@
 		</div>
 
 
-
-		<slot name="buttons"></slot>
+		<buttons_for_profile></buttons_for_profile>
 <!-- 
 <v-btn @click="getData()"
 color="success"
@@ -133,65 +128,20 @@ getData
 import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
 import noInternetSnackBar from '@/views/noInternetSnackBar'
-
+import buttons_for_profile from '@/views/buttons_for_profile.vue'
 
 
 export default {
-	name: 'profile_basic',
-
+	name: 'base_form',
+	props: [ 'items_form_field' , 'email' ],
 	mixins: [ profile_info_and_privacy_Mixins ] ,
-	components: { 'noInternetSnackBar': noInternetSnackBar },
+	components: {
+		'noInternetSnackBar': noInternetSnackBar,
+		'buttons_for_profile': buttons_for_profile, 
+	},
 
-	data: ()=>({
-		email: 'riyad298@gmail.com',
-
-		items : [
-		{
-			alias_field_name : 'first_name',
-			privacy_value : 0,
-			field_name : 'first_name',
-			field_value : 'Ahsan',
-			index_number: 0,
-
-		}
-
-		],
-	}), 
-	created(){
-
-		this.$store.commit('setComponentName' , 'base_profile');
-		
-		let promese = new Promise((resolve  )=>{
-
-
-			this.getGeneralInfo( this.$store.getters.getAllInfo.id , this.$store.getters.getAllInfo.email , resolve );
-
-
-
-		})
-		
-		promese.then((all_info)=>{
-			console.log('promese trying');
-			console.log(all_info);
-
-			this.items = [...all_info.privacy_info];
-
-			this.items = [];
-			this.items =  all_info.privacy_info.filter((item)=>{
-
-				return item.field_name == 'first_name' || item.field_name == 'last_name' || item.field_name == 'nid_or_passport' || item.field_name == 'name_bangla' || item.field_name == 'institution_id' || item.field_name == 'mobile'  || item.field_name == 'blood_group' || item.field_name == 'religion'  || item.field_name == 'date_of_birth'   ;
-
-
-			})
-
-
-
-		})
-
-		// console.log(i);
-
-
-	}
+	data: ()=>({}), 
+	created(){}
 
 }
 

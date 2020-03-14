@@ -125,10 +125,7 @@ widgets: false,
 
 products: [],
 desserts: [],
-items: [
-{ title: 'Edit' },
 
-],
 
 
 photos: [],
@@ -363,7 +360,7 @@ console.log(this.group_photos);
 //get general info_promise by email
 
 
-getGeneralInfo(id , email , resolve){
+getGeneralInfo( resolve){
 
 	this.table_loading = true;
 	this.indeterminate = true;
@@ -378,8 +375,7 @@ getGeneralInfo(id , email , resolve){
 		this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
 		{
 			purpose: 'getPrivacy',
-			id: id ,
-			email: email ,
+			email: this.$store.getters.get_email_for_other_user ,
 		}, headers
 		).then(function(response){
 
