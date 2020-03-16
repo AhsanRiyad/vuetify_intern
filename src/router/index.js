@@ -18,8 +18,9 @@ import add_user from '../views/add_user.vue'
 import authMixins from '@/mixins/authMixin'
 
 
-import test from '../views/test.vue'
-import base_form from '../views/base_component/base_form.vue'
+import test from '@/views/test.vue'
+import base_form from '@/views/base_component/base_form.vue'
+import base_table from '@/views/base_component/base_table.vue'
 
 
 
@@ -153,6 +154,15 @@ const routes = [
   beforeEnter: authMixins.requireAuthLoginCheck,
   meta: {
     title: 'base_form'
+  }
+},
+{
+  path: '/base_table',
+  name: 'base_table',
+  component: base_table,
+  beforeEnter: authMixins.requireAuthLoginCheck,
+  meta: {
+    title: 'base_table'
   }
 },
 {

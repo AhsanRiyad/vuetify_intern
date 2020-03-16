@@ -252,7 +252,7 @@ color="primary"
 dark
 >
 <v-card-text>
-  Updating Privacy
+  Updating
   <v-progress-linear
   indeterminate
   color="white"

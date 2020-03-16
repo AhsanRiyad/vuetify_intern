@@ -41,6 +41,8 @@
     },
     created(){
 
+
+      this.$store.commit('set_email_for_other_user' , this.$store.getters.getAllInfo.email);
       console.log('user_id '+ this.user_id);
       console.log('email '+ this.email);
       this.getPhotosForAll(this.user_id , this.email);

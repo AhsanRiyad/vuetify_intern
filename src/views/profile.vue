@@ -8,7 +8,7 @@
       <v-row>
         <v-col cols="12" md="12" class="mt-n6 mb-md-n6">
           <keep-alive>
-            <component v-bind:is="$store.getters.getComponentName"> 
+            <component :email="email" v-bind:is="$store.getters.getComponentName"> 
 
               <buttons_for_profile slot="buttons"></buttons_for_profile>
 
@@ -50,10 +50,14 @@ export default {
   ,'profile_verify_email': profile_verify_email
 }, 
 
-data: ()=>({}), 
+data: ()=>({
+
+  email: '',
+
+}), 
 created(){
 
-
+  this.email = this.$store.getters.getAllInfo.email;
   this.$store.commit('set_email_for_other_user' , this.$store.getters.getAllInfo.email);
 
 

@@ -1,7 +1,7 @@
 <template>
 
 
-	<base_form :items_form_field="items_form_field"  ></base_form>
+	<base_form :items_form_field="items_form_field" :email="email" ></base_form>
 
 
 
@@ -16,15 +16,12 @@ import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_M
 export default {
 	name: 'profile_basic',
 	components:
-	{ 'base_form': base_form }
-	,
+	{ 'base_form': base_form },
+	props: ['email'],
 	mixins: [ profile_info_and_privacy_Mixins ] ,
 	data: ()=>({
 
-
-		
-		
-
+	
 		items_form_field : [],
 
 
@@ -38,7 +35,7 @@ export default {
 		let promese = new Promise((resolve  )=>{
 
 
-			this.getGeneralInfo( resolve );
+			this.getGeneralInfo( this.$store.getters.getAllInfo.id , this.$store.getters.getAllInfo.email , resolve );
 
 
 

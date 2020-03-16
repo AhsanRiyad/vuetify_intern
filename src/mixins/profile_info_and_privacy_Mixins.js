@@ -189,7 +189,7 @@ this.updatePrivacy(
 	'all_info_together' ,
 	field_name ,
 	this.$refs[field_name].value ,
-	this.email ) 
+	this.email , 'forPrivacy' ) 
 
 : '' ;
 // console.log(this.$refs.)
@@ -208,7 +208,7 @@ this.updatePrivacy(
 	'all_info_together' ,
 	field_name ,
 	this.$refs[field_name][0].value ,
-	this.email ) 
+	this.email , 'forProfile') 
 
 : '' ;
 // console.log(this.$refs.)
@@ -360,7 +360,7 @@ console.log(this.group_photos);
 //get general info_promise by email
 
 
-getGeneralInfo( resolve){
+getGeneralInfo(id , email , resolve){
 
 	this.table_loading = true;
 	this.indeterminate = true;
@@ -375,7 +375,8 @@ getGeneralInfo( resolve){
 		this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
 		{
 			purpose: 'getPrivacy',
-			email: this.$store.getters.get_email_for_other_user ,
+			id: id ,
+			email: email ,
 		}, headers
 		).then(function(response){
 
@@ -542,7 +543,7 @@ this.progress_color = 'white';
 			}.bind(this));
 
 		}, 
-		updatePrivacy(table_name, field_name , privacy_value , email){
+		updatePrivacy(table_name, field_name , privacy_value , email , purpose ){
 
 
 			console.log(table_name);
@@ -565,6 +566,7 @@ var headers = {
 		privacy_value: privacy_value,
 		id: this.$store.getters.getAllInfo.id ,
 		email: email ,
+		purpose: purpose,
 	} , headers
 	).then(function(response){
 //this.users_info = response.data;

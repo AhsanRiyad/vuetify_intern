@@ -1,37 +1,40 @@
 <template>
-  <v-data-table
-  :headers="headers"
-  :items="desserts"
-  class="elevation-1"
-  >
-  <template v-slot:item.calories="{ item }">
-    <v-chip :color="getColor(item.calories)" dark>{{ item.calories }}</v-chip> 
-
-    <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
-  </template>
-
-
-  <template v-slot:item.Calcium="{ item }" >
-
-
-    <v-btn @click="CalciumClick()" :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn>
-  </template>
-</v-data-table>
+  <v-card>
+    <v-card-title>
+      Nutrition
+      <v-spacer></v-spacer>
+      <v-text-field
+      v-model="search"
+      append-icon="mdi-magnify"
+      label="Search"
+      single-line
+      hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :search="search"
+    ></v-data-table>
+  </v-card>
 </template>
 
 
 <script>
 
-  import _ from 'lodash'
-
+import _ from 'lodash'
 
   export default {
     data () {
       return {
+        changed_info: [],
+
+
+        search: '',
         headers: [
         {
           text: 'Dessert (100g serving)',
-          align: 'left',
+          align: 'start',
           sortable: false,
           value: 'name',
         },
@@ -40,7 +43,6 @@
         { text: 'Carbs (g)', value: 'carbs' },
         { text: 'Protein (g)', value: 'protein' },
         { text: 'Iron (%)', value: 'iron' },
-        { text: 'Calcium (%)', value: 'Calcium' },
         ],
         desserts: [
         {
@@ -50,7 +52,6 @@
           carbs: 24,
           protein: 4.0,
           iron: '1%',
-          Calcium: '1%',
         },
         {
           name: 'Ice cream sandwich',
@@ -127,48 +128,57 @@
         ],
       }
     },
-    methods: {
-      CalciumClick(){
-        alert('clicked');
-      },
-      getColor (calories) {
-        if (calories > 400) return 'red'
-          else if (calories > 200) return 'orange'
-            else return 'green'
-          },
-      },
-      created(){
 
-        var headers = {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json'} ;
-
-          this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
-          {
-
-          } , headers
-          ).then(function(response){
-            console.log(response);
-            console.log(response.data.new[0]);
-
-            let new_info = response.data.new[0];
-            console.log(_.toPairs(new_info));
-            let toPairsNew =  _.toPairs(new_info);
-
-            let withOutNullNew =  toPairsNew.filter((arr)=>{
-              return arr[1] != null;
-            })
-
-            console.log(withOutNullNew);
-
-            let old_info = response.data.old[0];
-            console.log(_.toPairs(old_info));
-            let toPairsOld =  _.toPairs(old_info);
+    created(){
 
 
-            let matchingKey = _.difference(withOutNullNew , toPairsOld);
 
-            console.log(matchingKey);
+
+      var headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'} ;
+
+        this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
+        {
+
+        } , headers
+        ).then(function(response){
+          console.log(response);
+          console.log(response.data.new[0]);
+
+
+          //from all_info_together
+          let new_info = response.data.new[0]; 
+
+          console.log(_.toPairs(new_info));
+
+          
+          //make pairs of object key value pair, from all_info_together
+          let toPairsNew =  _.toPairs(new_info);
+
+
+
+
+
+          // console.log(withOutNullNew);
+
+          //from data_log table
+          let old_info = response.data.old[0];
+          console.log(_.toPairs(old_info));
+          
+          //make pairs of object key value pair, from data_log
+          let toPairsOld =  _.toPairs(old_info);
+
+
+          //removes null values, of all_info_together
+          /*let withOutNullOld =  toPairsNew.filter((arr)=>{
+            return arr[1] != null;
+          })*/
+
+
+          /*let matchingKey = _.difference(withOutNullNew , toPairsOld);*/
+
+          // console.log(matchingKey);
 
 /*
            let newMatchingPair = 
@@ -189,24 +199,24 @@
             
             let i,j;
             let obj = [];
-            for(i=0; i<withOutNullNew.length; i++){
+            for(i=0; i<toPairsNew.length; i++){
 
-              // console.log(withOutNullNew[i][0]);
+              // console.log(toPairsNew[i][0]);
               // console.log(toPairsOld[i][0]);
               
               for(j=0;j<toPairsOld.length;j++){
               // console.log(toPairsOld[j][0]);
 
-              if(withOutNullNew[i][0]==toPairsOld[j][0] && withOutNullNew[i][1]!=toPairsOld[j][1] )
+              if(toPairsNew[i][0]==toPairsOld[j][0] && toPairsNew[i][1]!=toPairsOld[j][1])
               {
                 console.log('matching');
 
                 obj.push({
-                name: withOutNullNew[i][0],
-                new_value: withOutNullNew[i][1],
-                old_value: toPairsOld[j][1],
+                  name: toPairsNew[i][0],
+                  new_value: toPairsNew[i][1],
+                  old_value: toPairsOld[j][1],
 
-               })
+                })
               }
             }
 
@@ -214,20 +224,23 @@
 
           }
           console.log('printing final object');
-              console.log(obj);
+          console.log(obj);
 
               // console.log(withOutNullNew);
               // console.log(toPairsOld);
 
             }.bind(this))
-          .catch(function(){
+        .catch(function(){
 
 
-          }.bind(this));
+        }.bind(this));
 
 
-        }
+        
 
 
       }
-    </script>
+
+
+    }
+  </script>

@@ -60,6 +60,8 @@
     methods: {},
     created(){
 
+      this.$store.commit('set_email_for_other_user' , this.email);
+      
       this.$store.commit('setComponentName' , 'get_details');
       this.getPrivacyInfo( this.user_id , this.email);
 
@@ -67,7 +69,7 @@
       // this.getPrivacyInfo();
     },
     updated(){
-
+      
        this.$store.commit('setComponentName' , 'get_details');
     }
   }

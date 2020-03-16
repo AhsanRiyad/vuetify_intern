@@ -54,7 +54,6 @@ export const store = new Vuex.Store({
 		setPeopleSearchList: ( state , name ) =>{
 			state.people_search_list = name ;
 		},
-
 		set_email_for_other_user: ( state , name ) =>{
 			state.email_for_other_user = name ;
 		},

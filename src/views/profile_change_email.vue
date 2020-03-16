@@ -5,7 +5,6 @@
         <v-col cols="8" xl="4" >
 
 
-
           <slot name="verification_alert"></slot>
           <slot name="email_verification_alert"></slot>
           
@@ -24,7 +23,7 @@
           type="text"
           :rules="[ 
           v => !!v || 'required',
-          v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide quantity'
+          v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide email'
           ]"
           ></v-text-field>
 
