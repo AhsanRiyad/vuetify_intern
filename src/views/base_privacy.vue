@@ -182,17 +182,17 @@
         <template v-slot:activator="{ on }">
           <v-text-field
           v-model="date"
-          label="item.alias_field_name"
+          :label="item.alias_field_name"
           readonly
           v-on="on"
-          ref="item.field_name"
+          :ref="item.field_name"
           @change="updateData( item.field_name , item.index_number )"
           ></v-text-field>
         </template>
         <v-date-picker v-model="date" no-title scrollable>
           <v-spacer></v-spacer>
           <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+          <v-btn text color="primary" @click="$refs.menu.save(date) , updateData( item.field_name , item.index_number )">OK</v-btn>
         </v-date-picker>
       </v-menu>
 
@@ -206,7 +206,7 @@
       v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
       v-model = "item.field_value"
       :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-      @change="updateData( item.field_name , item.index_number )"
+      @change="updateData( item.field_name , item.index_number , item.field_value )"
       :ref = " item.field_name"
       :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
       :label="item.alias_field_name"

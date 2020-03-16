@@ -12,8 +12,8 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-    :headers="headers"
-    :items="desserts"
+    :headers="headers_changes"
+    :items="changed_info"
     :search="search"
     ></v-data-table>
   </v-card>
@@ -31,6 +31,22 @@ import _ from 'lodash'
 
 
         search: '',
+
+        headers_changes: [
+        
+        {
+          text: 'Field Name',
+          align: 'start',
+          sortable: false,
+          value: 'alias_field_name',
+        },
+        { text: 'Old Value', value: 'old_value' },
+        { text: 'New Value', value: 'new_value' }
+
+        ],
+
+
+
         headers: [
         {
           text: 'Dessert (100g serving)',
@@ -147,15 +163,24 @@ import _ from 'lodash'
           console.log(response.data.new[0]);
 
 
-          //from all_info_together
+          //from all_info_together , coming as an object { first_name: 'Riyad' }
           let new_info = response.data.new[0]; 
+
 
           console.log(_.toPairs(new_info));
 
           
-          //make pairs of object key value pair, from all_info_together
+          //make pairs of object key value pair [['first_name', 'Ahsan' ],['Last_name' , 'Riyad'] ]  from all_info_together  
           let toPairsNew =  _.toPairs(new_info);
 
+          // [ 'first_name' , 'riyad' , 'last_name' , 'Ahsan' , 'spouse_name' , 'Malliha' ]
+          let flattenNew = _.flatten(toPairsNew);
+
+
+          // [['first_name', 'Ahsan' , 'Last_name' , 'Riyad'] , ['first_name', 'Ahsan' , 'Last_name' , 'Riyad']] 
+          let chunkNewIn4 = _.chunk(flattenNew , 4);
+
+          console.log( _.chunk( _.flatten(toPairsNew) , 4 ) );
 
 
 
@@ -199,7 +224,7 @@ import _ from 'lodash'
             
             let i,j;
             let obj = [];
-            for(i=0; i<toPairsNew.length; i++){
+            for(i=0; i<chunkNewIn4.length; i++){
 
               // console.log(toPairsNew[i][0]);
               // console.log(toPairsOld[i][0]);
@@ -207,13 +232,14 @@ import _ from 'lodash'
               for(j=0;j<toPairsOld.length;j++){
               // console.log(toPairsOld[j][0]);
 
-              if(toPairsNew[i][0]==toPairsOld[j][0] && toPairsNew[i][1]!=toPairsOld[j][1])
+              if(chunkNewIn4[i][0]==toPairsOld[j][0] && chunkNewIn4[i][1]!=toPairsOld[j][1])
               {
                 console.log('matching');
 
                 obj.push({
-                  name: toPairsNew[i][0],
-                  new_value: toPairsNew[i][1],
+                  field_name: chunkNewIn4[i][0],
+                  alias_field_name: chunkNewIn4[i][2],
+                  new_value: chunkNewIn4[i][1],
                   old_value: toPairsOld[j][1],
 
                 })
@@ -225,7 +251,7 @@ import _ from 'lodash'
           }
           console.log('printing final object');
           console.log(obj);
-
+          this.changed_info = obj;
               // console.log(withOutNullNew);
               // console.log(toPairsOld);
 

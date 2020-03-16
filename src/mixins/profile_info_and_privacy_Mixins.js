@@ -175,34 +175,62 @@ methods: {
 
 		}
 	},
-	updateData(field_name , index_number){
+	updateData(field_name , index_number , value){
 
 		console.log(field_name);
 		console.log(index_number);
 		console.log('form validate');
 
 // console.log(this.$refs.form.validate());
-console.log(this.$refs);
-!this.$refs[field_name].hasError ?
+console.log(this.$refs[field_name]);
+
+
+
+(field_name != 'blood_group' && field_name !='religion') &&  (!this.$refs[field_name].hasError) ?
 
 this.updatePrivacy(
 	'all_info_together' ,
 	field_name ,
 	this.$refs[field_name].value ,
-	this.email , 'forPrivacy' ) 
+	this.email , 'forPrivacy') 
+
+: (field_name == 'blood_group' || field_name =='religion') &&  (!this.$refs[field_name].hasError) ?
+this.updatePrivacy(
+'all_info_together' ,
+field_name ,
+value ,
+this.email , 'forPrivacy')
 
 : '' ;
+
+
+
+
 // console.log(this.$refs.)
 },
-updateData_profile(field_name , index_number){
+updateData_profile(field_name , index_number , value ){
 
-		console.log(field_name);
-		console.log(index_number);
-		console.log('form validate');
+	console.log(field_name);
+	console.log(index_number);
+	console.log('form validate');
 
 // console.log(this.$refs.form.validate());
-console.log(this.$refs);
-!this.$refs[field_name][0].hasError ?
+// console.log(this.users_info[index_number]);
+console.log(value);
+// console.log(this.$refs);
+
+// console.log(this.$refs[field_name][0].value);
+
+console.log(field_name);
+
+
+
+
+
+
+
+
+(field_name != 'blood_group' && field_name !='religion') &&  (!this.$refs[field_name][0].hasError) ?
 
 this.updatePrivacy(
 	'all_info_together' ,
@@ -210,7 +238,19 @@ this.updatePrivacy(
 	this.$refs[field_name][0].value ,
 	this.email , 'forProfile') 
 
+: (field_name == 'blood_group' || field_name =='religion') &&  (!this.$refs[field_name][0].hasError) ?
+this.updatePrivacy(
+'all_info_together' ,
+field_name ,
+value ,
+this.email , 'forProfile')
+
 : '' ;
+
+
+
+
+
 // console.log(this.$refs.)
 },
 deletePhoto(photo_name){
