@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      Nutrition
+      Change Request
       <v-spacer></v-spacer>
       <v-text-field
       v-model="search"
@@ -12,19 +12,61 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-    :headers="headers_changes"
-    :items="changed_info"
+    :headers="headers"
+    :items="items"
     :search="search"
-    ></v-data-table>
-  </v-card>
+    >
+
+    <template v-slot:item.details="{ item }">
+      
+
+      <change_details :email="item.email">
+      </change_details>
+
+    </template>
+
+    <template v-slot:item.accept_change_request="{ item }">
+      
+
+      <v-btn small color="success" :email="item.email">
+        Accept
+      </v-btn>
+
+    </template>
+
+    <template v-slot:item.reject_change_request="{ item }">
+      
+
+      <v-btn small color="error" :email="item.email">
+        Reject
+      </v-btn>
+
+    </template>
+
+
+  </v-data-table>
+
+
+
+
+
+</v-card>
 </template>
 
 
 <script>
 
-import _ from 'lodash'
+  import _ from 'lodash'
+
+  import change_details from '@/views/change_details'
+
+
 
   export default {
+    props: [ 'headers' , 'items' ],
+    components: { 
+      'change_details': change_details,
+    },
     data () {
       return {
         changed_info: [],
@@ -33,115 +75,16 @@ import _ from 'lodash'
         search: '',
 
         headers_changes: [
-        
         {
-          text: 'Field Name',
+          text: 'Request From',
           align: 'start',
           sortable: false,
-          value: 'alias_field_name',
+          value: 'full_name',
         },
-        { text: 'Old Value', value: 'old_value' },
-        { text: 'New Value', value: 'new_value' }
-
+        { text: 'Time', value: 'change_request_time' },
+        { text: 'Details', value: 'details' },
         ],
 
-
-
-        headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name',
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-        ],
-        desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-        },
-        ],
       }
     },
 
