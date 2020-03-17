@@ -131,7 +131,7 @@ getData
 import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
 import noInternetSnackBar from '@/views/noInternetSnackBar'
-import buttons_for_profile from '@/views/buttons_for_profile.vue'
+import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
 
 
 export default {

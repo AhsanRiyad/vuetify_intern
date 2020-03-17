@@ -32,14 +32,14 @@
 <script>
 // @ is an alias to /src
 
-import buttons_for_profile from './buttons_for_profile.vue'
-import profile_basic from './profile_basic'
-import profile_personal from './profile_personal'
-import profile_address from './profile_address'
-import profile_photo_upload from './profile_photo_upload'
-import profile_change_password from './profile_change_password'
-import profile_change_email from './profile_change_email'
-import profile_verify_email from './profile_verify_email'
+import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
+import profile_basic from '@/views/profile/profile_basic'
+import profile_personal from '@/views/profile/profile_personal'
+import profile_address from '@/views/profile/profile_address'
+import profile_photo_upload from '@/views/profile/profile_photo_upload'
+import profile_change_password from '@/views/profile/profile_change_password'
+import profile_change_email from '@/views/profile/profile_change_email'
+import profile_verify_email from '@/views/profile/profile_verify_email'
 
 export default {
   name: 'basic',
