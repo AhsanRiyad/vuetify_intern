@@ -19,7 +19,7 @@
         </v-toolbar>
         
 
-        <base_table :headers="headers" :items="items"></base_table>
+        <base_table :headers_for_base_table="headers_for_base_table" :items="items"></base_table>
 
       </v-card>
     </v-dialog>
@@ -51,7 +51,7 @@
 
 
 
-     headers: [
+     headers_for_base_table: [
      {
       text: 'Field Name',
       align: 'start',

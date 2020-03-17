@@ -12,13 +12,13 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-    :headers="headers"
+    :headers="headers_for_base_table"
     :items="items"
     :search="search"
     >
 
     <template v-slot:item.details="{ item }">
-      
+
 
       <change_details :email="item.email">
       </change_details>
@@ -26,16 +26,16 @@
     </template>
 
     <template v-slot:item.accept_change_request="{ item }">
-      
 
-      <v-btn small color="success" :email="item.email">
+
+      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' )">
         Accept
       </v-btn>
 
     </template>
 
     <template v-slot:item.reject_change_request="{ item }">
-      
+
 
       <v-btn small color="error" :email="item.email">
         Reject
@@ -60,13 +60,16 @@
 
   import change_details from '@/views/change_details'
 
+  import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
 
   export default {
-    props: [ 'headers' , 'items' ],
+    props: [ 'headers_for_base_table' , 'items'  ],
+
     components: { 
       'change_details': change_details,
     },
+    mixins: [ profile_info_and_privacy_Mixins ],
     data () {
       return {
         changed_info: [],
@@ -89,9 +92,6 @@
     },
 
     created(){
-
-
-
 
       var headers = {
         'Content-Type': 'application/x-www-form-urlencoded',

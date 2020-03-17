@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <base_table  :headers="headers" :items="items"></base_table>
+    <base_table  :headers_for_base_table="headers_for_base_table" :items="this.$store.getters.get_base_table_list"></base_table>
     <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
   </v-app>
 </template>
@@ -14,21 +14,20 @@
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
   import noInternetSnackBar from '@/views/noInternetSnackBar'
 
-  import base_table from '@/views/base_component/base_table'
 
 
   export default {
     name: 'get_details',
     components: { 
       'noInternetSnackBar': noInternetSnackBar , 
-      'base_table': base_table,
+      'base_table': () => import('@/views/base_component/base_table')
     },
     mixins: [ profile_info_and_privacy_Mixins ],
 
     props: ['email' , 'user_id'  , 'category'  ],
     data: ()=>({
 
-     headers: [
+     headers_for_base_table: [
      {
       text: 'Request From',
       align: 'start',
@@ -46,10 +45,13 @@
 
   }),
     computed:{},
-    methods: {},
-    created(){
+    methods: {
 
-      this.$store.commit('setComponentName' , 'data_update_request');
+      start_here(){
+
+
+
+        this.$store.commit('setComponentName' , 'data_update_request');
 
       // this.get_data_update_request_list();
 
@@ -74,6 +76,10 @@
 
         })
 
+        this.$store.commit('set_base_table_list' , [...this.items]);
+
+        console.log('this is from getters');
+        console.log(this.$store.getters.get_base_table_list);
 
         // this.items = [...response];
 
@@ -96,15 +102,30 @@
         .catch(function (error) {
           console.log(error);
         });
-*/
+        */
 
 
 
 
 
 
-      },
-      updated(){
+
+
+
+
+      }
+
+
+
+    },
+    created(){
+
+      // this.start_here();
+      this.get_data_update_request_list();
+
+
+    },
+    updated(){
 
        // this.$store.commit('setComponentName' , 'get_details');
      }

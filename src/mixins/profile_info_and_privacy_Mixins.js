@@ -5,10 +5,10 @@ import moment from 'moment'
 
 export default {
 
-data: function(){
+	data: function(){
 
-return {
-status_text: '',
+		return {
+			status_text: '',
 
 
 //data table
@@ -166,25 +166,25 @@ all_info: [],
 },
 
 methods: {
-getMomentDate(date){
+	getMomentDate(date){
 
-return moment(date).format('dddd, MMMM Do YYYY');
+		return moment(date).format('dddd, MMMM Do YYYY');
 
-},
-get_Data_Update_Details(resolve){
+	},
+	get_Data_Update_Details(resolve){
 
 
-var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
-this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
-{
-	email: this.email
+		var headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json'} ;
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
+			{
+				email: this.email
 
-} , headers
-).then(function(response){
-console.log(response);
-console.log(response.data.new[0]);
+			} , headers
+			).then(function(response){
+				console.log(response);
+				console.log(response.data.new[0]);
 //from all_info_together , coming as an object { first_name: 'Riyad' }
 let new_info = response.data.new[0]; 
 console.log(_.toPairs(new_info));
@@ -232,11 +232,11 @@ if(chunkNewIn4[i][0]==toPairsOld[j][0] && chunkNewIn4[i][1]!=toPairsOld[j][1])
 {
 	console.log('matching');
 	obj.push({
-	field_name: chunkNewIn4[i][0],
-	alias_field_name: chunkNewIn4[i][2],
-	new_value: chunkNewIn4[i][1],
-	old_value: toPairsOld[j][1],
-})
+		field_name: chunkNewIn4[i][0],
+		alias_field_name: chunkNewIn4[i][2],
+		new_value: chunkNewIn4[i][1],
+		old_value: toPairsOld[j][1],
+	})
 }
 }
 }
@@ -250,36 +250,53 @@ resolve(obj);
 // console.log(withOutNullNew);
 // console.log(toPairsOld);
 }.bind(this))
-.catch(function(){
-}.bind(this));
+			.catch(function(){
+			}.bind(this));
 
 
 
-},
-get_data_update_request_list(resolve){
+		},
+		get_data_update_request_list(){
 
 
-var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+			var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
 
-this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
-purpose : 'get_change_req_user'
-} , headers)
-.then(function (response) {
-console.log(response);
+				this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
+					purpose : 'get_change_req_user'
+				} , headers)
+				.then(function (response) {
+					console.log(response);
 
-resolve(response.data);
+// resolve(response.data);
 // this.items = [...response.data];
 
+this.items =  response.data.map((item)=>{
+
+	return {
+		full_name: item.full_name,
+		change_request_time: this.getMomentDate(item.change_request_time),
+		email: item.Email,
+	}
+
+})
+
+
+
+this.$store.commit('set_base_table_list' , [...this.items]);
+
+
+
+
 }.bind(this))
-.catch(function (error) {
-console.log(error);
-});
+				.catch(function (error) {
+					console.log(error);
+				});
 
 
 
-},
+			},
 
 
 
@@ -287,44 +304,44 @@ console.log(error);
 //from user update request
 get_users: function(){
 
-var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+	var headers = {
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Accept': 'application/json'} ;
 
-this.$axios.post( this.$store.getters.modeldata_update_request , {
-purpose : 'get_change_req_user'
-} , headers ).then(function(response){
+		this.$axios.post( this.$store.getters.modeldata_update_request , {
+			purpose : 'get_change_req_user'
+		} , headers ).then(function(response){
 
 // console.log(JSON.parse(response.data));
 
 
 
 if(response.data.length == 1){
-this.user_list = []; 
-this.user_list[0] =  JSON.parse(response.data);
+	this.user_list = []; 
+	this.user_list[0] =  JSON.parse(response.data);
 // console.log(this.user_list[0]);
 }else if(response.data.length > 1){
-this.user_list =  response.data;
+	this.user_list =  response.data;
 // console.log(this.user_list[0].email);
 }else if(response.data == 0){
-this.user_list =  [];
+	this.user_list =  [];
 }
 
 
 }.bind(this));
-},
-approve_id: function(email , user_id){
+	},
+	approve_id: function(email , user_id){
 //console.log(email);
 
 var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+	'Content-Type': 'application/x-www-form-urlencoded',
+	'Accept': 'application/json'} ;
 
-this.$axios.post(this.$store.getters.modeldata_update_request, {
-purpose : 'approve_user_change_request', 
-email: email,
-user_id: user_id,
-} , headers ).then(function(){
+	this.$axios.post(this.$store.getters.modeldata_update_request, {
+		purpose : 'approve_user_change_request', 
+		email: email,
+		user_id: user_id,
+	} , headers ).then(function(){
 //var obj = JSON.parse(data);
 // console.log(obj);
 //this.user_list = JSON.parse(data.bodyText);
@@ -345,15 +362,15 @@ reject_id: function(email , user_id){
 //console.log(email);
 
 var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+	'Content-Type': 'application/x-www-form-urlencoded',
+	'Accept': 'application/json'} ;
 
-this.$axios.post(this.$store.getters.modeldata_update_request , {
-purpose : 'reject_user_user_request', 
-email: email,
-user_id: user_id,
-}, headers )
-.then(function () {
+	this.$axios.post(this.$store.getters.modeldata_update_request , {
+		purpose : 'reject_user_user_request', 
+		email: email,
+		user_id: user_id,
+	}, headers )
+	.then(function () {
 
 // console.log(response);
 this.admin_approval_status = 'User change request is rejected';
@@ -361,9 +378,9 @@ this.dialog = true;
 this.get_users();
 
 }.bind(this))
-.catch(function () {
+	.catch(function () {
 
-});
+	});
 
 
 },
@@ -372,20 +389,20 @@ this.get_users();
 
 field_rules_prop( field_name ){
 
-if(field_name == 'first_name')
-{
+	if(field_name == 'first_name')
+	{
 
-	return ([
-	v => !!v || 'required',
-	]);
+		return ([
+			v => !!v || 'required',
+			]);
 
-}
+	}
 },
 updateData(field_name , index_number , value){
 
-console.log(field_name);
-console.log(index_number);
-console.log('form validate');
+	console.log(field_name);
+	console.log(index_number);
+	console.log('form validate');
 
 // console.log(this.$refs.form.validate());
 console.log(this.$refs[field_name]);
@@ -395,17 +412,17 @@ console.log(this.$refs[field_name]);
 (field_name != 'blood_group' && field_name !='religion') &&  (!this.$refs[field_name].hasError) ?
 
 this.updatePrivacy(
-'all_info_together' ,
-field_name ,
-this.$refs[field_name].value ,
-this.email , 'forPrivacy') 
+	'all_info_together' ,
+	field_name ,
+	this.$refs[field_name].value ,
+	this.email , 'forPrivacy') 
 
 : (field_name == 'blood_group' || field_name =='religion') &&  (!this.$refs[field_name].hasError) ?
 this.updatePrivacy(
-'all_info_together' ,
-field_name ,
-value ,
-this.email , 'forPrivacy')
+	'all_info_together' ,
+	field_name ,
+	value ,
+	this.email , 'forPrivacy')
 
 : '' ;
 
@@ -416,9 +433,9 @@ this.email , 'forPrivacy')
 },
 updateData_profile(field_name , index_number , value ){
 
-console.log(field_name);
-console.log(index_number);
-console.log('form validate');
+	console.log(field_name);
+	console.log(index_number);
+	console.log('form validate');
 
 // console.log(this.$refs.form.validate());
 // console.log(this.users_info[index_number]);
@@ -439,17 +456,17 @@ console.log(field_name);
 (field_name != 'blood_group' && field_name !='religion') &&  (!this.$refs[field_name][0].hasError) ?
 
 this.updatePrivacy(
-'all_info_together' ,
-field_name ,
-this.$refs[field_name][0].value ,
-this.email , 'forProfile') 
+	'all_info_together' ,
+	field_name ,
+	this.$refs[field_name][0].value ,
+	this.email , 'forProfile') 
 
 : (field_name == 'blood_group' || field_name =='religion') &&  (!this.$refs[field_name][0].hasError) ?
 this.updatePrivacy(
-'all_info_together' ,
-field_name ,
-value ,
-this.email , 'forProfile')
+	'all_info_together' ,
+	field_name ,
+	value ,
+	this.email , 'forProfile')
 
 : '' ;
 
@@ -460,27 +477,27 @@ this.email , 'forProfile')
 // console.log(this.$refs.)
 },
 deletePhoto(photo_name){
-var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+	var headers = {
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Accept': 'application/json'} ;
 
-this.$axios.post( this.$store.getters.getModelAddress_laravel+'deletePhoto' ,
-{
-	email: this.$store.getters.getAllInfo.email ,
-	user_id: this.$store.getters.getAllInfo.id ,
-	photo_name: photo_name
-} , headers
-).then(function(response){
-console.log(response);
+		this.$axios.post( this.$store.getters.getModelAddress_laravel+'deletePhoto' ,
+		{
+			email: this.$store.getters.getAllInfo.email ,
+			user_id: this.$store.getters.getAllInfo.id ,
+			photo_name: photo_name
+		} , headers
+		).then(function(response){
+			console.log(response);
 
-this.getPhotosForAll(this.user_id, this.email);
-this.photo_delete_status = 'Photo Deleted Successfully';
-
-
+			this.getPhotosForAll(this.user_id, this.email);
+			this.photo_delete_status = 'Photo Deleted Successfully';
 
 
-}.bind(this))
-.catch(function(){
+
+
+		}.bind(this))
+		.catch(function(){
 
 // this.$refs.snackbar.startSnackBar();
 
@@ -489,26 +506,26 @@ this.photo_delete_status = 'Photo Deleted Successfully';
 
 
 
-},
-getPhotosForAll(user_id , email){
+	},
+	getPhotosForAll(user_id , email){
 
 
 
 
 
-var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+		var headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json'} ;
 
-this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPhotosForAll' ,
-{
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPhotosForAll' ,
+			{
 
-	purpose: 'getPhotos_for_all_users',
-	main_purpose : 'search_other_option',
-	email: email ,
-	user_id: user_id ,
-} , headers
-).then(function(response){
+				purpose: 'getPhotos_for_all_users',
+				main_purpose : 'search_other_option',
+				email: email ,
+				user_id: user_id ,
+			} , headers
+			).then(function(response){
 //this.users_info = response.data;
 // alert(rootAdress+'/assets/img/uploads/recent_photo/'+recent_photo);
 
@@ -545,7 +562,7 @@ console.log(this.group_photos);
 //alert(this.rootAdress+'assets/img/uploads/group_photos/'+this.group_photo[0]);
 
 }.bind(this))
-.catch(function(){
+			.catch(function(){
 
 // this.$refs.snackbar.startSnackBar();
 
@@ -561,43 +578,43 @@ console.log(this.group_photos);
 
 
 
-},
-getSearchInfo(){
-this.table_loading = true;
+		},
+		getSearchInfo(){
+			this.table_loading = true;
 
-var headers = 
-{
-	'Content-Type': 'application/x-www-form-urlencoded',
-	'Accept': 'application/json'} ;
+			var headers = 
+			{
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
 
-	this.$axios.post( this.$store.getters.getModelAddress_laravel+'getAllPeopleList',
-	{
-		purpose: 'getPrivacy',
+				this.$axios.post( this.$store.getters.getModelAddress_laravel+'getAllPeopleList',
+				{
+					purpose: 'getPrivacy',
 
-	}, headers
-	).then(function(response){
-	this.table_loading = false;
-	console.log(response);
+				}, headers
+				).then(function(response){
+					this.table_loading = false;
+					console.log(response);
 
-	let people_excluding_searcher =  response.data.filter(( item )=>{
-	return item.email != this.$store.getters.getAllInfo.email;
-})
-
-
-this.$store.commit('setPeopleSearchList' , people_excluding_searcher);
+					let people_excluding_searcher =  response.data.filter(( item )=>{
+						return item.email != this.$store.getters.getAllInfo.email;
+					})
 
 
-}.bind(this))
-.catch(function(){
-this.table_loading = false;
-
-this.$refs.snackbar.startSnackBar();
-this.table_loading = false;
+					this.$store.commit('setPeopleSearchList' , people_excluding_searcher);
 
 
-}.bind(this));
+				}.bind(this))
+				.catch(function(){
+					this.table_loading = false;
 
-},
+					this.$refs.snackbar.startSnackBar();
+					this.table_loading = false;
+
+
+				}.bind(this));
+
+			},
 
 
 
@@ -608,30 +625,30 @@ this.table_loading = false;
 
 getGeneralInfo(id , email , resolve){
 
-this.table_loading = true;
-this.indeterminate = true;
-this.progress_color='red';
+	this.table_loading = true;
+	this.indeterminate = true;
+	this.progress_color='red';
 
 
-var headers = 
-{
-	'Content-Type': 'application/x-www-form-urlencoded',
-	'Accept': 'application/json'} ;
-
-	this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
+	var headers = 
 	{
-		purpose: 'getPrivacy',
-		id: id ,
-		email: email ,
-	}, headers
-	).then(function(response){
+		'Content-Type': 'application/x-www-form-urlencoded',
+		'Accept': 'application/json'} ;
 
-	this.table_loading = false;
+		this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
+		{
+			purpose: 'getPrivacy',
+			id: id ,
+			email: email ,
+		}, headers
+		).then(function(response){
 
-	console.log(response);
-	this.users_info = response.data.privacy_info;
-	this.all_info = response.data.all_info;
-	console.log(this.users_info);
+			this.table_loading = false;
+
+			console.log(response);
+			this.users_info = response.data.privacy_info;
+			this.all_info = response.data.all_info;
+			console.log(this.users_info);
 	// let p = Object.entries(this.users_info[0]);
 
 	let obj2array = _.entries(this.users_info[0]); // makes object to array
@@ -642,39 +659,39 @@ var headers =
 
 
 	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
-	console.log(value[3]);
+		console.log(value[3]);
 
 
 
 
 
-	return {
-	alias_field_name : value[0],
-	privacy_value : value[3],
-	field_name : value[2],
-	field_value : value[1],
-	index_number: index,
-}
-});
+		return {
+			alias_field_name : value[0],
+			privacy_value : value[3],
+			field_name : value[2],
+			field_value : value[1],
+			index_number: index,
+		}
+	});
 
 
 
 
-this.users_info = [...finalObject] ;
+	this.users_info = [...finalObject] ;
 
-this.profile_user_status = this.all_info[0].status;
-this.change_request_status = this.all_info[0].change_request;
-this.profile_user_type = this.all_info[0].type;
+	this.profile_user_status = this.all_info[0].status;
+	this.change_request_status = this.all_info[0].change_request;
+	this.profile_user_type = this.all_info[0].type;
 
 
 
-this.indeterminate = false;
+	this.indeterminate = false;
 // console.log(this.all_info[0]);
 this.progress_color = 'white';
 
 let obj ={
-privacy_info: finalObject,
-all_info: this.all_info,
+	privacy_info: finalObject,
+	all_info: this.all_info,
 }
 
 resolve(obj);
@@ -683,45 +700,45 @@ resolve(obj);
 //return r;
 
 }.bind(this))
-.catch(function(){
-this.indeterminate = false;
-this.progress_color = 'white';
+		.catch(function(){
+			this.indeterminate = false;
+			this.progress_color = 'white';
 
-this.$refs.snackbar.startSnackBar();
-this.table_loading = false;
-
-
-}.bind(this));
+			this.$refs.snackbar.startSnackBar();
+			this.table_loading = false;
 
 
-},
-
-getPrivacyInfo( id , email  ){
-
-this.table_loading = true;
-this.indeterminate = true;
-this.progress_color='red';
+		}.bind(this));
 
 
-var headers = 
-{
-	'Content-Type': 'application/x-www-form-urlencoded',
-	'Accept': 'application/json'} ;
+	},
 
-	this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
-	{
-		purpose: 'getPrivacy',
-		id: id ,
-		email: email ,
-	}, headers
-	).then(function(response){
+	getPrivacyInfo( id , email  ){
 
-	this.table_loading = false;
+		this.table_loading = true;
+		this.indeterminate = true;
+		this.progress_color='red';
 
-	console.log(response);
-	this.users_info = response.data.privacy_info;
-	this.all_info = response.data.all_info;
-	console.log(this.users_info);
+
+		var headers = 
+		{
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json'} ;
+
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPrivacyData',
+			{
+				purpose: 'getPrivacy',
+				id: id ,
+				email: email ,
+			}, headers
+			).then(function(response){
+
+				this.table_loading = false;
+
+				console.log(response);
+				this.users_info = response.data.privacy_info;
+				this.all_info = response.data.all_info;
+				console.log(this.users_info);
 	// let p = Object.entries(this.users_info[0]);
 
 	let obj2array = _.entries(this.users_info[0]); // makes object to array
@@ -732,30 +749,30 @@ var headers =
 
 
 	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
-	console.log(value[3]);
+		console.log(value[3]);
 
 
 
 
 
-	return {
-	alias_field_name : value[0],
-	privacy_value : value[3],
-	field_name : value[2],
-	field_value : value[1],
-	index_number: index,
-}
-});
+		return {
+			alias_field_name : value[0],
+			privacy_value : value[3],
+			field_name : value[2],
+			field_value : value[1],
+			index_number: index,
+		}
+	});
 
 
 
-if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
+	if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
 
-finalObject =  finalObject.filter((item)=>{
-return item.privacy_value == 1 ;
+		finalObject =  finalObject.filter((item)=>{
+			return item.privacy_value == 1 ;
 
-})
-}
+		})
+	}
 
 // console.log(finalObject);
 
@@ -778,49 +795,49 @@ this.progress_color = 'white';
 //return r;
 
 }.bind(this))
-.catch(function(){
-this.indeterminate = false;
-this.progress_color = 'white';
+			.catch(function(){
+				this.indeterminate = false;
+				this.progress_color = 'white';
 
-this.$refs.snackbar.startSnackBar();
-this.table_loading = false;
-
-
-}.bind(this));
-
-}, 
-updatePrivacy(table_name, field_name , privacy_value , email , purpose ){
+				this.$refs.snackbar.startSnackBar();
+				this.table_loading = false;
 
 
-console.log(table_name);
-console.log(field_name);
-console.log(privacy_value);
-console.log(email);
+			}.bind(this));
+
+		}, 
+		updatePrivacy(table_name, field_name , privacy_value , email , purpose ){
+
+
+			console.log(table_name);
+			console.log(field_name);
+			console.log(privacy_value);
+			console.log(email);
 
 
 //alert('upadate privacy');
 this.dialog = true;
 
 var headers = {
-'Content-Type': 'application/x-www-form-urlencoded',
-'Accept': 'application/json'} ;
+	'Content-Type': 'application/x-www-form-urlencoded',
+	'Accept': 'application/json'} ;
 
-this.$axios.post( this.$store.getters.getModelAddress_laravel+'updatePrivacy' ,
-{
-	table_name: table_name,
-	field_name: field_name,
-	privacy_value: privacy_value,
-	id: this.$store.getters.getAllInfo.id ,
-	email: email ,
-	purpose: purpose,
-} , headers
-).then(function(response){
+	this.$axios.post( this.$store.getters.getModelAddress_laravel+'updatePrivacy' ,
+	{
+		table_name: table_name,
+		field_name: field_name,
+		privacy_value: privacy_value,
+		id: this.$store.getters.getAllInfo.id ,
+		email: email ,
+		purpose: purpose,
+	} , headers
+	).then(function(response){
 //this.users_info = response.data;
 // this.dialog = false;
 console.log(response);
 
 this.$store.getters.getComponentName == 'get_details' ? ( (this.dialog_update_text = 'upadated'),
-(this.dialog_update_status = true) ) : '';
+	(this.dialog_update_status = true) ) : '';
 
 this.getPrivacyInfo(this.user_id , email);
 
@@ -828,10 +845,10 @@ this.getPrivacyInfo(this.user_id , email);
 
 
 }.bind(this))
-.catch(function(){
+	.catch(function(){
 
-this.$refs.snackbar.startSnackBar();
-}.bind(this));
+		this.$refs.snackbar.startSnackBar();
+	}.bind(this));
 
 
 

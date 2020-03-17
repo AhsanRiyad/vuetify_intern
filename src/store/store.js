@@ -44,6 +44,7 @@ export const store = new Vuex.Store({
 		form_field_rules: {},
 
 		people_search_list: [],
+		base_table_list: [],
 
 		email_for_other_user: '',
 
@@ -53,6 +54,9 @@ export const store = new Vuex.Store({
 		//latest for interne project for sir... essential
 		setPeopleSearchList: ( state , name ) =>{
 			state.people_search_list = name ;
+		},
+		set_base_table_list: ( state , name ) =>{
+			state.base_table_list = name ;
 		},
 		set_email_for_other_user: ( state , name ) =>{
 			state.email_for_other_user = name ;
@@ -127,6 +131,9 @@ export const store = new Vuex.Store({
 		//used in search page
 		getPeopleSearchList: state =>{
 			return state.people_search_list;
+		},
+		get_base_table_list: state =>{
+			return state.base_table_list;
 		},
 		get_email_for_other_user: state =>{
 			return state.email_for_other_user;
