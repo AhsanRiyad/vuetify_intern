@@ -33,7 +33,7 @@
 <script>
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
-  import base_gallery from '@/views/base_gallery.vue'
+  import base_gallery from '@/views/base_component/base_gallery.vue'
 
 
   export default {

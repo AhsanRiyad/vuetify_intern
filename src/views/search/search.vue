@@ -69,8 +69,8 @@
 
 <script>
   import noInternetSnackBar from '@/views/noInternetSnackBar'
-  import get_details from '@/views/get_details.vue'
-  import user_gallery from '@/views/user_gallery.vue'
+  import get_details from '@/views/search/get_details.vue'
+  import user_gallery from '@/views/search/user_gallery.vue'
   // import data_privacy from '@/views/data_privacy.vue'
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
   

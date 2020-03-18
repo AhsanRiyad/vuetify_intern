@@ -9,7 +9,7 @@
 // import { bus } from '@/main'
 import cookie_mixins from '@/mixins/cookie_mixins'
 import commonInfoMixins from '@/mixins/commonInfoMixins'
-import toolbar from '@/views/toolbar.vue'
+import toolbar from '@/views/navbar/toolbar.vue'
 
 export default {
 name: 'App',

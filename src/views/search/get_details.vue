@@ -35,7 +35,7 @@
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
   import noInternetSnackBar from '@/views/noInternetSnackBar'
 
-  import base_privacy from '@/views/base_privacy'
+  import base_privacy from '@/views/base_component/base_privacy'
 
 
 

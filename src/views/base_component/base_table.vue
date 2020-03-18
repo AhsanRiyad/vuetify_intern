@@ -28,7 +28,7 @@
     <template v-slot:item.accept_change_request="{ item }">
 
 
-      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' )">
+      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' ) ">
         Accept
       </v-btn>
 
@@ -58,7 +58,7 @@
 
   import _ from 'lodash'
 
-  import change_details from '@/views/change_details'
+  import change_details from '@/views/requests/change_details'
 
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 

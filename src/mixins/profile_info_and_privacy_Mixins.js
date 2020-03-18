@@ -272,7 +272,7 @@ resolve(obj);
 // resolve(response.data);
 // this.items = [...response.data];
 
-this.items =  response.data.map((item)=>{
+let items =  response.data.map((item)=>{
 
 	return {
 		full_name: item.full_name,
@@ -284,7 +284,7 @@ this.items =  response.data.map((item)=>{
 
 
 
-this.$store.commit('set_base_table_list' , [...this.items]);
+this.$store.commit('set_base_table_list' , [...items]);
 
 
 
@@ -841,6 +841,8 @@ this.$store.getters.getComponentName == 'get_details' ? ( (this.dialog_update_te
 
 this.getPrivacyInfo(this.user_id , email);
 
+purpose == 'forUpdateRequest'?
+this.get_data_update_request_list(): '';
 
 
 

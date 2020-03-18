@@ -30,9 +30,9 @@
 <script>
 // @ is an alias to /src
 
-import buttons_for_admin_options from './buttons_for_admin_options'
-import institution_id_label from './institution_id_label'
-import form_field_rules from './form_field_rules'
+import buttons_for_admin_options from '@/views/admin_options/buttons_for_admin_options'
+import institution_id_label from '@/views/admin_options/institution_id_label'
+import form_field_rules from '@/views/admin_options/form_field_rules'
 
 
 export default {

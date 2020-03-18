@@ -40,7 +40,7 @@
 
 <script>
 
-    import add_meal from './add_meal.vue';
+    import add_meal from '@/views/add_meal.vue';
 
     export default {
         mounted() {
