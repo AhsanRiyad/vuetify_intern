@@ -25,6 +25,14 @@
 
     </template>
 
+    <template v-slot:item.user_details="{ item }">
+
+
+      <user_details :email="item.email">
+      </user_details>
+
+    </template>
+
     <template v-slot:item.accept_change_request="{ item }">
 
 
@@ -37,7 +45,26 @@
     <template v-slot:item.reject_change_request="{ item }">
 
 
-      <v-btn small color="error" :email="item.email">
+      <v-btn small color="error" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'rejected' , item.email , 'forUpdateRequest' ) ">
+        Reject
+      </v-btn>
+
+    </template>
+
+
+    <template v-slot:item.accept_new_user="{ item }">
+
+
+      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'status' , 'approved' , item.email , 'forNewUserRequest' ) ">
+        Accept
+      </v-btn>
+
+    </template>
+
+    <template v-slot:item.reject_new_user="{ item }">
+
+
+      <v-btn small color="error" :email="item.email" @click="updatePrivacy( 'all_info_together' , 'status' , 'rejected' , item.email , 'forNewUserRequest') ">
         Reject
       </v-btn>
 
@@ -59,15 +86,16 @@
   import _ from 'lodash'
 
   import change_details from '@/views/requests/change_details'
+  import user_details from '@/views/requests/user_details'
 
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
 
   export default {
     props: [ 'headers_for_base_table' , 'items'  ],
-
     components: { 
       'change_details': change_details,
+      'user_details': user_details,
     },
     mixins: [ profile_info_and_privacy_Mixins ],
     data () {

@@ -256,15 +256,21 @@ resolve(obj);
 
 
 		},
-		get_data_update_request_list(){
+
+
+		get_new_user_request_list(){
+
+
+
+			console.log('in the new user req list');
 
 
 			var headers = {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
 
-				this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
-					purpose : 'get_change_req_user'
+				this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_new_user_request_list'  , {
+					purpose : 'get_new_user_request_list'
 				} , headers)
 				.then(function (response) {
 					console.log(response);
@@ -276,7 +282,7 @@ let items =  response.data.map((item)=>{
 
 	return {
 		full_name: item.full_name,
-		change_request_time: this.getMomentDate(item.change_request_time),
+		registration_date: this.getMomentDate(item.registration_date),
 		email: item.Email,
 	}
 
@@ -300,6 +306,47 @@ this.$store.commit('set_base_table_list' , [...items]);
 
 
 
+			get_data_update_request_list(){
+
+
+				var headers = {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json'} ;
+
+					this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
+						purpose : 'get_change_req_user'
+					} , headers)
+					.then(function (response) {
+						console.log(response);
+
+// resolve(response.data);
+// this.items = [...response.data];
+
+let items =  response.data.map((item)=>{
+
+	return {
+		full_name: item.full_name,
+		change_request_time: this.getMomentDate(item.change_request_time),
+		email: item.Email,
+	}
+
+})
+
+
+
+this.$store.commit('set_base_table_list' , [...items]);
+
+
+
+
+}.bind(this))
+					.catch(function (error) {
+						console.log(error);
+					});
+
+
+
+				},
 
 //from user update request
 get_users: function(){
@@ -615,14 +662,29 @@ console.log(this.group_photos);
 				}.bind(this));
 
 			},
+			get_info_of_a_particular_user_with_promise(email, resolve){
 
+				var headers = 
+				{
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json'} ;
 
+					this.$axios.post( this.$store.getters.getModelAddress_laravel+'get_info_of_a_particular_user_with_promise',
+					{
+						purpose: 'get_info_of_a_particular_user_with_promise',
+						email: email ,
+					}, headers
+					).then(function(response){
 
+						resolve(response.data);
 
+					}.bind(this))
+					.catch(function(){
 
+					}.bind(this));
+
+				},
 //get general info_promise by email
-
-
 getGeneralInfo(id , email , resolve){
 
 	this.table_loading = true;
@@ -843,6 +905,9 @@ this.getPrivacyInfo(this.user_id , email);
 
 purpose == 'forUpdateRequest'?
 this.get_data_update_request_list(): '';
+
+purpose == 'forNewUserRequest'?
+this.get_new_user_request_list(): '';
 
 
 
