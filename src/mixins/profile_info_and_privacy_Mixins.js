@@ -500,7 +500,7 @@ console.log(field_name);
 
 
 
-(field_name != 'blood_group' && field_name !='religion') &&  (!this.$refs[field_name][0].hasError) ?
+(field_name != 'blood_group' && field_name !='religion' && field_name !='date_of_birth') &&  (!this.$refs[field_name][0].hasError) ?
 
 this.updatePrivacy(
 	'all_info_together' ,
@@ -508,12 +508,12 @@ this.updatePrivacy(
 	this.$refs[field_name][0].value ,
 	this.email , 'forProfile') 
 
-: (field_name == 'blood_group' || field_name =='religion') &&  (!this.$refs[field_name][0].hasError) ?
-this.updatePrivacy(
+: (field_name == 'blood_group' || field_name =='religion' || field_name == 'date_of_birth') &&  (!this.$refs[field_name][0].hasError) ?
+(this.updatePrivacy(
 	'all_info_together' ,
 	field_name ,
 	value ,
-	this.email , 'forProfile')
+	this.email , 'forProfile') , console.log('in the date') )
 
 : '' ;
 

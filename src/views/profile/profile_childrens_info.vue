@@ -3,7 +3,8 @@
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
-
+					
+					<!-- <h1>hellow</h1> -->
 
 					<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
@@ -16,72 +17,72 @@
 					:key="item.field_name"	
 					>
 
+					<!-- form starts -->
+					<v-form
+					ref="form"
+					v-model="valid"
+					:lazy-validation="lazy"
+					v-on:submit.prevent
+					>
 
 
-					
 					<v-menu
 					ref="menu"
-					v-model="menu"
+					v-model="item.date_picker_menu"
 					:close-on-content-click="false"
 					:return-value.sync="date"
 					transition="scale-transition"
 					offset-y
 					min-width="290px"
-					v-if="item.field_name == 'date_of_birth' "
+					
 					>
 					<template v-slot:activator="{ on }">
 						<v-text-field
-						v-model="item.field_value"
-						:label="item.alias_field_name"
+						v-model="item.field_value_date_of_birth"
+						:label="item.alias_field_name_date_of_birth"
 						readonly
 						v-on="on"
-						:ref="item.field_name"
-						
 						></v-text-field>
 					</template>
-					<v-date-picker v-model="item.field_value" no-title scrollable>
+					<v-date-picker v-model="date" no-title scrollable>
 						<v-spacer></v-spacer>
 						<v-btn text color="primary" @click="menu = false">Cancel</v-btn>
 						<v-btn text color="primary" 
-						@click=" menu= false ,saveDate(item.field_value) "
+						@click="saveDate(date)"
 
 						>OK</v-btn>
 					</v-date-picker>
 				</v-menu>
 
-
-
-
-
-
-
 				<v-select
-				v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
-				v-model = "item.field_value"
+				v-model = "item.field_value_date_of_birth"
 				:rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-				@change="updateData_profile( item.field_name , item.index_number , item.field_value )"
-				:ref = 'item.field_name'
-				:items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
-				:label="item.alias_field_name"
+				:items="item_gender"
+				:label="item.alias_field_name_gender"
 				></v-select>
 
 
 				<v-text-field
-				v-else
-				:label="item.alias_field_name"
-				v-model="item.field_value"
-				:rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-				@change="updateData_profile( item.field_name , item.index_number )"
-				:ref = 'item.field_name'
-				:id="item.field_name"
-				:disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
+				:label="item.alias_field_name_name"
+				v-model="item.field_value_name"
+				:rules=" field_rules_prop(  item.field_name , item.index_number  ) "				
 				>
 			</v-text-field>
-			
-		</div>
+
+			<v-btn color="success" class="mr-3 mb-3">
+				Update
+			</v-btn>
+			<v-btn color="error" class="mr-3 mb-3">
+				Remove
+			</v-btn>
 
 
-		<buttons_for_profile></buttons_for_profile>
+		</v-form>
+		<!-- form ends -->
+	</div>
+
+
+	<buttons_for_profile></buttons_for_profile>
 <!-- 
 <v-btn @click="getData()"
 color="success"
@@ -135,26 +136,74 @@ import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
 
 
 export default {
-	name: 'base_form',
-	props: [ 'items_form_field' , 'email' ],
+	name: 'profile_childrens_info',
+	props: [],
 	mixins: [ profile_info_and_privacy_Mixins ] ,
 	components: {
 		'noInternetSnackBar': noInternetSnackBar,
 		'buttons_for_profile': buttons_for_profile, 
 	},
 
-	data: ()=>({}), 
+	data: ()=>({
+
+		items_form_field: [
+
+		{
+			email: 'riyad298@gmail.como',
+
+			no: 1,
+
+			date_picker_menu: false,
+
+
+			field_name_name: 'first_name', 
+			field_value_name: 'Ahsan Riyad', 
+			alias_field_name_name: 'First Name',
+
+			field_name_gender: 'gender', 
+			field_value_gender: 'Male', 
+			alias_field_name_gender: 'Gender',	
+
+			field_name_date_of_birth: 'date_of_birth', 
+			field_value_date_of_birth: '20/12/1969', 
+			alias_field_name_date_of_birth: 'Date Of Birth', 
+		},
+
+		{
+			email: 'riyad298@gmail.como',
+
+			no: 1,
+
+			date_picker_menu: false,
+
+			field_name_name: 'last_name', 
+			field_value_name: 'Ahsan Riyad', 
+			alias_field_name_name: 'First Name' ,
+
+
+
+			field_name_gender: 'gender', 
+			field_value_gender: 'Male', 
+			alias_field_name_gender: 'Gender',	
+
+			field_name_date_of_birth: 'date_of_birth', 
+			field_value_date_of_birth: '20/12/1969', 
+			alias_field_name_date_of_birth: 'Date Of Birth',
+		}
+
+		],
+		email: 'riyad298@gmail.como',
+
+
+	}), 
 	methods: {
 		saveDate(date){
-
-			console.log('date');
 
 			console.log(this.$refs);
 			console.log(date);
 
 			this.$refs.menu[0].save(date);
 
-			this.updateData_profile( 'date_of_birth' , 1 , date );
 
 
 		}
@@ -164,6 +213,9 @@ export default {
 
 		console.log(this.$refs);
 
+	},
+	updated(){
+		console.log(this.$refs);
 	}
 
 }

@@ -1,9 +1,6 @@
 <template>
 
-
 	<base_form :items_form_field="items_form_field" :email="email" ></base_form>
-
-
 
 </template>
 <script>

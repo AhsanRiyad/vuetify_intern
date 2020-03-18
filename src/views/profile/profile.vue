@@ -40,6 +40,7 @@ import profile_photo_upload from '@/views/profile/profile_photo_upload'
 import profile_change_password from '@/views/profile/profile_change_password'
 import profile_change_email from '@/views/profile/profile_change_email'
 import profile_verify_email from '@/views/profile/profile_verify_email'
+import profile_childrens_info from '@/views/profile/profile_childrens_info'
 
 export default {
   name: 'basic',
@@ -48,6 +49,7 @@ export default {
   'profile_change_password': profile_change_password,
   'profile_change_email': profile_change_email
   ,'profile_verify_email': profile_verify_email
+  ,'profile_childrens_info': profile_childrens_info
 }, 
 
 data: ()=>({

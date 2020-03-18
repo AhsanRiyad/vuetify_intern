@@ -37,6 +37,15 @@
 					
 				</v-col>
 			</v-row>	
+
+			<v-row justify="center">
+				<v-col cols="auto" v-for="n in numbers3" :key="n">
+
+					<v-btn class="px-4"  :disabled="disabled" :color=" items[n].name == $store.getters.getComponentName ? (color2 ) : color " @click="changeComponent(items[n].name , items[n].title)" 
+					> {{items[n].title }} </v-btn>
+					
+				</v-col>
+			</v-row>	
 		</v-container>
 
 	</div>
@@ -51,6 +60,7 @@ export default {
 		return {
 			numbers1: [0,1,2],
 			numbers2: [3,4,5],
+			numbers3: [6 ,7],
 			color: 'primary',
 			color2: 'secondary',
 			disabled: false,
@@ -59,6 +69,8 @@ export default {
 			{ title: 'BASIC', name: 'profile_basic' , color: 'primary' },
 			{ title: 'PERSONAL', name: 'profile_personal' , color: 'primary' },
 			{ title: 'ADDRESS', name: 'profile_address' , color: 'primary' },
+			{ title: "CHIDLREN'S INFO", name: 'profile_childrens_info' , color: 'primary' },
+			{ title: 'SOCIAL NETWORK', name: 'profile_social_network_info' , color: 'primary' },
 			{ title: 'PHOTO', name: 'profile_photo_upload' , color: 'primary' },
 			{ title: 'CHANGE EMAIL', name: 'profile_change_email' , color: 'primary' },
 			{ title: 'CHANGE PASSWORD', name: 'profile_change_password' , color: 'primary' },
