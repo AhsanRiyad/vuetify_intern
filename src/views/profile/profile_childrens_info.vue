@@ -23,7 +23,7 @@
 					>
 
 					
-					<h3> {{ item.no == 1 ? 'First Child' : item.no == 2 ? 'Second Child' : item.no == 3 ? 'Thirt Child' : item.no == 4 ? 'Fourth Child' : '' }} </h3>
+					<h3 align="center" class="primary white--text py-2"> {{ item.no == 1 ? 'First Child' : item.no == 2 ? 'Second Child' : item.no == 3 ? 'Third Child' : item.no == 4 ? 'Fourth Child' : '' }} </h3>
 
 
 					<!-- form starts -->
@@ -38,18 +38,18 @@
 
 
 					<v-text-field
-					:label="item.alias_field_name_name"
-					v-model="item.field_value_name"
-					:rules=" field_rules_prop(  item.field_name , item.index_number  ) "				
+					label="Name"
+					v-model="item.name"
+					:rules=" field_rules_prop(  item.name , index  ) "				
 					>
 				</v-text-field>
 
 
 				<v-select
-				v-model = "item.field_value_date_of_birth"
-				:rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+				v-model = "item.gender"
+				:rules=" field_rules_prop(  item.gender , index  ) "
 				:items="item_gender"
-				:label="item.alias_field_name_gender"
+				label="Gender"
 				></v-select>
 
 
@@ -66,24 +66,23 @@
 				>
 				<template v-slot:activator="{ on }">
 					<v-text-field
-					v-model="item.field_value_date_of_birth"
-					:label="item.alias_field_name_date_of_birth"
+					v-model="item.date_of_birth"
+					label="Date Of Birth"
 					readonly
 					v-on="on"
 					></v-text-field>
 				</template>
-				<v-date-picker v-model="item.field_value_date_of_birth" no-title scrollable>
+				<v-date-picker v-model="item.date_of_birth" no-title scrollable>
 					<v-spacer></v-spacer>
 					<v-btn text color="primary" @click="menu = false">Cancel</v-btn>
 					<v-btn text color="primary" 
-					@click="saveDate(item.field_value_date_of_birth , index)"
-
+					@click="saveDate(item.date_of_birth , index)"
 					>OK</v-btn>
 				</v-date-picker>
 			</v-menu>
 
 
-			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index)}">
+			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index) }">
 				{{ item.status == 'new' ? 'ADD' : 'UPDATE' }}
 			</v-btn>
 			<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeChildren(index) }">
@@ -225,100 +224,12 @@ export default {
 
 
 		},
-		add_new_children(){
 
 
-			console.log(this.items_form_field.length);
-
-
-			this.items_form_field.length < 4 ?
-
-			this.items_form_field.unshift({
-
-
-				index: this.items_form_field.length,			
-
-				email: this.email ,
-
-				no: this.items_form_field.length+1,
-
-				date_picker_menu: false,
-
-				status: 'new',			
-
-				field_name_name: 'name', 
-				field_value_name: 'Ahsan Riyad', 
-				alias_field_name_name: 'Name',
-
-				field_name_gender: 'gender', 
-				field_value_gender: 'Male', 
-				alias_field_name_gender: 'Gender',	
-
-				field_name_date_of_birth: 'date_of_birth', 
-				field_value_date_of_birth: new Date().toISOString().substr(0, 10), 
-				alias_field_name_date_of_birth: 'Date Of Birth', 
-
-			}): '';
-		},
-		removeChildren(index){
-
-			console.log(index);
-			this.items_form_field.splice(index, 1);
-
-
-		},
-		updateChildren(index){
-
-			let obj = {
-
-				[ this.items_form_field[index].field_name_name ]: this.items_form_field[index].field_value_name,
-				[ this.items_form_field[index].field_name_gender ]: this.items_form_field[index].field_value_gender,
-				[ this.items_form_field[index].field_name_date_of_birth ]: this.items_form_field[index].field_value_date_of_birth,
-				email: this.items_form_field[index].email,
-				no: this.items_form_field[index].no,
-				// status: this.items_form_field[index].status,
-			}
+		getChildren(){
 
 
 
-
-
-
-			var headers = {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Accept': 'application/json'} ;
-
-				this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateChildren' ,
-				{
-					childrensInfo: obj,
-				} , headers
-				).then(function(response){
-
-					console.log(response);
-
-				}.bind(this))
-				.catch(function(){
-
-// this.$refs.snackbar.startSnackBar();
-
-//
-}.bind(this));
-
-
-
-
-
-				console.log(obj);
-
-			}
-
-
-
-
-
-		},
-
-		created(){
 			console.log(this.$refs);
 
 			console.log('email printing .............');
@@ -340,12 +251,18 @@ export default {
 
 					let a = response.data.map((item)=>{
 
-						return { ...item, status: 'new' }
+						return { ...item, status: 'old' , date_picker_menu: false, }
 
 
 					});
-					
+
 					console.log(a);
+
+					this.items_form_field = [];
+					
+
+
+					this.items_form_field = [...a];
 
 
 				}.bind(this))
@@ -363,11 +280,137 @@ export default {
 
 
 
+
+
+
+
+
+
+
+
 			},
-			updated(){
-				console.log(this.$refs);
+
+
+
+			add_new_children(){
+
+
+				console.log(this.items_form_field.length);
+
+
+				this.items_form_field.length < 4 ?
+
+				this.items_form_field.unshift({
+
+					email: this.email ,
+
+					no: this.items_form_field.length+1,
+
+					date_picker_menu: false,
+
+					status: 'new',			
+
+					name: '', 
+
+					gender: 'Male', 
+
+					date_of_birth: new Date().toISOString().substr(0, 10), 
+
+
+				}): '';
+			},
+			removeChildren(index){
+
+			/*	console.log(index);
+				this.items_form_field.splice(index, 1);
+
+*/
+				let {email , no} = this.items_form_field[index];
+
+				var headers = {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json' } ;
+
+					this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateChildren' ,
+					{
+						email: email,
+						no: no,
+						purpose: 'remove'
+					} , headers
+					).then(function(response){
+
+						console.log(response);
+						this.getChildren();
+
+					}.bind(this))
+					.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+
+
+				},
+				updateChildren(index){
+
+					console.log(this.items_form_field[index]);
+
+					let {email, no, name, gender, date_of_birth} = this.items_form_field[index];
+
+					let obj = {
+
+						name:name,
+						gender: gender,
+						date_of_birth: date_of_birth,
+
+					}
+
+					console.log(obj);
+
+					var headers = {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Accept': 'application/json' } ;
+
+						this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateChildren' ,
+						{
+							childrensInfo: obj,
+							email: email,
+							no: no,
+							purpose: 'updateOrInsert' ,
+						} , headers
+						).then(function(response){
+
+							console.log(response);
+							this.getChildren();
+
+
+
+						}.bind(this))
+						.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+					}
+				},
+
+				created(){
+
+
+					this.getChildren();
+
+
+				},
+				updated(){
+					console.log(this.$refs);
+				}
+
 			}
 
-		}
-
-	</script>
+		</script>
