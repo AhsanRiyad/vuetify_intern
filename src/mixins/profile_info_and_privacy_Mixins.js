@@ -26,6 +26,11 @@ item_gender: ['Male' , 'Female', 'Others'],
 item_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others'],
 item_blood_group: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
 
+/*for social network and children info*/
+
+item_social_network_type:['Facebook', 'Messenger' , 'Viber', 'WhatsApp'],
+facebook: [],
+forum_info: [],
 
 
 headers: [
@@ -166,25 +171,390 @@ all_info: [],
 },
 
 methods: {
-	getMomentDate(date){
 
-		return moment(date).format('dddd, MMMM Do YYYY');
+	// childrens_info starts
+
+
+
+		
+		getChildren(){
+
+
+
+			console.log(this.$refs);
+
+			console.log('email printing .............');
+
+			console.log(this.email);
+
+
+			var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json'} ;
+
+				this.$axios.post( this.$store.getters.getModelAddress_laravel+'getChildren' ,
+				{
+					email: this.email,
+				} , headers
+				).then(function(response){
+
+					console.log(response);
+
+					let a = response.data.map((item)=>{
+
+						return { ...item, status: 'old' , date_picker_menu: false, }
+
+
+					});
+
+					console.log(a);
+
+					this.items_form_field = [];
+					
+
+
+					this.items_form_field = [...a];
+
+
+				}.bind(this))
+				.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			},
+
+
+
+			add_new_children(){
+
+
+				console.log(this.items_form_field.length);
+
+
+				this.items_form_field.length < 4 ?
+
+				this.items_form_field.unshift({
+
+					email: this.email ,
+
+					no: this.items_form_field.length+1,
+
+					date_picker_menu: false,
+
+					status: 'new',			
+
+					name: '', 
+
+					gender: 'Male', 
+
+					date_of_birth: new Date().toISOString().substr(0, 10), 
+
+
+				}): '';
+			},
+			removeChildren(index){
+
+			/*	console.log(index);
+				this.items_form_field.splice(index, 1);
+
+				*/
+				let {email , no} = this.items_form_field[index];
+
+				var headers = {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json' } ;
+
+					this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateChildren' ,
+					{
+						email: email,
+						no: no,
+						purpose: 'remove'
+					} , headers
+					).then(function(response){
+
+						console.log(response);
+						this.getChildren();
+
+					}.bind(this))
+					.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+
+
+				},
+				updateChildren(index){
+
+					console.log(this.items_form_field[index]);
+
+					let {email, no, name, gender, date_of_birth} = this.items_form_field[index];
+
+					let obj = {
+
+						name:name,
+						gender: gender,
+						date_of_birth: date_of_birth,
+
+					}
+
+					console.log(obj);
+
+					var headers = {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Accept': 'application/json' } ;
+
+						this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateChildren' ,
+						{
+							childrensInfo: obj,
+							email: email,
+							no: no,
+							purpose: 'updateOrInsert' ,
+						} , headers
+						).then(function(response){
+
+							console.log(response);
+							this.getChildren();
+
+
+
+						}.bind(this))
+						.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+					},
+				
+
+
+
+
+	/*Social Network and Children's info*/
+
+
+	saveDate(date , index){
+
+		console.log(this.$refs);
+		console.log(date);
+
+		this.$refs.menu[index].save(date);
+
+
 
 	},
-	get_Data_Update_Details(resolve){
+
+
+	getFacebookAndForumMemeberShipInfo(){
+
+
+
+		console.log(this.$refs);
+
+		console.log('email printing .............');
+
+		console.log(this.email);
 
 
 		var headers = {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'Accept': 'application/json'} ;
-			this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
-			{
-				email: this.email
 
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getFacebookAndForumMemeberShipInfo' ,
+			{
+				email: this.email,
 			} , headers
 			).then(function(response){
+
 				console.log(response);
-				console.log(response.data.new[0]);
+
+/*
+						this.facebook = [...response.data.facebook_personal[0]];
+						this.forum_info = [...response.data.forum_info];
+						*/
+						console.log(response.data.facebook_personal[0]);
+
+
+						this.facebook = {...response.data.facebook_personal[0]};
+						this.forum_info = [...response.data.forum_info];
+
+
+						this.forum_info = this.response.data.forum_info.map((item)=>{
+
+							return {
+								...item, status: 'old'
+							}
+
+						})
+
+
+						console.log('facbook info');
+						console.log(this.forum_info);
+
+					}.bind(this))
+			.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+		},
+
+
+
+		add_new_forum_info(){
+
+
+			console.log(this.forum_info.length);
+
+
+			this.forum_info.length < 4 ?
+
+			this.forum_info.unshift({
+
+				email: this.email ,
+
+				status: 'new',			
+
+				media_name: 'Facebook', 
+
+				profile_link: '', 
+
+				type: 'forum',
+
+
+			}): '';
+		},
+		removeForumInfo(index){
+
+			/*	console.log(index);
+				this.items_form_field.splice(index, 1);
+
+				*/
+				let {email , media_name , type} = this.forum_info[index];
+
+				var headers = {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Accept': 'application/json' } ;
+
+					this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateForum' ,
+					{
+						email: email,
+						media_name: media_name,
+						type: type,
+						purpose: 'remove'
+					} , headers
+					).then(function(response){
+
+						console.log(response);
+						this.getFacebookAndForumMemeberShipInfo();
+
+					}.bind(this))
+					.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+				},
+				updateForumInfo(index , facebook_or_forum){
+
+					console.log(this.forum_info[index]);
+					
+					let { email, type, media_name , profile_name ,  profile_link } = 
+					facebook_or_forum== 'forum'
+					? this.forum_info[index]
+					: this.facebook ;
+
+					let obj = {
+
+						profile_name : profile_name,
+						profile_link : profile_link,
+
+					}
+
+					console.log(obj);
+
+					var headers = {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Accept': 'application/json' } ;
+
+						this.$axios.post( this.$store.getters.getModelAddress_laravel+'updateForum' ,
+						{
+							forum_info: obj,
+							email: email,
+							type: type,
+							media_name: media_name,
+							purpose: 'updateOrInsert' ,
+						} , headers
+						).then(function(response){
+
+							console.log(response);
+							this.getFacebookAndForumMemeberShipInfo();
+
+						}.bind(this))
+						.catch(function(){
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+					},
+
+
+
+
+
+
+
+					getMomentDate(date){
+
+						return moment(date).format('dddd, MMMM Do YYYY');
+
+					},
+					get_Data_Update_Details(resolve){
+
+
+						var headers = {
+							'Content-Type': 'application/x-www-form-urlencoded',
+							'Accept': 'application/json'} ;
+							this.$axios.post( this.$store.getters.getModelAddress_laravel+'test' ,
+							{
+								email: this.email
+
+							} , headers
+							).then(function(response){
+								console.log(response);
+								console.log(response.data.new[0]);
 //from all_info_together , coming as an object { first_name: 'Riyad' }
 let new_info = response.data.new[0]; 
 console.log(_.toPairs(new_info));
@@ -250,30 +620,30 @@ resolve(obj);
 // console.log(withOutNullNew);
 // console.log(toPairsOld);
 }.bind(this))
-			.catch(function(){
-			}.bind(this));
+							.catch(function(){
+							}.bind(this));
 
 
 
-		},
+						},
 
 
-		get_new_user_request_list(){
+						get_new_user_request_list(){
 
 
 
-			console.log('in the new user req list');
+							console.log('in the new user req list');
 
 
-			var headers = {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Accept': 'application/json'} ;
+							var headers = {
+								'Content-Type': 'application/x-www-form-urlencoded',
+								'Accept': 'application/json'} ;
 
-				this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_new_user_request_list'  , {
-					purpose : 'get_new_user_request_list'
-				} , headers)
-				.then(function (response) {
-					console.log(response);
+								this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_new_user_request_list'  , {
+									purpose : 'get_new_user_request_list'
+								} , headers)
+								.then(function (response) {
+									console.log(response);
 
 // resolve(response.data);
 // this.items = [...response.data];
@@ -296,28 +666,28 @@ this.$store.commit('set_base_table_list' , [...items]);
 
 
 }.bind(this))
-				.catch(function (error) {
-					console.log(error);
-				});
+								.catch(function (error) {
+									console.log(error);
+								});
 
 
 
-			},
+							},
 
 
 
-			get_data_update_request_list(){
+							get_data_update_request_list(){
 
 
-				var headers = {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'Accept': 'application/json'} ;
+								var headers = {
+									'Content-Type': 'application/x-www-form-urlencoded',
+									'Accept': 'application/json'} ;
 
-					this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
-						purpose : 'get_change_req_user'
-					} , headers)
-					.then(function (response) {
-						console.log(response);
+									this.$axios.post(  this.$store.getters.getModelAddress_laravel+'get_data_update_request_list'  , {
+										purpose : 'get_change_req_user'
+									} , headers)
+									.then(function (response) {
+										console.log(response);
 
 // resolve(response.data);
 // this.items = [...response.data];
@@ -340,13 +710,13 @@ this.$store.commit('set_base_table_list' , [...items]);
 
 
 }.bind(this))
-					.catch(function (error) {
-						console.log(error);
-					});
+									.catch(function (error) {
+										console.log(error);
+									});
 
 
 
-				},
+								},
 
 //from user update request
 get_users: function(){

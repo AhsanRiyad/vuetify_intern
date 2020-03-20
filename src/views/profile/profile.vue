@@ -41,15 +41,21 @@ import profile_change_password from '@/views/profile/profile_change_password'
 import profile_change_email from '@/views/profile/profile_change_email'
 import profile_verify_email from '@/views/profile/profile_verify_email'
 import profile_childrens_info from '@/views/profile/profile_childrens_info'
+import social_network from '@/views/profile/social_network'
 
 export default {
   name: 'basic',
-  components: { 'profile_basic': profile_basic  , 'buttons_for_profile': buttons_for_profile, 'profile_personal': profile_personal, 'profile_address': profile_address , 
+  components: { 
+  'profile_basic': profile_basic  ,
+  'buttons_for_profile': buttons_for_profile,
+  'profile_personal': profile_personal, 
+  'profile_address': profile_address , 
   'profile_photo_upload': profile_photo_upload,
   'profile_change_password': profile_change_password,
   'profile_change_email': profile_change_email
   ,'profile_verify_email': profile_verify_email
   ,'profile_childrens_info': profile_childrens_info
+  ,'social_network': social_network
 }, 
 
 data: ()=>({

@@ -70,7 +70,7 @@ export default {
 			{ title: 'PERSONAL', name: 'profile_personal' , color: 'primary' },
 			{ title: 'ADDRESS', name: 'profile_address' , color: 'primary' },
 			{ title: "CHIDLREN'S INFO", name: 'profile_childrens_info' , color: 'primary' },
-			{ title: 'SOCIAL NETWORK', name: 'profile_social_network_info' , color: 'primary' },
+			{ title: 'SOCIAL NETWORK', name: 'social_network' , color: 'primary' },
 			{ title: 'PHOTO', name: 'profile_photo_upload' , color: 'primary' },
 			{ title: 'CHANGE EMAIL', name: 'profile_change_email' , color: 'primary' },
 			{ title: 'CHANGE PASSWORD', name: 'profile_change_password' , color: 'primary' },
@@ -80,7 +80,7 @@ export default {
 	},
 	methods: {
 		changeColor(){
-			console.log('change color');
+			console.log('change color');	
 		},
 		changeComponent(name , title){
 
