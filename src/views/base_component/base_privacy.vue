@@ -324,11 +324,11 @@ dark
 
 
         this.loading = true;
-        var headers = 
+        /*var headers = 
         {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/pdf'} ;
-
+*/
           this.$axios.post( this.$store.getters.getModelAddress_laravel+'test_PDF',
           {
             purpose: 'getPrivacy',
@@ -336,23 +336,23 @@ dark
           }, 
           {
             responseType: 'arraybuffer',
-            headers
+            // headers
           }
           ).then(function(response){
 
+            console.log(response);
             this.loading = false;
 
-            console.log(response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', 'file.pdf');
             document.body.appendChild(link);
-            // this.$print.printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf');
 
             console.log('printing file');
             printJS(url);
 
+            // this.$print.printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf');
             // link.click(); 
 
             // printJS('a.pdf', 'pdf');
