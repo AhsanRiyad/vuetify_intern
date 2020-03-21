@@ -31,6 +31,7 @@ item_blood_group: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' ,
 item_social_network_type:['Facebook', 'Messenger' , 'Viber', 'WhatsApp'],
 facebook: [],
 forum_info: [],
+selected: [],
 
 
 headers: [
@@ -1179,13 +1180,8 @@ resolve(obj);
 
 	let chunkArray =  _.chunk(flatArray, 4);  //group by 4 element of the array
 
-
 	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
 		console.log(value[3]);
-
-
-
-
 
 		return {
 			alias_field_name : value[0],
@@ -1196,8 +1192,6 @@ resolve(obj);
 		}
 	});
 
-
-
 	if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
 
 		finalObject =  finalObject.filter((item)=>{
@@ -1205,7 +1199,6 @@ resolve(obj);
 
 		})
 	}
-
 // console.log(finalObject);
 
 // console.log(finalObject); 

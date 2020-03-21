@@ -1,22 +1,36 @@
 <template>
   <v-container>
-<v-card>
+    <v-card>
 
-    <v-card-title>
-     Search People
-      <v-spacer></v-spacer>
+      <v-card-title>
+       Search People
+       <v-spacer></v-spacer>
 
-      <v-text-field
-      v-model="search"
-      append-icon="mdi-magnify"
-      label="Search"
-      single-line
-      hide-details
-      ></v-text-field>
-    </v-card-title>
+       <v-text-field
+       v-model="search"
+       append-icon="mdi-magnify"
+       label="Search"
+       single-line
+       hide-details
+       ></v-text-field>
 
+
+
+     </v-card-title>
+
+     <v-card-text align="right" v-show=" selected.length > 0  ">
+
+
+      <v-btn color="success" >
+        Print
+      </v-btn>
+
+
+    </v-card-text>
 
     <v-data-table
+    v-model="selected"
+    show-select
     :headers=" headers_search "
     :items="$store.getters.getPeopleSearchList"
     class="elevation-1"
@@ -27,28 +41,28 @@
     <template v-slot:item.gallery="{ item }">
 
 
-       <user_gallery :email='item.email' :user_id='item.id' ></user_gallery>
+     <user_gallery :email='item.email' :user_id='item.id' ></user_gallery>
 
-      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
-    </template>
+     <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+   </template>
 
-    <template v-slot:item.profile="{ item }">
-
-
-       <get_details  :email='item.email' :user_id='item.id' ></get_details>
-
-      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
-    </template>
+   <template v-slot:item.profile="{ item }">
 
 
-    <template  v-slot:item.status="{ item }">
+     <get_details  :email='item.email' :user_id='item.id' ></get_details>
 
-      <v-chip dark class="white--text"
-      :color=" item.status == 'rejected' ? 'red' : item.status == 'approved' ? 'green' : 'warning' ">
-        {{ item.status  }}
-      </v-chip>
-      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
-    </template>
+     <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+   </template>
+
+
+   <template  v-slot:item.status="{ item }">
+
+    <v-chip dark class="white--text"
+    :color=" item.status == 'rejected' ? 'red' : item.status == 'approved' ? 'green' : 'warning' ">
+    {{ item.status  }}
+  </v-chip>
+  <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+</template>
 
 
 
@@ -142,10 +156,10 @@
 
       this.$store.commit('setComponentName' , 'search');
 
+    },
+    updated(){
+      // console.log(this.selected);
     }
-
-
-
   }
 
 

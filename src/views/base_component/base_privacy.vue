@@ -134,101 +134,105 @@
          ></v-text-field>
        </v-card-title>
 
+       <v-card-text align="right">
+        <v-btn color="success" :loading="loading" @click="download_PDF">
+         <v-icon class="mr-2" > print  </v-icon> Print
+       </v-btn>
+     </v-card-text>
+
+     <v-data-table
+     :headers=" 
+     this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
+     this.$store.getters.getComponentName == 'get_details' ? headers_get_details : headers_privacy  "
+     :items="users_info"
+     item-key="field_name"
+     class="elevation-1"
+     :search="search"
+     :loading="table_loading" loading-text="Loading... Please wait"
+     >
+
+     <template v-slot:item.privacy_value="{ item }">
+      <v-chip :color="item.privacy_value == 0 ? 'primary' : 'green' " dark>
+
+        {{ item.privacy_value == 0 ? 'Private': 'Public' }}
+      </v-chip> 
+
+      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+    </template>
+
+    <template v-slot:item.options="{ item }">
+
+      <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="(item.privacy_value = !item.privacy_value ) , updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email , $event )" dark>
+        {{  item.privacy_value == 0 ? 'Private': 'Public'   }}
+      </v-btn>
+
+    </template>
 
 
-       <v-data-table
-       :headers=" 
-       this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
-       this.$store.getters.getComponentName == 'get_details' ? headers_get_details : headers_privacy  "
-       :items="users_info"
-       item-key="field_name"
-       class="elevation-1"
-       :search="search"
-       :loading="table_loading" loading-text="Loading... Please wait"
-       >
-
-       <template v-slot:item.privacy_value="{ item }">
-        <v-chip :color="item.privacy_value == 0 ? 'primary' : 'green' " dark>
-
-          {{ item.privacy_value == 0 ? 'Private': 'Public' }}
-        </v-chip> 
-
-        <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
-      </template>
-
-      <template v-slot:item.options="{ item }">
-
-        <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="(item.privacy_value = !item.privacy_value ) , updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email , $event )" dark>
-          {{  item.privacy_value == 0 ? 'Private': 'Public'   }}
-        </v-btn>
-
-      </template>
-
-
-      <template v-slot:item.edit="{ item }">
-
-
-
-        <v-menu
-        ref="menu"
-        v-model="menu"
-        :close-on-content-click="false"
-        :return-value.sync="date"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
-        v-if="item.field_name == 'date_of_birth' "
-        >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-          v-model="date"
-          :label="item.alias_field_name"
-          readonly
-          v-on="on"
-          :ref="item.field_name"
-          @change="updateData( item.field_name , item.index_number )"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="date" no-title scrollable>
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="primary" @click="$refs.menu.save(date) , updateData( item.field_name , item.index_number )">OK</v-btn>
-        </v-date-picker>
-      </v-menu>
+    <template v-slot:item.edit="{ item }">
 
 
 
-
-
-      
-
-      <v-select
-      v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
-      v-model = "item.field_value"
-      :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-      @change="updateData( item.field_name , item.index_number , item.field_value )"
-      :ref = " item.field_name"
-      :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
-      :label="item.alias_field_name"
-      ></v-select>
-
-
-      <v-text-field
-      v-else
-      :label="item.alias_field_name"
-      v-model="item.field_value"
-      :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-      @change="updateData( item.field_name , item.index_number )"
-      :ref = 'item.field_name'
-      :id="item.field_name"
-      :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
+      <v-menu
+      ref="menu"
+      v-model="menu"
+      :close-on-content-click="false"
+      :return-value.sync="date"
+      transition="scale-transition"
+      offset-y
+      min-width="290px"
+      v-if="item.field_name == 'date_of_birth' "
       >
-    </v-text-field>
+      <template v-slot:activator="{ on }">
+        <v-text-field
+        v-model="date"
+        :label="item.alias_field_name"
+        readonly
+        v-on="on"
+        :ref="item.field_name"
+        @change="updateData( item.field_name , item.index_number )"
+        ></v-text-field>
+      </template>
+      <v-date-picker v-model="date" no-title scrollable>
+        <v-spacer></v-spacer>
+        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+        <v-btn text color="primary" @click="$refs.menu.save(date) , updateData( item.field_name , item.index_number )">OK</v-btn>
+      </v-date-picker>
+    </v-menu>
 
 
 
 
-  </template>
+
+
+
+    <v-select
+    v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
+    v-model = "item.field_value"
+    :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+    @change="updateData( item.field_name , item.index_number , item.field_value )"
+    :ref = " item.field_name"
+    :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
+    :label="item.alias_field_name"
+    ></v-select>
+
+
+    <v-text-field
+    v-else
+    :label="item.alias_field_name"
+    v-model="item.field_value"
+    :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+    @change="updateData( item.field_name , item.index_number )"
+    :ref = 'item.field_name'
+    :id="item.field_name"
+    :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
+    >
+  </v-text-field>
+
+
+
+
+</template>
 </v-data-table>
 </v-card>
 </v-col>
@@ -281,13 +285,6 @@ dark
   </v-dialog>
 </v-row>
 
-
-
-
-
-
-
-
 </v-container>
 
 </template>
@@ -297,6 +294,7 @@ dark
 
   import noInternetSnackBar from '@/views/noInternetSnackBar'
 
+  import printJS from 'print-js'
 
 
   export default {
@@ -314,22 +312,60 @@ dark
 
       dialog_update_status: false,
       dialog_update_text: '',
-
+      loading:false,
 
     }),
     computed:{},
     
-    methods: {},
-    created(){
-      this.$store.commit('setComponentName' , 'privacy');
+    methods: {
+      download_PDF(){
+
+        this.loading = true;
+        var headers = 
+        {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/pdf'} ;
+
+          this.$axios.post( this.$store.getters.getModelAddress_laravel+'test_PDF',
+          {
+            purpose: 'getPrivacy',
+          }, 
+          {
+            responseType: 'arraybuffer',
+            headers
+          }
+          ).then(function(response){
+
+            this.loading = false;
+
+            console.log(response);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.pdf');
+            document.body.appendChild(link);
+            // this.$print.printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf');
+
+            // link.click(); 
+
+            // printJS('a.pdf', 'pdf');
+            console.log(url);
+            printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf' , 'pdf');
+
+
+          }.bind(this))
+          .catch(function(){
+            this.loading = false;
+
+          }.bind(this));
+
+
+        }
+      },
+      created(){
+        this.$store.commit('setComponentName' , 'privacy');
       // this.getPrivacyInfo( this.user_id ,  this.email  );
-
         this.getPrivacyInfo( this.user_id , this.email);
-
-
-     
-
-
 
     },
 
