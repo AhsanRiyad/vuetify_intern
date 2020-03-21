@@ -299,7 +299,7 @@ dark
 
   export default {
     name: 'data_privacy',
-    mixins: [ profile_info_and_privacy_Mixins ] ,
+    mixins: [ profile_info_and_privacy_Mixins  ] ,
     components: { 'noInternetSnackBar': noInternetSnackBar },
     props: ['email' , 'user_id' , 'fun1'],
 
@@ -320,6 +320,9 @@ dark
     methods: {
       download_PDF(){
 
+        console.log(this.users_info);
+
+
         this.loading = true;
         var headers = 
         {
@@ -329,6 +332,7 @@ dark
           this.$axios.post( this.$store.getters.getModelAddress_laravel+'test_PDF',
           {
             purpose: 'getPrivacy',
+            users_info: this.users_info,
           }, 
           {
             responseType: 'arraybuffer',
@@ -346,11 +350,14 @@ dark
             document.body.appendChild(link);
             // this.$print.printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf');
 
+            console.log('printing file');
+            printJS(url);
+
             // link.click(); 
 
             // printJS('a.pdf', 'pdf');
-            console.log(url);
-            printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf' , 'pdf');
+            // console.log(url);
+            // printJS('http://localhost/backend_all/laravel_intern_project/public/storage/users_info.pdf' , 'pdf');
 
 
           }.bind(this))
