@@ -65,10 +65,15 @@ temporary
   class="green py-3 my-n1 white--text text-center"
   active-class = "secondary"  
   >
-  <v-list-item-title> {{ item.title }} 
+  <v-list-item-title> {{ item.title  }}
+  
+  
 
-  <span class="blue mx-1 px-2" v-if="item.name == 'new_user_request'" > {{ verificationRequest }} </span>
-  <span class="blue mx-1 px-2" v-else-if="item.name == 'data_update_request'" > {{ changeRequest }} </span>
+  <span class="blue mx-1 px-2" v-if="item.name == 'new_user_request'" > {{ $store.getters.getCountRequest.verificationRequest }} </span>
+  <span class="blue mx-1 px-2" v-else-if="item.name == 'data_update_request'" > {{ 
+  $store.getters.getCountRequest.changeRequest
+  
+   }} </span>
 
   </v-list-item-title>
   

@@ -51,6 +51,8 @@ if( store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 			email : VueCookies.get('email') , 
 		} , headers )
 		.then(function(response){
+
+			console.log('inside auth');
 			console.log(response);
 			if(response.data.userInfo !=0 && response.data.userInfo.forgot_password_crypto == VueCookies.get('crypto'))
 			{
@@ -67,6 +69,7 @@ if( store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 				store.commit('setChangeRequest' , response.data.countRequest.changeRequest); 
 
 
+				console.log(store.getters.getCountRequest.verificationRequest);
 
 
 				return next();

@@ -114,7 +114,7 @@ export const store = new Vuex.Store({
 			state.institution_id_label = name ;
 		},
 		setVerificationRequest: ( state , name ) =>{
-			state.countRequest.verificationInfo = name ;
+			state.countRequest.verificationRequest = name ;
 		},
 		setChangeRequest: ( state , name ) =>{
 			state.countRequest.changeRequest = name ;
