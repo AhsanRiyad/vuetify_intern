@@ -549,9 +549,10 @@ methods: {
 						return moment(date).format('dddd, MMMM Do YYYY');
 
 					},
-					get_Data_Update_Details(resolve){
+					get_Data_Update_Details( resolve){
 
-
+						console.log('inside emial');
+						console.log(this.email);
 						var headers = {
 							'Content-Type': 'application/x-www-form-urlencoded',
 							'Accept': 'application/json'} ;
@@ -1052,6 +1053,10 @@ console.log(this.group_photos);
 
 			},
 			get_info_of_a_particular_user_with_promise(email, resolve){
+
+				console.log('this is the props email');
+				console.log(email);
+
 
 				var headers = 
 				{

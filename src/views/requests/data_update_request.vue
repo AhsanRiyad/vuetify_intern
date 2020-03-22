@@ -24,7 +24,7 @@
     },
     mixins: [ profile_info_and_privacy_Mixins ],
 
-    props: ['email' , 'user_id'  , 'category'  ],
+    props: [  'user_id'  , 'category'  ],
     data: ()=>({
 
      headers_for_base_table: [

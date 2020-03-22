@@ -77,7 +77,7 @@
       console.log(this.email);
       let promise = new Promise((resolve)=>{
 
-      this.get_Data_Update_Details(resolve)
+      this.get_Data_Update_Details(resolve);
 
 
       })

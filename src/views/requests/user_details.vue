@@ -69,7 +69,7 @@
       console.log(this.email);
       let promise = new Promise((resolve)=>{
 
-        this.get_info_of_a_particular_user_with_promise( this.email, resolve)
+        this.get_info_of_a_particular_user_with_promise( this.email , resolve)
 
 
       })
