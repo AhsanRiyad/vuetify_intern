@@ -68,7 +68,7 @@
 
 				<v-text-field
 				v-else
-				:label="item.alias_field_name"
+				:label="item.alias_field_name == 'Institution Id' ? $store.getters.getIInstitution_id_label : item.alias_field_name "
 				v-model="item.field_value"
 				:rules=" field_rules_prop(  item.field_name , item.index_number  ) "
 				@change="updateData_profile( item.field_name , item.index_number )"

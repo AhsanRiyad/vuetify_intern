@@ -82,10 +82,10 @@
 			</v-menu>
 
 
-			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index) }">
+			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index) ; dialog = true; }" >
 				{{ item.status == 'new' ? 'ADD' : 'UPDATE' }}
 			</v-btn>
-			<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeChildren(index) }">
+			<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeChildren(index); dialog = true; }" >
 				Remove
 			</v-btn>
 
@@ -109,33 +109,29 @@ getData
 </v-row>
 </v-container>
 
-<v-row justify="center">
-	<v-dialog
-	v-model="dialog"
-	max-width="290"
-	>
-	<v-card>
-		<v-card-title class="headline">Status</v-card-title>
 
-		<v-card-text>
-			{{ status_text }}
-		</v-card-text>
-
-		<v-card-actions>
-			<v-spacer></v-spacer>
-
-			<v-btn
-			color="green darken-1"
-			text
-			@click="dialog = false"
-			>
-			Close
-		</v-btn>
-
-	</v-card-actions>
+<v-dialog
+v-model="dialog"
+hide-overlay
+persistent
+width="300"
+>
+<v-card
+color="primary"
+dark
+>
+<v-card-text>
+  Updating
+  <v-progress-linear
+  indeterminate
+  color="white"
+  class="mb-0"
+  ></v-progress-linear>
+</v-card-text>
 </v-card>
 </v-dialog>
-</v-row>
+
+
 
 </v-app>
 </template>
@@ -160,22 +156,29 @@ export default {
 
 		items_form_field: [],
 		email: 'riyad298@gmail.com',
+		loading_remove: false,
 
 
 	}), 
 	methods: {},
 
-				created(){
+	created(){
 
 
-					this.getChildren();
+		this.getChildren();
 
 
-				},
-				updated(){
-					console.log(this.$refs);
-				}
+	},
+	updated(){
+		console.log(this.$refs);
+	},
+	watch: {
+		dialog (val) {
+			if (!val) return
+				setTimeout(() => (this.dialog = false), 2000);
+		},
+	}
 
-			}
+}
 
-		</script>
+</script>

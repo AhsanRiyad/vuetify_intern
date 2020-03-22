@@ -36,7 +36,7 @@
     <template v-slot:item.accept_change_request="{ item }">
 
 
-      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' ) ">
+      <v-btn small color="success" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' ); dialog = true;  }">
         Accept
       </v-btn>
 
@@ -45,7 +45,7 @@
     <template v-slot:item.reject_change_request="{ item }">
 
 
-      <v-btn small color="error" :email="item.email" @click="updatePrivacy('all_info_together' , 'change_request' , 'rejected' , item.email , 'forUpdateRequest' ) ">
+      <v-btn small color="error" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'rejected' , item.email , 'forUpdateRequest' ); dialog = true } ">
         Reject
       </v-btn>
 
@@ -55,7 +55,7 @@
     <template v-slot:item.accept_new_user="{ item }">
 
 
-      <v-btn small color="success" :email="item.email" @click="updatePrivacy('all_info_together' , 'status' , 'approved' , item.email , 'forNewUserRequest' ) ">
+      <v-btn small color="success" :email="item.email" @click="()=> {updatePrivacy('all_info_together' , 'status' , 'approved' , item.email , 'forNewUserRequest' ); dialog = true; }">
         Accept
       </v-btn>
 
@@ -64,7 +64,7 @@
     <template v-slot:item.reject_new_user="{ item }">
 
 
-      <v-btn small color="error" :email="item.email" @click="updatePrivacy( 'all_info_together' , 'status' , 'rejected' , item.email , 'forNewUserRequest') ">
+      <v-btn small color="error" :email="item.email" @click=" ()=>{   updatePrivacy( 'all_info_together' , 'status' , 'rejected' , item.email , 'forNewUserRequest'); dialog = true; }">
         Reject
       </v-btn>
 
@@ -73,6 +73,35 @@
 
   </v-data-table>
 
+
+
+
+
+
+  <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+
+
+
+  <v-dialog
+  v-model="dialog"
+  hide-overlay
+  persistent
+  width="300"
+  >
+  <v-card
+  color="primary"
+  dark
+  >
+  <v-card-text>
+    Updating
+    <v-progress-linear
+    indeterminate
+    color="white"
+    class="mb-0"
+    ></v-progress-linear>
+  </v-card-text>
+</v-card>
+</v-dialog>
 
 
 
@@ -89,6 +118,7 @@
   import user_details from '@/views/requests/user_details'
 
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
+    import noInternetSnackBar from '@/views/noInternetSnackBar'
 
 
   export default {
@@ -96,6 +126,7 @@
     components: { 
       'change_details': change_details,
       'user_details': user_details,
+      'noInternetSnackBar': noInternetSnackBar,
     },
     mixins: [ profile_info_and_privacy_Mixins ],
     data () {
@@ -236,7 +267,14 @@
         
 
 
+      },
+      watch: {
+        dialog (val) {
+          if (!val) return
+            setTimeout(() => (this.dialog = false), 2000);
+        },
       }
+
 
 
     }

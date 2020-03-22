@@ -134,7 +134,7 @@
          ></v-text-field>
        </v-card-title>
 
-       <v-card-text align="right">
+       <v-card-text align="right" v-if="$store.getters.getComponentName=='get_details'">
         <v-btn color="success" :loading="loading" @click="download_PDF">
          <v-icon class="mr-2" > print  </v-icon> Print
        </v-btn>
@@ -375,8 +375,6 @@ dark
         this.getPrivacyInfo( this.user_id , this.email);
 
     },
-
-
     watch: {
       dialog (val) {
         if (!val) return

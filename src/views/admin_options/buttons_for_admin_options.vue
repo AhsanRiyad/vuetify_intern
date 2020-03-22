@@ -40,7 +40,7 @@ export default {
 	mixins: [ profile_info_and_privacy_Mixins  ],
 	data(){
 		return {
-			numbers1: [0,1,2],
+			numbers1: [0,1],
 			numbers2: [3,4,5],
 			color: 'primary',
 			color2: 'secondary',
@@ -48,7 +48,6 @@ export default {
 			component_name: 'institution_id_label',
 			items: [
 			{ title: 'INSTITUTION ID LABEL', name: 'institution_id_label' , color: 'primary' },
-			{ title: 'FORM FIELD RULE', name: 'form_field_rules' , color: 'primary' },
 			{ title: 'IMPORT', name: 'import_user_data' , color: 'primary' }
 			],
 		}

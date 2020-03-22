@@ -103,7 +103,7 @@ headers_search: [
 	value: 'full_name',
 },
 { 
-	text: 'Institution Id', value: 'institution_id',
+	text: this.$store.getters.getIInstitution_id_label, value: 'institution_id',
 },
 { 
 	text: 'Membership Number', value: 'membership_number',
@@ -177,50 +177,50 @@ methods: {
 
 
 
-		
-		getChildren(){
+
+	getChildren(){
 
 
 
-			console.log(this.$refs);
+		console.log(this.$refs);
 
-			console.log('email printing .............');
+		console.log('email printing .............');
 
-			console.log(this.email);
-
-
-			var headers = {
-				'Content-Type': 'application/x-www-form-urlencoded',
-				'Accept': 'application/json'} ;
-
-				this.$axios.post( this.$store.getters.getModelAddress_laravel+'getChildren' ,
-				{
-					email: this.email,
-				} , headers
-				).then(function(response){
-
-					console.log(response);
-
-					let a = response.data.map((item)=>{
-
-						return { ...item, status: 'old' , date_picker_menu: false, }
+		console.log(this.email);
 
 
-					});
+		var headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json'} ;
 
-					console.log(a);
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getChildren' ,
+			{
+				email: this.email,
+			} , headers
+			).then(function(response){
 
-					this.items_form_field = [];
-					
+				console.log(response);
+
+				let a = response.data.map((item)=>{
+
+					return { ...item, status: 'old' , date_picker_menu: false, }
 
 
-					this.items_form_field = [...a];
+				});
+
+				console.log(a);
+
+				this.items_form_field = [];
 
 
-				}.bind(this))
-				.catch(function(){
 
-// this.$refs.snackbar.startSnackBar();
+				this.items_form_field = [...a];
+
+
+			}.bind(this))
+			.catch(function(){
+
+				this.$refs.snackbar.startSnackBar();
 
 //
 }.bind(this));
@@ -240,43 +240,44 @@ methods: {
 
 
 
-			},
+		},
 
 
 
-			add_new_children(){
+		add_new_children(){
 
 
-				console.log(this.items_form_field.length);
+			console.log(this.items_form_field.length);
 
 
-				this.items_form_field.length < 4 ?
+			this.items_form_field.length < 4 ?
 
-				this.items_form_field.unshift({
+			this.items_form_field.unshift({
 
-					email: this.email ,
+				email: this.email ,
 
-					no: this.items_form_field.length+1,
+				no: this.items_form_field.length+1,
 
-					date_picker_menu: false,
+				date_picker_menu: false,
 
-					status: 'new',			
+				status: 'new',			
 
-					name: '', 
+				name: '', 
 
-					gender: 'Male', 
+				gender: 'Male', 
 
-					date_of_birth: new Date().toISOString().substr(0, 10), 
+				date_of_birth: new Date().toISOString().substr(0, 10), 
 
 
-				}): '';
-			},
-			removeChildren(index){
+			}): '';
+		},
+		removeChildren(index){
 
 			/*	console.log(index);
 				this.items_form_field.splice(index, 1);
 
 				*/
+				this.loading_remove = true;
 				let {email , no} = this.items_form_field[index];
 
 				var headers = {
@@ -291,13 +292,14 @@ methods: {
 					} , headers
 					).then(function(response){
 
+						this.loading_remove = false;
 						console.log(response);
 						this.getChildren();
 
 					}.bind(this))
 					.catch(function(){
-
-// this.$refs.snackbar.startSnackBar();
+						this.loading_remove = false;
+						this.$refs.snackbar.startSnackBar();
 
 //
 }.bind(this));
@@ -308,6 +310,9 @@ methods: {
 
 				},
 				updateChildren(index){
+
+					this.loading = true;
+
 
 					console.log(this.items_form_field[index]);
 
@@ -336,6 +341,7 @@ methods: {
 						} , headers
 						).then(function(response){
 
+							this.loading = false;
 							console.log(response);
 							this.getChildren();
 
@@ -343,55 +349,55 @@ methods: {
 
 						}.bind(this))
 						.catch(function(){
-
-// this.$refs.snackbar.startSnackBar();
+							this.loading = false;
+							this.$refs.snackbar.startSnackBar();
 
 //
 }.bind(this));
 
 					},
-				
 
 
 
 
-	/*Social Network and Children's info*/
+
+					/*Social Network and Children's info*/
 
 
-	saveDate(date , index){
+					saveDate(date , index){
 
-		console.log(this.$refs);
-		console.log(date);
+						console.log(this.$refs);
+						console.log(date);
 
-		this.$refs.menu[index].save(date);
-
-
-
-	},
-
-
-	getFacebookAndForumMemeberShipInfo(){
+						this.$refs.menu[index].save(date);
 
 
 
-		console.log(this.$refs);
-
-		console.log('email printing .............');
-
-		console.log(this.email);
+					},
 
 
-		var headers = {
-			'Content-Type': 'application/x-www-form-urlencoded',
-			'Accept': 'application/json'} ;
+					getFacebookAndForumMemeberShipInfo(){
 
-			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getFacebookAndForumMemeberShipInfo' ,
-			{
-				email: this.email,
-			} , headers
-			).then(function(response){
 
-				console.log(response);
+
+						console.log(this.$refs);
+
+						console.log('email printing .............');
+
+						console.log(this.email);
+
+
+						var headers = {
+							'Content-Type': 'application/x-www-form-urlencoded',
+							'Accept': 'application/json'} ;
+
+							this.$axios.post( this.$store.getters.getModelAddress_laravel+'getFacebookAndForumMemeberShipInfo' ,
+							{
+								email: this.email,
+							} , headers
+							).then(function(response){
+
+								console.log(response);
 
 /*
 						this.facebook = [...response.data.facebook_personal[0]];
@@ -417,7 +423,7 @@ methods: {
 						console.log(this.forum_info);
 
 					}.bind(this))
-			.catch(function(){
+							.catch(function(){
 
 // this.$refs.snackbar.startSnackBar();
 
@@ -426,34 +432,34 @@ methods: {
 
 
 
-		},
+						},
 
 
 
-		add_new_forum_info(){
+						add_new_forum_info(){
 
 
-			console.log(this.forum_info.length);
+							console.log(this.forum_info.length);
 
 
-			this.forum_info.length < 4 ?
+							this.forum_info.length < 4 ?
 
-			this.forum_info.unshift({
+							this.forum_info.unshift({
 
-				email: this.email ,
+								email: this.email ,
 
-				status: 'new',			
+								status: 'new',			
 
-				media_name: 'Facebook', 
+								media_name: 'Facebook', 
 
-				profile_link: '', 
+								profile_link: '', 
 
-				type: 'forum',
+								type: 'forum',
 
 
-			}): '';
-		},
-		removeForumInfo(index){
+							}): '';
+						},
+						removeForumInfo(index){
 
 			/*	console.log(index);
 				this.items_form_field.splice(index, 1);
@@ -493,7 +499,7 @@ methods: {
 					let { email, type, media_name , profile_name ,  profile_link } = 
 					facebook_or_forum == 'forum'
 					? this.forum_info[index]
-					: this.facebook ;
+					: ((this.facebook) , (this.loading_add_or_update_facebook = true)) ;
 
 					let obj = {
 
@@ -518,13 +524,14 @@ methods: {
 						} , headers
 						).then(function(response){
 
+							this.loading_add_or_update_facebook = false;
 							console.log(response);
 							this.getFacebookAndForumMemeberShipInfo();
 
 						}.bind(this))
 						.catch(function(){
-
-// this.$refs.snackbar.startSnackBar();
+							this.loading_add_or_update_facebook = true
+							this.$refs.snackbar.startSnackBar();
 
 //
 }.bind(this));
@@ -704,6 +711,17 @@ let items =  response.data.map((item)=>{
 })
 
 
+//to remove the current user
+
+let remove_current_user = items.filter((item)=>{
+
+	return item.email != this.$store.getters.getAllInfo.email ;
+
+
+
+})
+
+items = [...remove_current_user];
 
 this.$store.commit('set_base_table_list' , [...items]);
 
@@ -1183,21 +1201,39 @@ resolve(obj);
 	let finalObject =  chunkArray.map((value , index )=>{ //array to object conversion for pages
 		console.log(value[3]);
 
-		return {
+		return ( value[2] != 'institution_id' ?   {
 			alias_field_name : value[0],
 			privacy_value : value[3],
 			field_name : value[2],
 			field_value : value[1],
 			index_number: index,
+		} :  
+
+		{
+			alias_field_name : this.$store.getters.getIInstitution_id_label,
+			privacy_value : value[3],
+			field_name : value[2],
+			field_value : value[1],
+			index_number: index,
 		}
+
+
+		)
 	});
+
+
+
+
 
 	if(this.$store.getters.getComponentName == 'get_details' && this.$store.getters.getAllInfo.type !=  'admin'){
 
-		finalObject =  finalObject.filter((item)=>{
+		let a  =  finalObject.filter((item)=>{
 			return item.privacy_value == 1 ;
 
 		})
+
+		finalObject = [...a];
+
 	}
 // console.log(finalObject);
 
@@ -1262,7 +1298,14 @@ var headers = {
 console.log(response);
 
 this.$store.getters.getComponentName == 'get_details' ? ( (this.dialog_update_text = 'upadated'),
-	(this.dialog_update_status = true) ) : '';
+	(this.dialog_update_status = true  ) ) :
+this.$store.getters.getComponentName == 'profile_basic' || 
+this.$store.getters.getComponentName == 'profile_personal' ||
+this.$store.getters.getComponentName == 'profile_address' ? 
+((this.status_text = 'Updated') ,  (this.dialog = true )) : ''; 
+
+
+
 
 this.getPrivacyInfo(this.user_id , email);
 
@@ -1276,6 +1319,16 @@ this.get_new_user_request_list(): '';
 
 }.bind(this))
 	.catch(function(){
+
+		this.$store.getters.getComponentName == 'get_details' ? ( (this.dialog_update_text = 'failed'),
+			(this.dialog_update_status = false  ) ) :
+		this.$store.getters.getComponentName == 'profile_basic' || 
+		this.$store.getters.getComponentName == 'profile_personal' ||
+		this.$store.getters.getComponentName == 'profile_address' ? 
+		((this.status_text = 'failed') ,  (this.dialog = false )) : ''; 
+
+
+
 
 		this.$refs.snackbar.startSnackBar();
 	}.bind(this));

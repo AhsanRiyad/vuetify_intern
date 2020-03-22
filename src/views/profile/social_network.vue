@@ -27,7 +27,7 @@
 			</v-text-field>
 
 
-			<v-btn block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('index' , 'facebook') }" >
+			<v-btn :loading="loading_add_or_update_facebook" block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('index' , 'facebook'); dialog = true; }" >
 				ADD/UPDATE
 			</v-btn>
 
@@ -74,10 +74,10 @@
 
 
 
-		<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateForumInfo(index , 'forum') }">
+		<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateForumInfo(index , 'forum') ; dialog = true;  }" :loading="loading_add_or_update_forum">
 			{{ item.status == 'new' ? 'ADD' : 'UPDATE' }}
 		</v-btn>
-		<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeForumInfo(index) }">
+		<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeForumInfo(index) ; dialog = true;  }" :loading="loading_remove_forum">
 			Remove
 		</v-btn>
 
@@ -100,33 +100,34 @@ getData
 </v-row>
 </v-container>
 
-<v-row justify="center">
-	<v-dialog
-	v-model="dialog"
-	max-width="290"
-	>
-	<v-card>
-		<v-card-title class="headline">Status</v-card-title>
 
-		<v-card-text>
-			{{ status_text }}
-		</v-card-text>
 
-		<v-card-actions>
-			<v-spacer></v-spacer>
-
-			<v-btn
-			color="green darken-1"
-			text
-			@click="dialog = false"
-			>
-			Close
-		</v-btn>
-
-	</v-card-actions>
+<v-dialog
+v-model="dialog"
+hide-overlay
+persistent
+width="300"
+>
+<v-card
+color="primary"
+dark
+>
+<v-card-text>
+	Updating
+	<v-progress-linear
+	indeterminate
+	color="white"
+	class="mb-0"
+	></v-progress-linear>
+</v-card-text>
 </v-card>
 </v-dialog>
-</v-row>
+
+
+
+
+
+
 
 </v-app>
 </template>
@@ -151,8 +152,11 @@ export default {
 
 		items_form_field: [],
 		email: 'riyad298@gmail.com',
-		
 
+		loading_add_or_update_facebook: false,
+		loading_add_or_update_forum: false,
+		loading_remove_forum:false,
+		
 	}), 
 	methods: {
 
@@ -168,6 +172,14 @@ export default {
 	},
 	updated(){
 		console.log(this.$refs);
+	},
+
+
+	watch: {
+		dialog (val) {
+			if (!val) return
+				setTimeout(() => (this.dialog = false), 2000);
+		},
 	}
 
 }

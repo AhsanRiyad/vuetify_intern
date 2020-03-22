@@ -34,7 +34,7 @@
 
 
 
-                  <v-select @change="change_label()"
+                  <v-select @change="change_label"
 
                   v-model ="institution_id_label"
                   :items="items"

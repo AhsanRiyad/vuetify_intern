@@ -15,7 +15,12 @@
       <v-col cols="12" xl="7" md="7" class="white" >
 
         <h4 class="my-3"> Choose File To Download </h4>
-        <v-file-input @change="handleUpload_user_data" v-model="user_import_data_file" label="File input" accept="application/json" outlined dense show-size></v-file-input>
+
+        <v-file-input v-model="user_import_data_file" label="File input" accept="application/json" outlined dense show-size></v-file-input>
+
+        <v-btn @click="handleUpload_user_data" color="primary"  :loading="loading" block>
+          Start Importing
+        </v-btn>
 
       </v-col>
 
@@ -86,38 +91,52 @@ export default {
   methods: {
     handleUpload_user_data(){
 
-      console.log( this.user_import_data_file);
-      let formData = new FormData();
-      formData.append('user_import_data_file', this.user_import_data_file);
+
+      if( this.user_import_data_file != undefined && this.user_import_data_file.length != 0  ){
+
+        this.loading = true;
+        console.log( this.user_import_data_file);
+        let formData = new FormData();
+        formData.append('user_import_data_file', this.user_import_data_file);
 
 
-      this.$axios.post( this.$store.getters.getModelAddress_laravel+'import_user_data' ,
-            formData,
-            { 
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
+        this.$axios.post( this.$store.getters.getModelAddress_laravel+'import_user_data' ,
+          formData,
+          { 
+            headers: {
+              'Content-Type': 'multipart/form-data'
             }
-            ).then(function(response){
+          }
+          ).then(function(response){
 
-              console.log(response);
+            this.loading = false;
+            console.log(response);
 
-            }.bind(this))
-            .catch(function(){
+            this.dialog = true;
+            this.dialog_text = 'Imported successfully';
 
+          }.bind(this))
+          .catch(function(){
+            this.loading = false;
+            this.dialog = true;
+            this.dialog_text = 'Import Failed';
+          }.bind(this));
 
-            }.bind(this));
+        }else{
 
+          console.log('no file');
+          this.dialog = true;
+          this.dialog_text = 'no file selected';
 
+        }
+
+      },
 
 
     },
+    submit(){},
 
-
-  },
-  submit(){},
-
-}
+  }
 </script>
 
 <style>
