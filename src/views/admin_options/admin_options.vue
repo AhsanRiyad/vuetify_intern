@@ -33,13 +33,18 @@
 import buttons_for_admin_options from '@/views/admin_options/buttons_for_admin_options'
 import institution_id_label from '@/views/admin_options/institution_id_label'
 import form_field_rules from '@/views/admin_options/form_field_rules'
+import import_user_data from '@/views/admin_options/import_user_data'
 
 
 export default {
   name: 'admin_options',
-  components: { 'buttons_for_admin_options': buttons_for_admin_options , 
+  components: { 
+  'buttons_for_admin_options': buttons_for_admin_options , 
   'institution_id_label': institution_id_label , 
-  'form_field_rules': form_field_rules }, 
+  'form_field_rules': form_field_rules, 
+  'import_user_data': import_user_data
+
+}, 
   data: ()=>({}), 
   created(){
 

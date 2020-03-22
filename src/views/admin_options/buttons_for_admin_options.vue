@@ -10,6 +10,14 @@
 					
 				</v-col>
 
+				<v-col cols="auto" >
+					
+					<v-btn :loading="loading" color="primary" @click="export_user_data" > Export User Data </v-btn>
+
+					
+					
+				</v-col>
+
 				
 
 			</v-row>
@@ -22,11 +30,17 @@
 
 <script>
 // @ is an alias to /src
+
+import fileDownload from 'js-file-download'
+
+import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
+
 export default {
 	name: 'buttons_for_admin_options',
+	mixins: [ profile_info_and_privacy_Mixins  ],
 	data(){
 		return {
-			numbers1: [0,1],
+			numbers1: [0,1,2],
 			numbers2: [3,4,5],
 			color: 'primary',
 			color2: 'secondary',
@@ -34,7 +48,8 @@ export default {
 			component_name: 'institution_id_label',
 			items: [
 			{ title: 'INSTITUTION ID LABEL', name: 'institution_id_label' , color: 'primary' },
-			{ title: 'FORM FIELD RULE', name: 'form_field_rules' , color: 'primary' }
+			{ title: 'FORM FIELD RULE', name: 'form_field_rules' , color: 'primary' },
+			{ title: 'IMPORT', name: 'import_user_data' , color: 'primary' }
 			],
 		}
 		
@@ -51,9 +66,40 @@ export default {
 			
 
 
-		}
-	}
+		},
+		export_user_data(){
+			console.log('export user data');
+			this.loading = true;
+			var headers = {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'Accept': 'application/json' } ;
 
-}
+				this.$axios.post( this.$store.getters.getModelAddress_laravel+'export_user_data' ,
+				{
+
+				} , headers
+				).then(function(response){
+
+					this.loading = false;
+
+					console.log(response);
+					fileDownload( JSON.stringify( response.data )  , 'data.json' );
+
+
+				}.bind(this))
+				.catch(function(){
+					this.loading = false;
+
+// this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+
+
+
+			}
+		}
+
+	}
 
 </script>

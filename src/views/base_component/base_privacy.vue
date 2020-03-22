@@ -329,7 +329,7 @@ dark
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/pdf'} ;
 */
-          this.$axios.post( this.$store.getters.getModelAddress_laravel+'test_PDF',
+          this.$axios.post( this.$store.getters.getModelAddress_laravel+'download_PDF',
           {
             purpose: 'getPrivacy',
             users_info: this.users_info,

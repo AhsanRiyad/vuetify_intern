@@ -400,7 +400,7 @@ methods: {
 						console.log(response.data.facebook_personal[0]);
 
 
-						this.facebook = {...response.data.facebook_personal[0]};
+						this.facebook = {...response.data.facebook_personal[0], email: this.email , type: 'personal' };
 						this.forum_info = [...response.data.forum_info];
 
 
@@ -491,7 +491,7 @@ methods: {
 					console.log(this.forum_info[index]);
 					
 					let { email, type, media_name , profile_name ,  profile_link } = 
-					facebook_or_forum== 'forum'
+					facebook_or_forum == 'forum'
 					? this.forum_info[index]
 					: this.facebook ;
 
