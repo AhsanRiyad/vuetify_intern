@@ -145,7 +145,7 @@ export default {
 
 
 	methods: {
-		getUserDetails(){
+		getUserDetails(resolve){
 			//this.expires = this.date.setTime(this.date.getTime() + 7*24*60*60*1000).toGMTString();
 			var headers = {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -184,6 +184,9 @@ export default {
 
 						// this.$router.push({ name: 'profile' }) ;
 
+						resolve != undefined ? resolve() : '';
+
+
 					}.bind(this))
 				.catch(function () {
 					
@@ -193,7 +196,13 @@ export default {
 			}.bind(this));
 
 			},
-			submit(){
+			checkPasswordAndLogin(){
+
+
+
+
+				
+
 				this.loading = true;
 				if( this.$refs.form.validate() ){
 					if(md5(this.password) == this.$store.getters.getAllInfo.password){ 
@@ -227,6 +236,35 @@ export default {
 			this.dialog = true;
 			this.loading = false; 
 		}
+
+
+
+	},
+
+	submit(){
+
+
+
+		if(this.$store.getters.getAllInfo == '' || this.$store.getters.getAllInfo == 0 || this.$store.getters.getAllInfo == undefined ){
+			
+			let promise = new Promise((resolve)=>{
+
+				this.getUserDetails(resolve);
+
+			});
+			promise.then(()=>{
+				this.checkPasswordAndLogin();
+
+			})
+
+		}else{
+			
+			this.checkPasswordAndLogin();
+
+		}
+
+
+
 	}
 },
 created(){

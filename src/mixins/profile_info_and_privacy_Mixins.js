@@ -173,11 +173,30 @@ all_info: [],
 
 methods: {
 
+	reset_password(email){
+
+		console.log(email);
+
+
+		var headers = {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'Accept': 'application/json' } ;
+
+			this.$axios.post( this.$store.getters.getModelAddress_laravel+'reset_password' ,
+			{
+				email: email,
+				purpose: 'reset_password'
+			} , headers
+			).then(function(response){				
+				console.log(response);
+			}.bind(this))
+			.catch(function(){
+				this.$refs.snackbar.startSnackBar();
+
+//
+}.bind(this));
+		},
 	// childrens_info starts
-
-
-
-
 	getChildren(){
 
 
@@ -1034,7 +1053,7 @@ console.log(this.group_photos);
 					console.log(response);
 
 					let people_excluding_searcher =  response.data.filter(( item )=>{
-						return item.email != this.$store.getters.getAllInfo.email;
+						return item.email != this.$store.getters.getAllInfo.email && item.status != 'new';
 					})
 
 

@@ -75,9 +75,6 @@
 
 
 
-
-
-
   <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
 
@@ -104,8 +101,6 @@
 </v-dialog>
 
 
-
-
 </v-card>
 </template>
 
@@ -118,7 +113,7 @@
   import user_details from '@/views/requests/user_details'
 
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
-    import noInternetSnackBar from '@/views/noInternetSnackBar'
+  import noInternetSnackBar from '@/views/noInternetSnackBar'
 
 
   export default {

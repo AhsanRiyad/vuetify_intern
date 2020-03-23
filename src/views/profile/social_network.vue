@@ -141,7 +141,7 @@ import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
 
 export default {
 	name: 'social_network',
-	props: [],
+	props: ['email'],
 	mixins: [ profile_info_and_privacy_Mixins ] ,
 	components: {
 		'noInternetSnackBar': noInternetSnackBar,
@@ -151,7 +151,6 @@ export default {
 	data: ()=>({
 
 		items_form_field: [],
-		email: 'riyad298@gmail.com',
 
 		loading_add_or_update_facebook: false,
 		loading_add_or_update_forum: false,

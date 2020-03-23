@@ -13,7 +13,7 @@
 					<slot name="email_verification_alert"></slot>
 					
 
-					<v-btn block color="success" class="mb-4" @click="add_new_children">
+					<v-btn block color="success" class="mb-4" @click="add_new_children" v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  ">
 						Add New
 					</v-btn>
 
@@ -40,7 +40,7 @@
 					<v-text-field
 					label="Name"
 					v-model="item.name"
-					:rules=" field_rules_prop(  item.name , index  ) "				
+					:rules=" field_rules_prop(  item.name , index  ) "			
 					>
 				</v-text-field>
 
@@ -82,10 +82,17 @@
 			</v-menu>
 
 
-			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index) ; dialog = true; }" >
+			<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateChildren(index) ; dialog = true; }"
+
+				v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  "
+
+				>
 				{{ item.status == 'new' ? 'ADD' : 'UPDATE' }}
 			</v-btn>
-			<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeChildren(index); dialog = true; }" >
+			<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeChildren(index); dialog = true; }" 	
+				v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  "
+
+				>
 				Remove
 			</v-btn>
 
@@ -95,7 +102,7 @@
 	</div>
 
 
-	<buttons_for_profile></buttons_for_profile>
+	<buttons_for_profile v-if=" $store.getters.getComponentName != 'get_details' " ></buttons_for_profile>
 <!-- 
 <v-btn @click="getData()"
 color="success"
@@ -121,12 +128,12 @@ color="primary"
 dark
 >
 <v-card-text>
-  Updating
-  <v-progress-linear
-  indeterminate
-  color="white"
-  class="mb-0"
-  ></v-progress-linear>
+	Updating
+	<v-progress-linear
+	indeterminate
+	color="white"
+	class="mb-0"
+	></v-progress-linear>
 </v-card-text>
 </v-card>
 </v-dialog>
@@ -145,7 +152,7 @@ import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
 
 export default {
 	name: 'profile_childrens_info',
-	props: [],
+	props: ['email'],
 	mixins: [ profile_info_and_privacy_Mixins ] ,
 	components: {
 		'noInternetSnackBar': noInternetSnackBar,
@@ -155,7 +162,6 @@ export default {
 	data: ()=>({
 
 		items_form_field: [],
-		email: 'riyad298@gmail.com',
 		loading_remove: false,
 
 

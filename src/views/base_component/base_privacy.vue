@@ -57,12 +57,11 @@
           <p v-if="change_request_status == 'requested' "> This user has a change request </p>
 
 
+
           <v-btn 
 
-
           @click.stop=" 
-          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'approved' , email )  }    
-
+          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'approved' , email )  }
           " 
 
 
@@ -97,7 +96,11 @@
           Profile
         </h1>
 
-        <v-btn v-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'admin' " @click.stop="edit_info=!edit_info" color="warning" >Edit</v-btn>
+        <v-btn v-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'admin' " @click.stop="edit_info=!edit_info" color="warning"  >Edit</v-btn>
+        
+        <br>
+
+        <v-btn v-if="this.$store.getters.getAllInfo.type == 'admin' && profile_user_type != 'admin' " color="error" class="my-3" @click.stop=" ()=>{ reset_password(email); dialog = true; }" >Reset Password</v-btn>
 
       </v-col>
     </v-row>
@@ -142,7 +145,7 @@
 
      <v-data-table
      :headers=" 
-     this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin: 
+     this.$store.getters.getComponentName == 'get_details' && edit_info ? headers_get_details_edit_admin : 
      this.$store.getters.getComponentName == 'get_details' ? headers_get_details : headers_privacy  "
      :items="users_info"
      item-key="field_name"
@@ -151,12 +154,33 @@
      :loading="table_loading" loading-text="Loading... Please wait"
      >
 
+
+    
+
+
+
+
      <template v-slot:item.privacy_value="{ item }">
       <v-chip :color="item.privacy_value == 0 ? 'primary' : 'green' " dark>
 
         {{ item.privacy_value == 0 ? 'Private': 'Public' }}
       </v-chip> 
 
+      <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
+    </template>
+
+
+     <template v-slot:item.field_value="{ item }">
+     
+      <childrens_info_get_details :email="email" :number_of_children="item.field_value" v-if=" item.field_name == 'number_of_children' " >
+      </childrens_info_get_details>
+
+      <v-btn color="success" v-else-if=" item.field_name == 'social_network' " align="left">
+      Social Network
+      </v-btn>
+    
+      <p v-else> {{ item.field_value }} </p>
+        
       <!-- <v-btn :color="getColor(item.Calcium)" dark>{{ item.Calcium }}</v-btn> -->
     </template>
 
@@ -184,21 +208,23 @@
       v-if="item.field_name == 'date_of_birth' "
       >
       <template v-slot:activator="{ on }">
-        <v-text-field
-        v-model="date"
-        :label="item.alias_field_name"
-        readonly
-        v-on="on"
-        :ref="item.field_name"
-        @change="updateData( item.field_name , item.index_number )"
-        ></v-text-field>
-      </template>
-      <v-date-picker v-model="date" no-title scrollable>
-        <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-        <v-btn text color="primary" @click="$refs.menu.save(date) , updateData( item.field_name , item.index_number )">OK</v-btn>
-      </v-date-picker>
-    </v-menu>
+        
+
+      <v-text-field
+      v-model="date"
+      :label="item.alias_field_name"
+      readonly
+      v-on="on"
+      :ref="item.field_name"
+      @change="updateData( item.field_name , item.index_number )"
+      ></v-text-field>
+    </template>
+    <v-date-picker v-model="date" no-title scrollable>
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+      <v-btn text color="primary" @click="$refs.menu.save(date) , updateData( item.field_name , item.index_number )">OK</v-btn>
+    </v-date-picker>
+  </v-menu>
 
 
 
@@ -206,28 +232,35 @@
 
 
 
-    <v-select
-    v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
-    v-model = "item.field_value"
-    :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-    @change="updateData( item.field_name , item.index_number , item.field_value )"
-    :ref = " item.field_name"
-    :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
-    :label="item.alias_field_name"
-    ></v-select>
+  <v-select
+  v-else-if=" item.field_name == 'gender' || item.field_name == 'blood_group'  || item.field_name == 'religion' "
+  v-model = "item.field_value"
+  :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+  @change="updateData( item.field_name , item.index_number , item.field_value )"
+  :ref = " item.field_name"
+  :items="item.field_name == 'gender' ? item_gender :  item.field_name == 'blood_group' ? item_blood_group : item.field_name == 'religion' ? item_religion : [] "
+  :label="item.alias_field_name"
+  ></v-select>
+
+  <v-btn
+  v-else-if=" item.field_name == 'number_of_children' "
+  >
+  {{ item.field_value }}
+</v-btn>  
 
 
-    <v-text-field
-    v-else
-    :label="item.alias_field_name"
-    v-model="item.field_value"
-    :rules=" field_rules_prop(  item.field_name , item.index_number  ) "
-    @change="updateData( item.field_name , item.index_number )"
-    :ref = 'item.field_name'
-    :id="item.field_name"
-    :disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
-    >
-  </v-text-field>
+
+<v-text-field
+v-else
+:label="item.alias_field_name"
+v-model="item.field_value"
+:rules=" field_rules_prop(  item.field_name , item.index_number  ) "
+@change="updateData( item.field_name , item.index_number )"
+:ref = 'item.field_name'
+:id="item.field_name"
+:disabled=" item.field_name == 'email' || item.field_name == 'status' || item.field_name == 'type' || item.field_name == 'change_request' "
+>
+</v-text-field>
 
 
 
@@ -291,16 +324,20 @@ dark
 <script>
 
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
-
   import noInternetSnackBar from '@/views/noInternetSnackBar'
-
+  import childrens_info_get_details from '@/views/search/childrens_info_get_details'
   import printJS from 'print-js'
+
+// import profile_childrens_info from '@/views/profile/profile_childrens_info'
 
 
   export default {
     name: 'data_privacy',
     mixins: [ profile_info_and_privacy_Mixins  ] ,
-    components: { 'noInternetSnackBar': noInternetSnackBar },
+    components: { 
+      'noInternetSnackBar': noInternetSnackBar,
+      'childrens_info_get_details' : childrens_info_get_details,
+     },
     props: ['email' , 'user_id' , 'fun1'],
 
     data: ()=>({
@@ -322,13 +359,12 @@ dark
 
         console.log(this.users_info);
 
-
         this.loading = true;
         /*var headers = 
         {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'application/pdf'} ;
-*/
+          */
           this.$axios.post( this.$store.getters.getModelAddress_laravel+'download_PDF',
           {
             purpose: 'getPrivacy',
@@ -372,7 +408,7 @@ dark
       created(){
         this.$store.commit('setComponentName' , 'privacy');
       // this.getPrivacyInfo( this.user_id ,  this.email  );
-        this.getPrivacyInfo( this.user_id , this.email);
+      this.getPrivacyInfo( this.user_id , this.email);
 
     },
     watch: {
