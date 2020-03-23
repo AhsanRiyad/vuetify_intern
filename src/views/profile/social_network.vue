@@ -17,12 +17,14 @@
 					<v-text-field
 					label="Profile Name"
 					v-model="facebook.profile_name"
+					:rules=" field_rules_prop(  'first_name' , 0  ) "	
 					>
 				</v-text-field>
 				
 				<v-text-field
 				label="Profile Link/ID"
 				v-model="facebook.profile_link"
+				:rules=" field_rules_prop(  'first_name' , 0  ) "	
 				>
 			</v-text-field>
 
@@ -67,7 +69,7 @@
 			<v-text-field
 			:label=" item.media_name == 'Facebook' || item.media_name == 'Messenger'  ? 'Profile Id/Link' : 'Mobile Number'  "
 			v-model="item.profile_link"
-			:rules=" field_rules_prop(  item.profile_link , index  ) "				
+			:rules=" item.media_name == 'Facebook' || item.media_name == 'Messenger'  ?  field_rules_prop(  'first_name' , index  )  :  field_rules_prop(  'mobile' , index  )  "				
 			>
 		</v-text-field>
 

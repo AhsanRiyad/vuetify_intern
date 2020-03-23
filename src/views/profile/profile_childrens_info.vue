@@ -40,7 +40,7 @@
 					<v-text-field
 					label="Name"
 					v-model="item.name"
-					:rules=" field_rules_prop(  item.name , index  ) "			
+					:rules=" field_rules_prop(  'first_name' , item.index_number  ) "		
 					>
 				</v-text-field>
 
