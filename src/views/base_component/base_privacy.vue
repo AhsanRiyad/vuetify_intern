@@ -190,13 +190,17 @@
 
     <template v-slot:item.options="{ item }">
 
-      <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="()=>{
+      <v-btn  small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="()=>{
 
-        item.privacy_value == 0 ? item.privacy_value = 1 : item.privacy_value = 0 ; 
-        updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email );
+  
+        item.field_name != 'email' ? 
+        (
+        ( item.privacy_value == 0 ? item.privacy_value = 1 : item.privacy_value = 0) ,  
+        ( updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email ) )
+        ) : '';
 
 
-      }" dark>
+      }" dark  >
         {{  item.privacy_value == 0 ? 'Private': 'Public'   }}
       </v-btn>
 
