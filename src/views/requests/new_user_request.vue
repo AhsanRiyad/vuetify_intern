@@ -1,3 +1,4 @@
+
 <template>
   <v-app>
 
@@ -51,7 +52,7 @@
 
 
 
-        this.$store.commit('setComponentName' , 'data_update_request');
+     
 
       // this.get_data_update_request_list();
 
@@ -122,7 +123,7 @@
 
       // this.start_here();
       this.get_new_user_request_list();
-
+       this.$store.commit('setComponentName' , 'new_user_requset');
 
     },
     updated(){

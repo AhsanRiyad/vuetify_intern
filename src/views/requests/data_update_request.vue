@@ -122,12 +122,12 @@
 
       // this.start_here();
       this.get_data_update_request_list();
+      this.$store.commit('setComponentName' , 'data_update_request');
 
 
     },
     updated(){
 
-       // this.$store.commit('setComponentName' , 'get_details');
      }
    }
 

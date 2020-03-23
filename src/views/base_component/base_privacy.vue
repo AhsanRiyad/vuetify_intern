@@ -174,10 +174,14 @@
      
       <childrens_info_get_details :email="email" :number_of_children="item.field_value" v-if=" item.field_name == 'number_of_children' " >
       </childrens_info_get_details>
-
+<!-- 
       <v-btn color="success" v-else-if=" item.field_name == 'social_network' " align="left">
       Social Network
       </v-btn>
+ -->
+
+      <social_network_get_details v-else-if=" item.field_name == 'social_network'" :email="email">
+      </social_network_get_details>
     
       <p v-else> {{ item.field_value }} </p>
         
@@ -186,7 +190,13 @@
 
     <template v-slot:item.options="{ item }">
 
-      <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="(item.privacy_value = !item.privacy_value ) , updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email , $event )" dark>
+      <v-btn small :color="item.privacy_value == 0 ? 'primary': 'green' " @click="()=>{
+
+        item.privacy_value == 0 ? item.privacy_value = 1 : item.privacy_value = 0 ; 
+        updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email );
+
+
+      }" dark>
         {{  item.privacy_value == 0 ? 'Private': 'Public'   }}
       </v-btn>
 
@@ -326,6 +336,7 @@ dark
   import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
   import noInternetSnackBar from '@/views/noInternetSnackBar'
   import childrens_info_get_details from '@/views/search/childrens_info_get_details'
+  import social_network_get_details from '@/views/search/social_network_get_details'
   import printJS from 'print-js'
 
 // import profile_childrens_info from '@/views/profile/profile_childrens_info'
@@ -337,6 +348,7 @@ dark
     components: { 
       'noInternetSnackBar': noInternetSnackBar,
       'childrens_info_get_details' : childrens_info_get_details,
+      'social_network_get_details' : social_network_get_details,
      },
     props: ['email' , 'user_id' , 'fun1'],
 

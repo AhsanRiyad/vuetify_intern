@@ -1331,7 +1331,7 @@ this.$store.getters.getComponentName == 'profile_address' ?
 
 
 
-this.getPrivacyInfo(this.user_id , email);
+this.getPrivacyInfo(1 , email);
 
 purpose == 'forUpdateRequest'?
 this.get_data_update_request_list(): '';

@@ -27,7 +27,7 @@
 			</v-text-field>
 
 
-			<v-btn :loading="loading_add_or_update_facebook" block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('index' , 'facebook'); dialog = true; }" >
+			<v-btn :loading="loading_add_or_update_facebook" block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('index' , 'facebook'); dialog = true; }"  v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  " >
 				ADD/UPDATE
 			</v-btn>
 
@@ -38,9 +38,9 @@
 
 
 
-			<v-btn block color="success" class="mb-4" @click="add_new_forum_info">
+			<v-btn block color="success" class="mb-4" @click="add_new_forum_info" v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  ">
 				Add New Forum Info
-			</v-btn>
+			</v-btn >
 
 			<div 
 			v-for="( item , index ) in forum_info"
@@ -74,10 +74,10 @@
 
 
 
-		<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateForumInfo(index , 'forum') ; dialog = true;  }" :loading="loading_add_or_update_forum">
+		<v-btn color="success" class="mr-3 mb-3" @click="()=>{ updateForumInfo(index , 'forum') ; dialog = true;  }" :loading="loading_add_or_update_forum" v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  ">
 			{{ item.status == 'new' ? 'ADD' : 'UPDATE' }}
 		</v-btn>
-		<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeForumInfo(index) ; dialog = true;  }" :loading="loading_remove_forum">
+		<v-btn color="error" class="mr-3 mb-3" @click="()=>{ removeForumInfo(index) ; dialog = true;  }" :loading="loading_remove_forum" v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  ">
 			Remove
 		</v-btn>
 
@@ -86,7 +86,8 @@
 	<!-- form ends -->
 </div>
 
-<buttons_for_profile></buttons_for_profile>
+
+<buttons_for_profile v-if=" $store.getters.getComponentName != 'get_details' " ></buttons_for_profile>
 <!-- 
 <v-btn @click="getData()"
 color="success"
@@ -124,11 +125,6 @@ dark
 </v-dialog>
 
 
-
-
-
-
-
 </v-app>
 </template>
 <script>
@@ -137,7 +133,6 @@ import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_M
 
 import noInternetSnackBar from '@/views/noInternetSnackBar'
 import buttons_for_profile from '@/views/profile/buttons_for_profile.vue'
-
 
 export default {
 	name: 'social_network',
@@ -151,17 +146,11 @@ export default {
 	data: ()=>({
 
 		items_form_field: [],
-
 		loading_add_or_update_facebook: false,
 		loading_add_or_update_forum: false,
 		loading_remove_forum:false,
 		
 	}), 
-	methods: {
-
-		
-	},
-
 	created(){
 
 

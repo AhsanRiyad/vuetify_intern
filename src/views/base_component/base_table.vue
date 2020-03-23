@@ -1,107 +1,123 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Change Request
-      <v-spacer></v-spacer>
-      <v-text-field
-      v-model="search"
-      append-icon="mdi-magnify"
-      label="Search"
-      single-line
-      hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-    :headers="headers_for_base_table"
-    :items="items"
-    :search="search"
-    >
 
-    <template v-slot:item.details="{ item }">
+<v-app class="grey" > 
+    <v-container class="white" >
+      <v-row justify="center" align="center"> 
+        <v-col cols="12" xl="8" >
 
 
-      <change_details :email="item.email">
-      </change_details>
+        <v-card>
+          <v-card-title>
+            {{ $store.getters.getComponentName == 'new_user_requset' ? 'New Users' : 'Updates'    }}
+            <v-spacer></v-spacer>
+            <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            ></v-text-field>
+          </v-card-title>
+          <v-data-table
+          :headers="headers_for_base_table"
+          :items="items"
+          :search="search"
+          >
 
-    </template>
-
-    <template v-slot:item.user_details="{ item }">
-
-
-      <user_details :email="item.email">
-      </user_details>
-
-    </template>
-
-    <template v-slot:item.accept_change_request="{ item }">
-
-
-      <v-btn small color="success" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' ); dialog = true;  }">
-        Accept
-      </v-btn>
-
-    </template>
-
-    <template v-slot:item.reject_change_request="{ item }">
+          <template v-slot:item.details="{ item }">
 
 
-      <v-btn small color="error" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'rejected' , item.email , 'forUpdateRequest' ); dialog = true } ">
-        Reject
-      </v-btn>
+            <change_details :email="item.email">
+            </change_details>
 
-    </template>
+          </template>
 
-
-    <template v-slot:item.accept_new_user="{ item }">
+          <template v-slot:item.user_details="{ item }">
 
 
-      <v-btn small color="success" :email="item.email" @click="()=> {updatePrivacy('all_info_together' , 'status' , 'approved' , item.email , 'forNewUserRequest' ); dialog = true; }">
-        Accept
-      </v-btn>
+            <user_details :email="item.email">
+            </user_details>
 
-    </template>
+          </template>
 
-    <template v-slot:item.reject_new_user="{ item }">
-
-
-      <v-btn small color="error" :email="item.email" @click=" ()=>{   updatePrivacy( 'all_info_together' , 'status' , 'rejected' , item.email , 'forNewUserRequest'); dialog = true; }">
-        Reject
-      </v-btn>
-
-    </template>
+          <template v-slot:item.accept_change_request="{ item }">
 
 
-  </v-data-table>
+            <v-btn small color="success" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'approved' , item.email , 'forUpdateRequest' ); dialog = true;  }">
+              Accept
+            </v-btn>
+
+          </template>
+
+          <template v-slot:item.reject_change_request="{ item }">
+
+
+            <v-btn small color="error" :email="item.email" @click="()=>{updatePrivacy('all_info_together' , 'change_request' , 'rejected' , item.email , 'forUpdateRequest' ); dialog = true } ">
+              Reject
+            </v-btn>
+
+          </template>
+
+
+          <template v-slot:item.accept_new_user="{ item }">
+
+
+            <v-btn small color="success" :email="item.email" @click="()=> {updatePrivacy('all_info_together' , 'status' , 'approved' , item.email , 'forNewUserRequest' ); dialog = true; }">
+              Accept
+            </v-btn>
+
+          </template>
+
+          <template v-slot:item.reject_new_user="{ item }">
+
+
+            <v-btn small color="error" :email="item.email" @click=" ()=>{   updatePrivacy( 'all_info_together' , 'status' , 'rejected' , item.email , 'forNewUserRequest'); dialog = true; }">
+              Reject
+            </v-btn>
+
+          </template>
+
+
+        </v-data-table>
 
 
 
-  <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+        <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
 
 
-  <v-dialog
-  v-model="dialog"
-  hide-overlay
-  persistent
-  width="300"
-  >
-  <v-card
-  color="primary"
-  dark
-  >
-  <v-card-text>
-    Updating
-    <v-progress-linear
-    indeterminate
-    color="white"
-    class="mb-0"
-    ></v-progress-linear>
-  </v-card-text>
-</v-card>
-</v-dialog>
+        <v-dialog
+        v-model="dialog"
+        hide-overlay
+        persistent
+        width="300"
+        >
+        <v-card
+        color="primary"
+        dark
+        >
+        <v-card-text>
+          Updating
+          <v-progress-linear
+          indeterminate
+          color="white"
+          class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
 
-</v-card>
+  </v-card>
+
+
+
+
+</v-col>
+</v-row>
+</v-container>
+</v-app>
+
 </template>
 
 
