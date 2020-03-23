@@ -22,15 +22,15 @@ export const store = new Vuex.Store({
 		user_info: '',
 		model:{
 			modelAddress1: 'http://ndc92spa.riyadahsan.xyz/backend_all/model_sir/model/',
-			modelAddress: 'http://localhost/backend_all/model_sir/model/',
-			modelAddress_laravel: 'http://localhost/backend_all/laravel_intern_project/public/',
+			modelAddress: 'http://ndc92spa.riyadahsan.xyz/model/model/',
+			modelAddress_laravel: 'http://ndc92spa.riyadahsan.xyz/laravel_intern_project/public/',
 		},
 		upload_directory: {
-			rootDirectory: 'http://localhost/backend_all/model_sir/',
-			rootDirectory_assets: 'http://localhost/backend_all/model_sir/assets/',
-			recentPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/recent_photos/',
-			oldPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/old_photos/',
-			groupPhoto_directory: 'http://localhost/backend_all/model_sir/assets/img/uploads/group_photos/',
+			rootDirectory: 'http://ndc92spa.riyadahsan.xyz/model/',
+			rootDirectory_assets: 'http://ndc92spa.riyadahsan.xyz/model/assets/',
+			recentPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/img/uploads/recent_photos/',
+			oldPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/img/uploads/old_photos/',
+			groupPhoto_directory: 'http://ndc92spa.riyadahsan.xyz/model/img/uploads/group_photos/',
 		},
 		countRequest: {
 			verificationRequest: 0,
