@@ -2,7 +2,7 @@
 	<v-app class="grey" > 
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
-				<v-col cols="8" xl="4" >
+				<v-col cols="10" xl="4" md="7" >
 
 
 					<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>

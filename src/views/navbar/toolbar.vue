@@ -67,7 +67,6 @@ temporary
   >
   <v-list-item-title> {{ item.title  }}
   
-  
 
   <span class="blue mx-1 px-2" v-if="item.name == 'new_user_request'" > {{ $store.getters.getCountRequest.verificationRequest }} </span>
   <span class="blue mx-1 px-2" v-else-if="item.name == 'data_update_request'" > {{ 
@@ -79,15 +78,7 @@ temporary
   
 </router-link>
 
-
-
-
 </v-list-item-content>
-
-
-
-
-
 
 </v-list-item>
 </v-list>
@@ -126,7 +117,7 @@ temporary
 
     updated(){
 
-
+      
       if(this.$store.getters.getAllInfo.recent_photo == ''){
       this.profile_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+'default.jpg';
       }else{

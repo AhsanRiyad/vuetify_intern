@@ -3,7 +3,7 @@
 <v-app class="grey" > 
     <v-container class="white" >
       <v-row justify="center" align="center"> 
-        <v-col cols="12" xl="8" >
+        <v-col cols="11" xl="8" md="10" >
 
 
         <v-card>

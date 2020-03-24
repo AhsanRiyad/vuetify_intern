@@ -1,5 +1,9 @@
 <template>
   <v-container>
+    <v-row justify="center" align="center"> 
+        <v-col cols="11" xl="8" md="10" >
+
+
     <v-card>
 
       <v-card-title>
@@ -76,7 +80,8 @@
 
 <noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
 
-
+</v-col>
+</v-row>
 </v-container>
 
 </template>

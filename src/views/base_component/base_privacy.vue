@@ -118,7 +118,7 @@
 
 
   <v-row  justify="center" class="mb-5">
-    <v-col lg="8" class="text-center  white--text" >
+    <v-col lg="8" md="6" cols="10"  class="text-center  white--text" >
 
 
 
