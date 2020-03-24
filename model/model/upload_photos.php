@@ -4,10 +4,10 @@ include "../address.php";
 include $APP_ROOT.'assets/linker/db.php' ; 
 
 
-
-
 $purpose_type =  $_POST['purpose'];
 $conn = get_mysqli_connection();
+
+
 
 $target_dir = $APP_ROOT."assets/img/uploads/".$purpose_type."s/";
 $target_file1 = $target_dir . basename($_FILES[$purpose_type]["name"]);

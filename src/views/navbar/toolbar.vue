@@ -122,8 +122,7 @@ temporary
       this.profile_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+'default.jpg';
       }else{
 
-      this.profile_photo = this.$store.getters.getUploadDirectory.recentPhoto_directory+this.$store.getters.getAllInfo.recent_photo;
-
+      this.profile_photo = this.$store.getters.getModelAddress_laravel+'storage/'+this.$store.getters.getAllInfo.recent_photo;
 
       }
       this.verificationRequest = this.$store.getters.getCountRequest.verificationRequest;

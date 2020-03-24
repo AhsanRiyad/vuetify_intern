@@ -23,7 +23,7 @@ modal: false,
 menu2: false,
 
 item_gender: ['Male' , 'Female', 'Others'],
-item_religion: ['Islam' , 'Hinduism' , 'Christianity ' , 'Buddhism' , 'Nonreligious' , 'Others'],
+item_religion: ['Islam' , 'Hinduism' , 'Christianity' , 'Buddhism' , 'Nonreligious' , 'Others'],
 item_blood_group: ['select' , 'A+' , 'B+' , 'AB+' , 'O+' , 'A-' , 'B-' , 'AB-' , 'O-'],
 
 /*for social network and children info*/
@@ -515,10 +515,32 @@ methods: {
 
 					console.log(this.forum_info[index]);
 					
-					let { email, type, media_name , profile_name ,  profile_link } = 
-					facebook_or_forum == 'forum'
-					? this.forum_info[index]
-					: ((this.facebook) , (this.loading_add_or_update_facebook = true)) ;
+					let email, type, media_name , profile_name ,  profile_link ;
+
+					if(facebook_or_forum == 'forum'){
+						
+						email = this.forum_info[index].email;
+						type = this.forum_info[index].type;
+						media_name = this.forum_info[index].media_name;
+						profile_name = this.forum_info[index].profile_name;
+						profile_link = this.forum_info[index].profile_link;
+
+					}else{
+						this.loading_add_or_update_facebook = true;
+						
+						email = this.facebook.email;
+						type = this.facebook.type;
+						media_name = this.facebook.media_name;
+						profile_name = this.facebook.profile_name;
+						profile_link = this.facebook.profile_link;
+
+					}
+
+
+
+
+
+
 
 					let obj = {
 
@@ -954,11 +976,11 @@ deletePhoto(photo_name){
 		'Content-Type': 'application/x-www-form-urlencoded',
 		'Accept': 'application/json'} ;
 
-		this.$axios.post( this.$store.getters.getModelAddress_laravel+'deletePhoto' ,
+		this.$axios.post( this.$store.getters.getModelAddress_laravel+'detele_photo' ,
 		{
 			email: this.$store.getters.getAllInfo.email ,
 			user_id: this.$store.getters.getAllInfo.id ,
-			photo_name: photo_name
+			photo_path: photo_name
 		} , headers
 		).then(function(response){
 			console.log(response);
@@ -1010,11 +1032,11 @@ this.photos = response.data ;
 
 
 
-this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.assetsRootDirectory+'img/uploads/recent_photos/'+this.photos.recent_and_old[0].recent_photo;
+this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.getModelAddress_laravel+'storage/'+this.photos.recent_and_old[0].recent_photo;
 
 
 
-this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.assetsRootDirectory+'img/uploads/old_photos/'+this.photos.recent_and_old[0].old_photo;
+this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.getModelAddress_laravel+'storage/'+this.photos.recent_and_old[0].old_photo;
 
 
 

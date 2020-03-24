@@ -90,10 +90,10 @@
           >
           <v-card flat tile class="d-flex">
             <v-img
-            :src="  $store.getters.assetsRootDirectory+'img/uploads/group_photos/'+photo.group_photo  "
-            :lazy-src=" $store.getters.assetsRootDirectory+'img/uploads/group_photos/'+photo.group_photo    "
+            :src="  $store.getters.getModelAddress_laravel+'storage/'+photo.group_photo  "
+            :lazy-src="  $store.getters.getModelAddress_laravel+'storage/'+photo.group_photo   "
             
-            @click=" ( dialog1 = true ) , ( dialog_photo =  $store.getters.assetsRootDirectory+'img/uploads/group_photos/'+photo.group_photo  ) , ( photo_base_name = photo.group_photo ) "
+            @click=" ( dialog1 = true ) , ( dialog_photo =  $store.getters.getModelAddress_laravel+'storage/'+photo.group_photo  ) , ( photo_base_name = photo.group_photo ) "
 
             contain
             class="grey lighten-2" 

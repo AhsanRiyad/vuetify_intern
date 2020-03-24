@@ -29,7 +29,7 @@
 			</v-text-field>
 
 
-			<v-btn :loading="loading_add_or_update_facebook" block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('index' , 'facebook'); dialog = true; }"  v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  " >
+			<v-btn :loading="loading_add_or_update_facebook" block color="blue darken-3"  class="mb-4 white--text" @click="()=>{ updateForumInfo('0' , 'facebook'); dialog = true; }"  v-if="$store.getters.getComponentName == 'get_details' && $store.getters.getAllInfo.type == 'admin'  ?  true :  $store.getters.getComponentName != 'get_details' ? true : false  " >
 				ADD/UPDATE
 			</v-btn>
 
