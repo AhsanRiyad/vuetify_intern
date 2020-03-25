@@ -1,8 +1,11 @@
 <template>
 
+<v-app>
+<slot name="verification_alert"></slot>
+<slot name="email_verification_alert"></slot>
 
-  <base_form :items_form_field="items_form_field" :email="email" ></base_form>
-
+<base_form :items_form_field="items_form_field" :email="email" ></base_form>
+</v-app>
 
 
 </template>
@@ -14,52 +17,52 @@ import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_M
 
 
 export default {
-  name: 'profile_basic',
-  components:
-  { 'base_form': base_form }
-  ,
-  props: ['email'],
-  mixins: [ profile_info_and_privacy_Mixins ] ,
-  data: ()=>({
-
-
-    
-    
-
-    items_form_field : [],
-
-
-  }), 
-  created(){
+name: 'profile_basic',
+components:
+{ 'base_form': base_form }
+,
+props: ['email'],
+mixins: [ profile_info_and_privacy_Mixins ] ,
+data: ()=>({
 
 
 
-    this.$store.commit('setComponentName' , 'profile_personal');
-    
-    let promese = new Promise((resolve  )=>{
 
 
-      this.getGeneralInfo( this.$store.getters.getAllInfo.id , this.$store.getters.getAllInfo.email , resolve );
+items_form_field : [],
+
+
+}), 
+created(){
 
 
 
-    })
-    
-    promese.then((all_info)=>{
-      console.log('promese trying');
-      console.log(all_info);
+this.$store.commit('setComponentName' , 'profile_personal');
 
-      this.items_form_field = [...all_info.privacy_info];
-
-      this.items_form_field = [];
-      this.items_form_field =  all_info.privacy_info.filter((item)=>{
-
-        return item.field_name == 'fathers_name' || item.field_name == 'mother_name' || item.field_name == 'spouse_name' || item.field_name == 'number_of_children' || item.field_name == 'profession' || item.field_name == 'institution'  || item.field_name == 'designation'    ;
+let promese = new Promise((resolve  )=>{
 
 
-      })
-    })
-    // console.log(i);
-  },
+this.getGeneralInfo( this.$store.getters.getAllInfo.id , this.$store.getters.getAllInfo.email , resolve );
+
+
+
+})
+
+promese.then((all_info)=>{
+console.log('promese trying');
+console.log(all_info);
+
+this.items_form_field = [...all_info.privacy_info];
+
+this.items_form_field = [];
+this.items_form_field =  all_info.privacy_info.filter((item)=>{
+
+return item.field_name == 'fathers_name' || item.field_name == 'mother_name' || item.field_name == 'spouse_name' || item.field_name == 'number_of_children' || item.field_name == 'profession' || item.field_name == 'institution'  || item.field_name == 'designation'    ;
+
+
+})
+})
+// console.log(i);
+},
 }
 </script>

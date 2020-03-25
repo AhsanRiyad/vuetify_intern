@@ -3,6 +3,7 @@
 		<v-container class="white" >
 			<v-row justify="center" align="center"> 
 				<v-col cols="8" xl="4" >
+					<h3> Dear User, We are glad you are here, please register </h3>
 					
 					<v-form
 					ref="form"
@@ -10,96 +11,58 @@
 					:lazy-validation="lazy"
 					v-on:submit.prevent
 					>
-					<h3> Dear User, We are glad you are here, please register </h3>
-
-
-					<v-text-field					
-					label="First Name"
-					type="text"
-					v-model='first_name'
-					:rules="[ v => !!v || 'required' ]"
-					></v-text-field>
-
-					<v-text-field					
-					label="Last Name"
-					type="text"
-					v-model='last_name'
-					:rules="[ v => !!v || 'required' ]"
-					></v-text-field>
-
-					<v-text-field
-					v-model="institution_id"
-					:label="$store.getters.getIInstitution_id_label"
-					type="text"
-					:rules="[ v => !!v || 'required' ]"
-					></v-text-field>
-
-
-					<v-text-field
-					v-model="mobile"
-					label="Mobile"
-					type="text"
-					:rules="[ 
-					v => !!v || 'required',
-					v => /[+]{0,1}[\d]{11,}/g.test(v) || 'invalide format'
-					]"
-					></v-text-field>
-
-					<v-text-field
-					v-model="email"
-					label="Email"
-					type="text"
-					:rules="[ 
-					v => !!v || 'required',
-					v => /^[a-zA-Z]{1}[a-zA-Z1-9._]{3,15}@[a-zA-Z]{1}[a-zA-Z1-9]{3,15}\.[a-zA-Z]{2,10}(\.[a-zA-Z]{2})*$/g.test(v) || 'invalide format'
-					]"
-					></v-text-field>
-
-					<v-text-field
-					v-model="password"
-					type="password"
-					label="password"
-					:rules="[ v => !!v || 'required' ]"
-					></v-text-field>
-
-					<v-btn 
 					
-					color="success"
-					class="my-4"
-					@click="submit()"
-					:loading="loading"
+					<div v-for="(form, index) in forms"
+					:key="form.field_name">
+
+
+					<v-text-field
+					:label="form.label == 'Institution Id' ? $store.getters.getIInstitution_id_label : form.label "
+					v-model="form.value"
+					:type="form.type"
+					:rules=" field_rules_prop(  form.field_name , index  )"
 					>
-					Register
-				</v-btn>
-				
-				<br>
 
-			</v-form>
-			</v-col>
-		</v-row>
+				</v-text-field>
+
+			</div>
+
+		</v-form>
+		<br>
+		<v-btn 
+
+		color="success"
+		class="my-4"
+		@click="submit()"
+		:loading="loading"
+		>
+		Register
+	</v-btn>
+</v-col>
+</v-row>
 
 
-		<v-row justify="center" align="center">
+<v-row justify="center" align="center">
 
-			<v-col cols="8" xl="4" >
+	<v-col cols="8" xl="4" >
 
-				<v-btn router :to="{ name: 'login' }"
+		<v-btn router :to="{ name: 'login' }"
 
-				color="primary"
+		color="primary"
 
-				class="mr-4 mb-2 mb-sm-0"
-				>
-				Login
-			</v-btn>
+		class="mr-4 mb-2 mb-sm-0"
+		>
+		Login
+	</v-btn>
 
-			<v-btn router :to="{ name: 'profile_forgot_password' }"
-			color="warning"
-			class="mr-4"
-			>
-			Forgot Password
-		</v-btn>
-	
-	</v-col>
+	<v-btn router :to="{ name: 'profile_forgot_password' }"
+	color="warning"
+	class="mr-4"
+	>
+	Forgot Password
+</v-btn>
+
+</v-col>
 
 </v-row>
 </v-container>
@@ -136,12 +99,11 @@
 
 <script>
 // @ is an alias to /src
-
+import profile_info_and_privacy_Mixins from '@/mixins/profile_info_and_privacy_Mixins.js'
 
 export default {
 	name: 'registration',
-
-
+	mixins: [ profile_info_and_privacy_Mixins ],
 	data: ()=>({
 		name: 'riyad---vue',
 		dialog: false,
@@ -162,26 +124,58 @@ export default {
 
 		lazy:false,
 		valid: false,
+
+		forms : [
+		{
+			label: 'First Name' , field_name: 'first_name', value: '' , type: 'text'
+		},
+		{
+			label: 'Last Name' , field_name: 'last_name', value: '' , type: 'text'
+		},
+		{
+			label: 'Institution Id' , field_name: 'institution_id', value: '' , type: 'text'
+		},
+		{
+			label: 'Mobile' , field_name: 'mobile', value: '' , type: 'text'
+		},
+		{
+			label: 'Email' , field_name: 'email', value: '' , type: 'text'
+		},
+		{
+			label: 'Password' , field_name: 'password', value: '' , type: 'password'
+		},
+		]
+
+
 	}), 
 
 
 	methods: {
 		submit(){
 
-
+			console.log(this.$refs);
 			this.loading = true;
 			if(this.$refs.form.validate()){
 				// alert('valid');
+				let users_info = {};
+				this.forms.forEach((item)=>{
+					
+
+					users_info = {...users_info , [item.field_name] : item.value }
+
+				})
+
+				/*let abc = {...users_info , password: md5(password)}
+				users_info = {...abc};*/
+
+
+				console.log(users_info);
 				var headers = {
 					'Content-Type': 'application/x-www-form-urlencoded',
 					'Accept': 'application/json'} ;
-					this.$axios.post(this.$store.getters.modelRegistration, {
-						first_name: this.first_name,
-						last_name: this.last_name,
-						institution_id: this.institution_id,
-						email: this.email,
-						mobile: this.mobile,
-						password: this.password,
+					this.$axios.post( this.$store.getters.getModelAddress_laravel+'user_registration',  {
+						
+						users_info: users_info,
 						who_is_doing_registration: 'user',
 					} , headers )
 					.then( function(response){

@@ -1,8 +1,13 @@
 <template>
 
+	<v-app>
+					<slot name="verification_alert"></slot>
+					<slot name="email_verification_alert"></slot>
+					
+
 	<base_form :items_form_field="items_form_field" :email="email" ></base_form>
 
-	
+	</v-app>
 
 
 </template>

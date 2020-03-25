@@ -100,7 +100,7 @@ headers_search: [
 	text: 'Name',
 	align: 'left',
 	sortable: false,
-	value: 'full_name',
+	value: 'first_name',
 },
 { 
 	text: this.$store.getters.getIInstitution_id_label, value: 'institution_id',
@@ -989,8 +989,6 @@ deletePhoto(photo_name){
 			this.photo_delete_status = 'Photo Deleted Successfully';
 
 
-
-
 		}.bind(this))
 		.catch(function(){
 
@@ -999,14 +997,8 @@ deletePhoto(photo_name){
 //
 }.bind(this));
 
-
-
 	},
 	getPhotosForAll(user_id , email){
-
-
-
-
 
 		var headers = {
 			'Content-Type': 'application/x-www-form-urlencoded',
@@ -1014,7 +1006,6 @@ deletePhoto(photo_name){
 
 			this.$axios.post( this.$store.getters.getModelAddress_laravel+'getPhotosForAll' ,
 			{
-
 				purpose: 'getPhotos_for_all_users',
 				main_purpose : 'search_other_option',
 				email: email ,

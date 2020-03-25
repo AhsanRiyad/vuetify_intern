@@ -5,12 +5,14 @@
 				<v-col cols="10" xl="4" md="7" >
 
 
-					<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
-
+					
 
 					<slot name="verification_alert"></slot>
 					<slot name="email_verification_alert"></slot>
 					
+					
+					<noInternetSnackBar ref="snackbar" ></noInternetSnackBar>
+
 					<div 
 					v-for="( item ) in items_form_field"
 					:key="item.field_name"	
