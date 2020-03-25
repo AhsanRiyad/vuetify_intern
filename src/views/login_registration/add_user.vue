@@ -42,29 +42,7 @@
 </v-row>
 
 
-<v-row justify="center" align="center">
 
-  <v-col cols="8" xl="4" >
-
-    <v-btn router :to="{ name: 'login' }"
-
-    color="primary"
-
-    class="mr-4 mb-2 mb-sm-0"
-    >
-    Login
-  </v-btn>
-
-  <v-btn router :to="{ name: 'profile_forgot_password' }"
-  color="warning"
-  class="mr-4"
-  >
-  Forgot Password
-</v-btn>
-
-</v-col>
-
-</v-row>
 </v-container>
 
 <v-row justify="center">

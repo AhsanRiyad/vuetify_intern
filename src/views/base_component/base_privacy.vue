@@ -424,8 +424,11 @@ dark
       created(){
         this.$store.commit('setComponentName' , 'privacy');
       // this.getPrivacyInfo( this.user_id ,  this.email  );
-      this.getPrivacyInfo( this.user_id , this.email);
+      
 
+    },
+    mounted(){
+      this.getPrivacyInfo( this.user_id , this.email);
     },
     watch: {
       dialog (val) {
