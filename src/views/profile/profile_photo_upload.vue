@@ -121,7 +121,7 @@
         purpose == 'old' ? ( photo = this.old_photo , this.loading_old_photo = true  ) : 
         purpose == 'group' ? ( photo = this.group_photo , this.loading_group_photo  = true ) : '' ;
 
-
+        console.log(photo);
         let make_loading_false = (response)=>{
           purpose == 'recent' ? ( this.loading_recent_photo = false ) :
           purpose == 'old' ? ( this.loading_old_photo = false  ) : 
@@ -145,11 +145,11 @@
             formData,
             { 
               headers: {
-                'Content-Type': 'multipart/form-data '
+                'Content-Type': 'multipart/form-data',
               }
             }
             ).then(function(response){
-              
+
               console.log(response);
               make_loading_false(response.data);
 
@@ -160,12 +160,12 @@
             }.bind(this));
             
           },
+        }
+
+
+
       }
 
 
 
-    }
-
-
-
-  </script>
+    </script>

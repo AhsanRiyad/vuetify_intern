@@ -1032,11 +1032,11 @@ this.photos = response.data ;
 
 
 
-this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.getModelAddress_laravel+'storage/'+this.photos.recent_and_old[0].recent_photo;
+this.photos.recent_and_old[0].recent_photo == 'not_set' ? this.recent_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.recent_photo = this.$store.getters.getModelAddress_laravel+this.photos.recent_and_old[0].recent_photo;
 
 
 
-this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.getModelAddress_laravel+'storage/'+this.photos.recent_and_old[0].old_photo;
+this.photos.recent_and_old[0].old_photo == 'not_set' ? this.old_photo =  this.$store.getters.assetsRootDirectory+'img/uploads/default.jpg' : this.old_photo = this.$store.getters.getModelAddress_laravel+this.photos.recent_and_old[0].old_photo;
 
 
 
