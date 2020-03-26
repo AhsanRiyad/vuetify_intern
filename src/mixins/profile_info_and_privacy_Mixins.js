@@ -1363,11 +1363,14 @@ this.$store.getters.getComponentName == 'profile_address' ?
 
 this.getPrivacyInfo(1 , email);
 
-purpose == 'forUpdateRequest'?
+purpose == 'forUpdateRequest' ?
 this.get_data_update_request_list(): '';
 
-purpose == 'forNewUserRequest'?
+purpose == 'forNewUserRequest' ?
 this.get_new_user_request_list(): '';
+
+purpose == 'updateProfile_by_admin' ?
+this.getSearchInfo(): '';
 
 
 

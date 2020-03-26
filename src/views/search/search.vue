@@ -40,6 +40,7 @@
     class="elevation-1"
     :search="search"
     :loading="table_loading" loading-text="Loading... Please wait"
+    :items-per-page="5"
     >
 
     <template v-slot:item.gallery="{ item }">

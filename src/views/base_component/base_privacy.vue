@@ -14,7 +14,7 @@
 
           <v-btn @click.stop="
 
-          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'rejected' , email )  } 
+          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'rejected' , email , 'updateProfile_by_admin' )  } 
 
           " color="error" v-if="this.$store.getters.getAllInfo.type == 'admin'" >Reject User</v-btn>
 
@@ -25,7 +25,7 @@
 
 
           @click.stop=" 
-          ()=>{ updatePrivacy( 'all_info_together' , 'type' , 'admin' , email )  }    
+          ()=>{ updatePrivacy( 'all_info_together' , 'type' , 'admin' , email  )  }    
 
           " 
 
@@ -61,7 +61,7 @@
           <v-btn 
 
           @click.stop=" 
-          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'approved' , email )  }
+          ()=>{ updatePrivacy( 'all_info_together' , 'status' , 'approved' , email , 'updateProfile_by_admin' )  }
           " 
 
 
@@ -152,6 +152,7 @@
      class="elevation-1"
      :search="search"
      :loading="table_loading" loading-text="Loading... Please wait"
+     :items-per-page="5"
      >
 
 
@@ -196,7 +197,7 @@
         item.field_name != 'email' ? 
         (
         ( item.privacy_value == 0 ? item.privacy_value = 1 : item.privacy_value = 0) ,  
-        ( updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email ) )
+        ( updatePrivacy( 'privacy' , item.field_name , item.privacy_value , email  ) )
         ) : '';
 
 

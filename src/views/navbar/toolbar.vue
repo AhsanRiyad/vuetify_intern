@@ -45,7 +45,7 @@ temporary
   </v-list-item-avatar>
 
   <v-list-item-content>
-    <v-list-item-title> {{ this.$store.getters.getAllInfo.full_name }} </v-list-item-title>
+    <v-list-item-title> {{ this.$store.getters.getAllInfo.first_name }} </v-list-item-title>
   </v-list-item-content>
 </v-list-item>
 
