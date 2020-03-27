@@ -13,14 +13,15 @@ module.exports = {
     msTileColor: '#6200ea',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#6200ea',
-
+    start_url: "/profile",
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
       // swSrc is required in InjectManifest mode.
       swSrc: 'src/registerServiceWorker.js',
       // ...other Workbox options...
-    }
+    },
+    
 
 
 

@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
 		model:{
 			modelAddress1: 'http://ndc92spa.riyadahsan.xyz/backend_all/model_sir/model/',
 			modelAddress: 'http://ndc92.forumspace.xyz/model/model/',
-			modelAddress_laravel: 'http://ndc92.forumspace.xyz/laravel_intern_project/public/',
+			modelAddress_laravel: 'http://backendtest.forumspace.xyz/',
 		},
 		upload_directory: {
 			rootDirectory: 'http://ndc92.forumspace.xyz/model/',

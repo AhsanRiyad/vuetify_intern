@@ -117,11 +117,29 @@
         //alert(this.csrf_token1);
         let photo = null;
 
+
+
+
+
         purpose == 'recent' ? ( photo = this.recent_photo, this.loading_recent_photo = true ) :
         purpose == 'old' ? ( photo = this.old_photo , this.loading_old_photo = true  ) : 
         purpose == 'group' ? ( photo = this.group_photo , this.loading_group_photo  = true ) : '' ;
 
-        console.log(photo);
+        console.log(photo.size/1024/1024);
+
+
+        if(photo.size/1024/1024 > 1.2){
+
+          this.loading_recent_photo = false;
+          this.loading_old_photo = false;
+          this.loading_group_photo  = false;
+          this.status = 'Failed!! Maximum upload size is 1MB';
+          this.dialog = true;
+          return 0;
+        }
+
+
+
         let make_loading_false = (response)=>{
           purpose == 'recent' ? ( this.loading_recent_photo = false ) :
           purpose == 'old' ? ( this.loading_old_photo = false  ) : 
@@ -158,6 +176,13 @@
             .catch(function(){
               make_loading_false('failed');
             }.bind(this));
+
+
+
+
+
+
+
             
           },
         }
