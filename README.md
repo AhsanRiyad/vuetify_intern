@@ -52,6 +52,20 @@ email configuration info
 
 ```
 
+### barryvdh/laravel-dompdf
+```
+a laravel pdf reader has been used here.
+
+documentation: 
+https://github.com/barryvdh/laravel-dompdf
+
+in laravel CLI:
+
+php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
+
+
+```
+
 ### Client Side Vuejs
 ```
 in the src->store->store.js
@@ -61,5 +75,68 @@ edit
 
 ```
 
+
+### Vuejs : lodash has been used
+```
+for array and object manipulation lodash library has been used.
+
+most popular command: 
+for array: chunk, flatten, toPair, 
+for object: assign 
+
+```
+
+### Vuejs : javascript popular functions
+```
+Object.entries(object) // to make array from key value pair
+
+for iteration purpose:
+map, filter, some, findIndex, every, forEach, 
+
+```
+
+
+### Vuejs : database address
+```
+modify
+src->store->store.js
+for database address manipulation
+
+```
+
+
+### Vuejs : PWA modification
+```
+vue.config.js
+in the root folder for pwa modification
+```
+
+
+### Vuejs : Remove Console output in production build
+```
+npm install babel-plugin-transform-remove-console --save-dev
+
+babel.config.js
+in the root directory
+
+```
+
+### Vuejs : for printing help
+```
+https://printjs.crabbly.com/
+npm install print-js --save
+
+
+```
+
+
+### Vuejs : for file download help
+```
+https://www.npmjs.com/package/js-file-download
+https://github.com/kennethjiang/js-file-download
+
+npm install js-file-download --save
+
+```
 
 
