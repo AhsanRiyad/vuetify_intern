@@ -46,7 +46,7 @@ if( store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Accept': 'application/json'} ;
 
-		axios.post( store.getters.getModelAddress_laravel+'get_users_info_and_counter_data' , {
+		axios.post( store.getters.modelProfile_basic , {
 			purpose : 'getProfileBasicInfoForAuth',
 			email : VueCookies.get('email') , 
 		} , headers )
@@ -64,12 +64,12 @@ if( store.getters.auth.isLogin  ) { /// THIS NOT WORK, HOW TO ACCESS STORE?
 
 				store.commit('setIInstitution_id_label' , response.data.institution_id_label);
 
-				store.commit('setVerificationRequest' , response.data.verificationRequest);
+				store.commit('setVerificationRequest' , response.data.countRequest.verificationRequest);
 
-				store.commit('setChangeRequest' , response.data.changeRequest); 
+				store.commit('setChangeRequest' , response.data.countRequest.changeRequest); 
 
 
-				console.log(store.getters.verificationRequest);
+				console.log(store.getters.getCountRequest.verificationRequest);
 
 
 				return next();
