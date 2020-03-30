@@ -117,7 +117,11 @@
         //alert(this.csrf_token1);
         let photo = null;
 
-
+        let make_all_loading_false = ()=>{
+          this.loading_recent_photo = false;
+          this.loading_old_photo = false;
+          this.loading_group_photo  = false;
+        }
 
 
 
@@ -125,14 +129,16 @@
         purpose == 'old' ? ( photo = this.old_photo , this.loading_old_photo = true  ) : 
         purpose == 'group' ? ( photo = this.group_photo , this.loading_group_photo  = true ) : '' ;
 
-        console.log(photo.size/1024/1024);
+
+        if(photo == '' || photo == null || photo == undefined){ this.status = 'Please Select a photo first';
+          this.dialog = true;
+          make_all_loading_false();
+          return 0; }
 
 
         if(photo.size/1024/1024 > 1.2){
 
-          this.loading_recent_photo = false;
-          this.loading_old_photo = false;
-          this.loading_group_photo  = false;
+          make_all_loading_false();
           this.status = 'Failed!! Maximum upload size is 1MB';
           this.dialog = true;
           return 0;
